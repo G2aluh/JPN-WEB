@@ -1,0 +1,100 @@
+[
+  {
+    "id": "shi_tsu",
+    "title": "シ vs ツ",
+    "difficulty": "Hard",
+    "characters": [
+      { "kana": "シ", "romaji": "shi" },
+      { "kana": "ツ", "romaji": "tsu" }
+    ],
+    "tips": "シ (shi) strokes point downward/vertically. ツ (tsu) strokes point sideways/horizontally.",
+    "highlights": {
+      "left": "Stroke order starts from top to bottom, angles point up-right.",
+      "right": "Stroke order starts from left to right, angles point down-right."
+    }
+  },
+  {
+    "id": "so_n",
+    "title": "ソ vs ン",
+    "difficulty": "Hard",
+    "characters": [
+      { "kana": "ソ", "romaji": "so" },
+      { "kana": "ン", "romaji": "n" }
+    ],
+    "tips": "ソ (so) starts with a top stroke going down-right. ン (n) starts with a left stroke going up-right.",
+    "highlights": {
+      "left": "Top-down stroke direction.",
+      "right": "Bottom-up stroke direction."
+    }
+  },
+  {
+    "id": "ku_ke",
+    "title": "ク vs ケ",
+    "difficulty": "Medium",
+    "characters": [
+      { "kana": "ク", "romaji": "ku" },
+      { "kana": "ケ", "romaji": "ke" }
+    ],
+    "tips": "ク (ku) is closed on the left and has two strokes. ケ (ke) has a vertical stroke crossing the top stroke.",
+    "highlights": {
+      "left": "Closed corner, no cross stroke.",
+      "right": "Cross stroke extending through."
+    }
+  },
+  {
+    "id": "chi_te",
+    "title": "チ vs テ",
+    "difficulty": "Medium",
+    "characters": [
+      { "kana": "チ", "romaji": "chi" },
+      { "kana": "テ", "romaji": "te" }
+    ],
+    "tips": "チ (chi) has a slanted top stroke crossing the horizontal. テ (te) has two parallel horizontal strokes.",
+    "highlights": {
+      "left": "Slanted top stroke crosses the horizontal line.",
+      "right": "Two clean horizontal lines with no intersection."
+    }
+  },
+  {
+    "id": "sa_se",
+    "title": "サ vs セ",
+    "difficulty": "Medium",
+    "characters": [
+      { "kana": "サ", "romaji": "sa" },
+      { "kana": "セ", "romaji": "se" }
+    ],
+    "tips": "サ (sa) has a horizontal line crossed by two vertical-ish strokes. セ (se) has a hook on the right.",
+    "highlights": {
+      "left": "Three strokes, clean cross strokes.",
+      "right": "Two strokes, right side hooked."
+    }
+  },
+  {
+    "id": "nu_su",
+    "title": "ヌ vs ス",
+    "difficulty": "Easy",
+    "characters": [
+      { "kana": "ヌ", "romaji": "nu" },
+      { "kana": "ス", "romaji": "su" }
+    ],
+    "tips": "ヌ (nu) has a crossing diagonal stroke forming an 'X' on the right. ス (su) has no extra cross stroke.",
+    "highlights": {
+      "left": "An extra cross stroke forming an X shape.",
+      "right": "Simple diagonal leg extending down."
+    }
+  },
+  {
+    "id": "wa_fu",
+    "title": "ワ vs フ",
+    "difficulty": "Easy",
+    "characters": [
+      { "kana": "ワ", "romaji": "wa" },
+      { "kana": "フ", "romaji": "fu" }
+    ],
+    "tips": "ワ (wa) has a vertical left side stroke. フ (fu) has no left side stroke.",
+    "highlights": {
+      "left": "Includes a left-side vertical stroke.",
+      "right": "Begins directly with the top-right bend."
+    }
+  }
+]
