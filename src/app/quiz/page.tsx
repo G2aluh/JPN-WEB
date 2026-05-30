@@ -541,7 +541,7 @@ export default function QuizPage() {
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-xl font-bold text-[#7C5CFF] tracking-wide">
-              かな FLOW
+              SIKANA
             </span>
             <div className="bg-[#7C5CFF]/10 text-[#7C5CFF] text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-[#7C5CFF]/20">
               QUIZ
@@ -563,7 +563,7 @@ export default function QuizPage() {
       </main>
 
       <footer className="py-6 border-t border-[#171A22] text-center text-xs text-[#9CA3AF]">
-        Test your recall. Accuracy directly contributes to your total mastery stats!
+        Test your recall. made by @2.shinnra on ig
       </footer>
     </div>
   );

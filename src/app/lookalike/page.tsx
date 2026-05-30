@@ -133,7 +133,7 @@ export default function LookalikePage() {
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-xl font-bold text-[#7C5CFF] tracking-wide">
-              かな FLOW
+              SIKANA
             </span>
             <div className="bg-[#F59E0B]/10 text-[#F59E0B] text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-[#F59E0B]/20">
               LOOK-ALIKE
