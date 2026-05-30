@@ -167,7 +167,7 @@ export default function HomePage() {
       const stats = kanaStats[char];
       if (stats) {
         const total = stats.correct + stats.wrong;
-        if (stats.correct >= 2 && stats.correct / total >= 0.66) {
+        if (stats.correct >= 1 && stats.correct / total >= 0.66) {
           mastered++;
         }
       }
@@ -185,7 +185,7 @@ export default function HomePage() {
         const stats = kanaStats[char];
         if (stats) {
           const total = stats.correct + stats.wrong;
-          if (stats.correct >= 2 && stats.correct / total >= 0.66) {
+          if (stats.correct >= 1 && stats.correct / total >= 0.66) {
             mastered++;
           }
         }

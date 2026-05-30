@@ -73,13 +73,13 @@ export function useProgress() {
   };
 
   // Compute mastery percentage
-  // A kana is considered "mastered" if the user has answered it correctly at least 2 times and maintains a >= 66% correct rate.
+  // A kana is considered "mastered" if the user has answered it correctly at least 1 time and maintains a >= 66% correct rate.
   const totalCharacters = 92;
   const masteredCount = Object.keys(state.kanaStats).filter((char) => {
     const stats = state.kanaStats[char];
     if (!stats) return false;
     const total = stats.correct + stats.wrong;
-    return stats.correct >= 2 && stats.correct / total >= 0.66;
+    return stats.correct >= 1 && stats.correct / total >= 0.66;
   }).length;
 
   const masteryPercentage = totalCharacters > 0 
