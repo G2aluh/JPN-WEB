@@ -247,7 +247,7 @@ export default function HomePage() {
             className="inline-flex items-center space-x-2 bg-[#171A22] border border-[#7C5CFF]/10 px-3 py-1.5 rounded-full text-xs text-[#7C5CFF]"
           >
 
-            <span>{t("hero_tagline")} by @2.shinnra on ig</span>
+            <span>{t("hero_tagline")} </span>
           </motion.div>
 
           <motion.h1
