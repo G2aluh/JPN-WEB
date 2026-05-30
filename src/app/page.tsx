@@ -1,24 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useProgress } from "@/hooks/useProgress";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  BookOpen, 
-  Award, 
-  CheckCircle2, 
-  XCircle, 
-  RotateCcw, 
-  Layers, 
-  Play, 
+import {
+  BookOpen,
+  Award,
+  CheckCircle2,
+  XCircle,
+  RotateCcw,
+  Layers,
+  Play,
   Sparkles,
   Info,
   AlertTriangle,
   Lock,
   Zap,
-  ChevronRight
+  ChevronRight,
+  Globe
 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 import kanaData from "@/data/kana.json";
 import {
   HIRAGANA_BASIC_GROUPS,
@@ -31,12 +33,13 @@ import {
 
 export default function HomePage() {
   const router = useRouter();
-  const { 
-    totalCorrect, 
-    totalWrong, 
-    masteryPercentage, 
-    masteredCount, 
-    totalCharacters, 
+  const { language, setLanguage, t } = useLanguage();
+  const {
+    totalCorrect,
+    totalWrong,
+    masteryPercentage,
+    masteredCount,
+    totalCharacters,
     resetProgress,
     isLoaded,
     kanaStats
@@ -55,6 +58,30 @@ export default function HomePage() {
     hiragana: true,
     katakana: false,
   });
+
+  // Floating Start Button observer
+  const startButtonRef = useRef<HTMLDivElement>(null);
+  const [isStartButtonVisible, setIsStartButtonVisible] = useState(true);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsStartButtonVisible(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    const currentRef = startButtonRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
 
   const toggleGroup = (groupId: string) => {
     setValidationError(null);
@@ -187,20 +214,30 @@ export default function HomePage() {
               MVP
             </div>
           </div>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noreferrer"
-            className="text-xs text-[#9CA3AF] hover:text-[#F5F7FA] transition"
-          >
-            v1.0.0
-          </a>
+          <div className="flex items-center space-x-4">
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs text-[#9CA3AF] hover:text-[#F5F7FA] transition"
+            >
+              v1.0.0
+            </a>
+            <button
+              onClick={() => setLanguage(language === "en" ? "id" : "en")}
+              className="flex items-center gap-1.5 text-xs px-2 text-[#9CA3AF] hover:text-white transition bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 px-2.5 py-1.5 rounded-lg select-none"
+              title={language === "en" ? "Switch to Indonesian" : "Ganti ke Bahasa Inggris"}
+            >
+              <Globe className="w-3.5 h-3.5 text-[#7C5CFF]" />
+              <span className="font-mono uppercase font-bold text-[10px]">{language}</span>
+            </button>
+          </div>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-8 md:py-12 flex flex-col justify-center gap-10">
-        
+
         {/* Hero Section */}
         <section className="text-center space-y-4">
           <motion.div
@@ -209,25 +246,24 @@ export default function HomePage() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center space-x-2 bg-[#171A22] border border-[#7C5CFF]/10 px-3 py-1.5 rounded-full text-xs text-[#7C5CFF]"
           >
-           
-            <span>Master Hiragana & Katakana by @2.shinnra on ig</span>
+
+            <span>{t("hero_tagline")} by @2.shinnra on ig</span>
           </motion.div>
-          
+
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold tracking-tight text-white"
-          >
-            Enter the <span className="text-[#7C5CFF]">Flow State</span> of Kana.
-          </motion.h1>
+            className="text-4xl md:text-5xl font-bold tracking-tight text-white font-sans"
+            dangerouslySetInnerHTML={{ __html: t("hero_title") }}
+          />
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-sm md:text-base text-[#9CA3AF] max-w-lg mx-auto"
           >
-            A minimal, fast, and gorgeous Japanese alphabet trainer designed to build bulletproof muscle memory without distractions.
+            {t("hero_desc")}
           </motion.p>
         </section>
 
@@ -241,22 +277,22 @@ export default function HomePage() {
             className="bg-[#171A22] rounded-2xl p-6 border border-[#171A22] hover:border-[#7C5CFF]/20 card-glow flex flex-col justify-between"
           >
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs uppercase tracking-widest text-[#9CA3AF] font-semibold">Mastery Percentage</span>
+              <span className="text-xs uppercase tracking-widest text-[#9CA3AF] font-semibold">{t("mastery_percentage")}</span>
               <Award className="w-5 h-5 text-[#7C5CFF]" />
             </div>
-            
+
             <div className="flex items-end gap-3 my-2">
               <span className="text-5xl font-extrabold text-white tracking-tight">
                 {isLoaded ? `${masteryPercentage}%` : "—"}
               </span>
               <span className="text-xs text-[#9CA3AF] mb-1.5">
-                {isLoaded ? `(${masteredCount}/${totalCharacters} kana)` : ""}
+                {isLoaded ? `(${masteredCount}/${totalCharacters} ${t("kana")})` : ""}
               </span>
             </div>
-            
+
             {/* Visual Progress Bar */}
             <div className="w-full bg-[#0F1117] h-2 rounded-full mt-3 overflow-hidden border border-[#171A22]">
-              <motion.div 
+              <motion.div
                 className="bg-[#7C5CFF] h-full rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: isLoaded ? `${masteryPercentage}%` : 0 }}
@@ -273,7 +309,7 @@ export default function HomePage() {
             className="bg-[#171A22] rounded-2xl p-6 border border-[#171A22] hover:border-[#22C55E]/20 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs uppercase tracking-widest text-[#9CA3AF] font-semibold">Correct Answers</span>
+              <span className="text-xs uppercase tracking-widest text-[#9CA3AF] font-semibold">{t("correct_answers")}</span>
               <CheckCircle2 className="w-5 h-5 text-[#22C55E]" />
             </div>
             <div className="my-2">
@@ -282,7 +318,7 @@ export default function HomePage() {
               </span>
             </div>
             <p className="text-xs text-[#9CA3AF] mt-3">
-              Answers successfully recognized. Keep it up!
+              {t("answers_recognized")}
             </p>
           </motion.div>
 
@@ -294,32 +330,32 @@ export default function HomePage() {
             className="bg-[#171A22] rounded-2xl p-6 border border-[#171A22] hover:border-[#EF4444]/20 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs uppercase tracking-widest text-[#9CA3AF] font-semibold">Errors & Accuracy</span>
+              <span className="text-xs uppercase tracking-widest text-[#9CA3AF] font-semibold">{t("errors_accuracy")}</span>
               <XCircle className="w-5 h-5 text-[#EF4444]" />
             </div>
             <div className="my-2 flex flex-col gap-1">
               <span className="text-3xl font-extrabold text-white tracking-tight">
                 {isLoaded && (totalCorrect + totalWrong > 0)
-                  ? `${Math.round((totalCorrect / (totalCorrect + totalWrong)) * 100)}% Accuracy`
-                  : "No attempts yet"}
+                  ? `${Math.round((totalCorrect / (totalCorrect + totalWrong)) * 100)}% ${t("accuracy")}`
+                  : t("no_attempts")}
               </span>
               <span className="text-xs text-[#9CA3AF]">
-                {isLoaded ? `${totalWrong} incorrect submissions` : "—"}
+                {isLoaded ? `${totalWrong} ${t("incorrect_submissions")}` : "—"}
               </span>
             </div>
-            
+
             {isLoaded && (totalCorrect > 0 || totalWrong > 0) ? (
               <button
                 onClick={() => setShowConfirmReset(true)}
                 className="text-xs text-[#EF4444] hover:underline flex items-center gap-1 mt-3 text-left self-start"
               >
                 <RotateCcw className="w-3 h-3" />
-                Reset Mastery Stats
+                {t("reset_mastery")}
               </button>
             ) : (
               <div className="text-xs text-[#9CA3AF] mt-3 flex items-center gap-1">
                 <Info className="w-3 h-3" />
-                Stats sync to localStorage.
+                {t("reset_sync")}
               </div>
             )}
           </motion.div>
@@ -327,11 +363,11 @@ export default function HomePage() {
 
         {/* Configuration Panel */}
         <section className="bg-[#171A22] border border-[#171A22] rounded-2xl p-6 md:p-8 space-y-8">
-          
+
           {/* Header with Mode Toggle */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#0F1117] pb-4 gap-3">
             <h2 className="text-xl font-bold flex items-center gap-2">
-              <Layers className="w-5 h-5 text-[#7C5CFF]" /> Setup Study Session
+              <Layers className="w-5 h-5 text-[#7C5CFF]" /> {t("setup_session")}
             </h2>
             <div className="flex bg-[#0F1117] p-1 rounded-xl border border-[#171A22] self-start sm:self-auto select-none">
               <button
@@ -339,26 +375,24 @@ export default function HomePage() {
                   setValidationError(null);
                   setSelectionMode("automatic");
                 }}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  selectionMode === "automatic"
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${selectionMode === "automatic"
                     ? "bg-[#7C5CFF] text-white shadow"
                     : "text-[#9CA3AF] hover:text-white"
-                }`}
+                  }`}
               >
-                Automatic
+                {t("automatic")}
               </button>
               <button
                 onClick={() => {
                   setValidationError(null);
                   setSelectionMode("manual");
                 }}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  selectionMode === "manual"
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${selectionMode === "manual"
                     ? "bg-[#7C5CFF] text-white shadow"
                     : "text-[#9CA3AF] hover:text-white"
-                }`}
+                  }`}
               >
-                Manual
+                {t("manual")}
               </button>
             </div>
           </div>
@@ -371,219 +405,208 @@ export default function HomePage() {
               className="p-4 bg-[#EF4444]/10 border border-[#EF4444]/20 rounded-xl text-[#EF4444] text-xs font-medium flex items-center gap-2"
             >
               <AlertTriangle className="w-4 h-4 shrink-0" />
-              <span>{validationError}</span>
+              <span>{t(validationError)}</span>
             </motion.div>
           )}
 
           {selectionMode === "automatic" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              
+
               {/* Left Column: Category & Length */}
               <div className="space-y-6">
                 {/* Category selector */}
                 <div className="space-y-3">
-                  <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">1. Select Kana Category</label>
+                  <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_category")}</label>
                   <div className="grid grid-cols-3 gap-2 bg-[#0F1117] p-1 rounded-xl border border-[#171A22]">
                     {(["hiragana", "katakana", "mixed"] as const).map((cat) => (
                       <button
                         key={cat}
                         onClick={() => setCategory(cat)}
-                        className={`py-2 text-sm font-medium rounded-lg capitalize transition-all ${
-                          category === cat
+                        className={`py-2 text-sm font-medium rounded-lg capitalize transition-all ${category === cat
                             ? "bg-[#7C5CFF] text-white shadow-lg shadow-[#7C5CFF]/20"
                             : "text-[#9CA3AF] hover:text-white"
-                        }`}
+                          }`}
                       >
-                        {cat}
+                        {t(cat)}
                       </button>
                     ))}
                   </div>
 
                   {/* Extended Set */}
                   <div className="mt-4 space-y-2">
-                    <span className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold">Extended Set</span>
+                    <span className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold">{t("extended_set")}</span>
                     <div className="grid grid-cols-2 gap-2">
                       {/* Look-Alike Training - Active */}
                       <button
                         onClick={() => setCategory("lookalike")}
-                        className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${
-                          category === "lookalike"
+                        className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${category === "lookalike"
                             ? "bg-[#F59E0B]/10 border-[#F59E0B]/40 text-[#F59E0B]"
                             : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#F59E0B]/20"
-                        }`}
+                          }`}
                       >
                         <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                        <span className="text-xs font-semibold">Look-Alike</span>
+                        <span className="text-xs font-semibold">{t("lookalike_title")}</span>
                       </button>
                       {/* Dakuten - Active */}
                       <button
                         onClick={() => setCategory("dakuten")}
-                        className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${
-                          category === "dakuten"
+                        className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${category === "dakuten"
                             ? "bg-[#6366F1]/10 border-[#6366F1]/40 text-[#6366F1]"
                             : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#6366F1]/20"
-                        }`}
+                          }`}
                       >
                         <Zap className="w-3.5 h-3.5 shrink-0" />
-                        <span className="text-xs font-semibold">Dakuten</span>
+                        <span className="text-xs font-semibold">{t("dakuten")}</span>
                       </button>
                       {/* Handakuten - Active */}
                       <button
                         onClick={() => setCategory("handakuten")}
-                        className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${
-                          category === "handakuten"
+                        className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${category === "handakuten"
                             ? "bg-[#22C55E]/10 border-[#22C55E]/40 text-[#22C55E]"
                             : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#22C55E]/20"
-                        }`}
+                          }`}
                       >
                         <Sparkles className="w-3.5 h-3.5 shrink-0" />
-                        <span className="text-xs font-semibold">Handakuten</span>
+                        <span className="text-xs font-semibold">{t("handakuten")}</span>
                       </button>
                       {/* Combination - Active */}
                       <button
                         onClick={() => setCategory("combo")}
-                        className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${
-                          category === "combo"
+                        className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${category === "combo"
                             ? "bg-[#EC4899]/10 border-[#EC4899]/40 text-[#EC4899]"
                             : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#EC4899]/20"
-                        }`}
+                          }`}
                       >
                         <Layers className="w-3.5 h-3.5 shrink-0" />
-                        <span className="text-xs font-semibold">Combo</span>
+                        <span className="text-xs font-semibold">{t("combo")}</span>
                       </button>
                     </div>
                   </div>
                 </div>
-
                 {/* Session Length selector - hidden when lookalike is selected */}
                 {category !== "lookalike" && (
-                <div className="space-y-3">
-                  <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">2. Select Session Length</label>
-                  <div className="grid grid-cols-3 gap-2 bg-[#0F1117] p-1 rounded-xl border border-[#171A22]">
-                    {(["10", "20", "all"] as const).map((len) => (
-                      <button
-                        key={len}
-                        onClick={() => setSessionLength(len)}
-                        className={`py-2 text-sm font-medium rounded-lg transition-all ${
-                          sessionLength === len
-                            ? "bg-[#7C5CFF] text-white shadow-lg shadow-[#7C5CFF]/20"
-                            : "text-[#9CA3AF] hover:text-white"
-                        }`}
-                      >
-                        {len === "all" ? "All Cards" : `${len} Cards`}
-                      </button>
-                    ))}
+                  <div className="space-y-3">
+                    <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_length")}</label>
+                    <div className="grid grid-cols-3 gap-2 bg-[#0F1117] p-1 rounded-xl border border-[#171A22]">
+                      {(["10", "20", "all"] as const).map((len) => (
+                        <button
+                          key={len}
+                          onClick={() => setSessionLength(len)}
+                          className={`py-2 text-sm font-medium rounded-lg transition-all ${sessionLength === len
+                              ? "bg-[#7C5CFF] text-white shadow-lg shadow-[#7C5CFF]/20"
+                              : "text-[#9CA3AF] hover:text-white"
+                            }`}
+                        >
+                          {len === "all" ? t("all_cards") : `${len} ${t("cards")}`}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
                 )}
               </div>
 
               {/* Right Column: Game Mode Selection */}
               {category !== "lookalike" ? (
-              <div className="space-y-3">
-                <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">3. Select Practice Mode</label>
-                
-                <div className="flex flex-col gap-2.5">
-                  {/* Flashcard Mode Button */}
-                  <button
-                    onClick={() => setMode("flashcard")}
-                    className={`flex items-start text-left p-3.5 rounded-xl border transition-all ${
-                      mode === "flashcard"
-                        ? "bg-[#7C5CFF]/5 border-[#7C5CFF] text-white"
-                        : "bg-[#0F1117] border-[#0F1117] hover:border-[#171A22] text-[#9CA3AF] hover:text-[#F5F7FA]"
-                    }`}
-                  >
-                    <div className="mr-3 bg-[#7C5CFF]/10 text-[#7C5CFF] p-2 rounded-lg mt-0.5">
-                      <BookOpen className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-sm text-white">Interactive Flashcards</h4>
-                      <p className="text-xs text-[#9CA3AF] mt-1">Study characters at your own pace with interactive 3D card flips.</p>
-                    </div>
-                  </button>
+                <div className="space-y-3">
+                  <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_mode")}</label>
 
-                  {/* Multiple Choice Mode Button */}
-                  <button
-                    onClick={() => setMode("choice")}
-                    className={`flex items-start text-left p-3.5 rounded-xl border transition-all ${
-                      mode === "choice"
-                        ? "bg-[#7C5CFF]/5 border-[#7C5CFF] text-white"
-                        : "bg-[#0F1117] border-[#0F1117] hover:border-[#171A22] text-[#9CA3AF] hover:text-[#F5F7FA]"
-                    }`}
-                  >
-                    <div className="mr-3 bg-[#7C5CFF]/10 text-[#7C5CFF] p-2 rounded-lg mt-0.5">
-                      <Award className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-sm text-white">Multiple Choice Quiz</h4>
-                      <p className="text-xs text-[#9CA3AF] mt-1">Test your recall against four quick, randomized romaji suggestions.</p>
-                    </div>
-                  </button>
+                  <div className="flex flex-col gap-2.5">
+                    {/* Flashcard Mode Button */}
+                    <button
+                      onClick={() => setMode("flashcard")}
+                      className={`flex items-start text-left p-3.5 rounded-xl border transition-all ${mode === "flashcard"
+                          ? "bg-[#7C5CFF]/5 border-[#7C5CFF] text-white"
+                          : "bg-[#0F1117] border-[#0F1117] hover:border-[#171A22] text-[#9CA3AF] hover:text-[#F5F7FA]"
+                        }`}
+                    >
+                      <div className="mr-3 bg-[#7C5CFF]/10 text-[#7C5CFF] p-2 rounded-lg mt-0.5">
+                        <BookOpen className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm text-white">{t("flashcard_title")}</h4>
+                        <p className="text-xs text-[#9CA3AF] mt-1">{t("flashcard_desc")}</p>
+                      </div>
+                    </button>
 
-                  {/* Text Input Mode Button */}
-                  <button
-                    onClick={() => setMode("text")}
-                    className={`flex items-start text-left p-3.5 rounded-xl border transition-all ${
-                      mode === "text"
-                        ? "bg-[#7C5CFF]/5 border-[#7C5CFF] text-white"
-                        : "bg-[#0F1117] border-[#0F1117] hover:border-[#171A22] text-[#9CA3AF] hover:text-[#F5F7FA]"
-                    }`}
-                  >
-                    <div className="mr-3 bg-[#22C55E]/10 text-[#22C55E] p-2 rounded-lg mt-0.5">
-                      <Sparkles className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-sm text-white">Text Input Quiz</h4>
-                      <p className="text-xs text-[#9CA3AF] mt-1">Build bulletproof recall by typing out the romaji phonetic spellings.</p>
-                    </div>
-                  </button>
+                    {/* Multiple Choice Mode Button */}
+                    <button
+                      onClick={() => setMode("choice")}
+                      className={`flex items-start text-left p-3.5 rounded-xl border transition-all ${mode === "choice"
+                          ? "bg-[#7C5CFF]/5 border-[#7C5CFF] text-white"
+                          : "bg-[#0F1117] border-[#0F1117] hover:border-[#171A22] text-[#9CA3AF] hover:text-[#F5F7FA]"
+                        }`}
+                    >
+                      <div className="mr-3 bg-[#7C5CFF]/10 text-[#7C5CFF] p-2 rounded-lg mt-0.5">
+                        <Award className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm text-white">{t("quiz_title")}</h4>
+                        <p className="text-xs text-[#9CA3AF] mt-1">{t("quiz_desc")}</p>
+                      </div>
+                    </button>
+
+                    {/* Text Input Mode Button */}
+                    <button
+                      onClick={() => setMode("text")}
+                      className={`flex items-start text-left p-3.5 rounded-xl border transition-all ${mode === "text"
+                          ? "bg-[#7C5CFF]/5 border-[#7C5CFF] text-white"
+                          : "bg-[#0F1117] border-[#0F1117] hover:border-[#171A22] text-[#9CA3AF] hover:text-[#F5F7FA]"
+                        }`}
+                    >
+                      <div className="mr-3 bg-[#22C55E]/10 text-[#22C55E] p-2 rounded-lg mt-0.5">
+                        <Sparkles className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm text-white">{t("text_title")}</h4>
+                        <p className="text-xs text-[#9CA3AF] mt-1">{t("text_desc")}</p>
+                      </div>
+                    </button>
+                  </div>
                 </div>
-              </div>
               ) : (
-              <div className="space-y-3">
-                <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">Look-Alike Training</label>
-                <div className="bg-[#0F1117] border border-[#F59E0B]/10 rounded-2xl p-5 space-y-3">
-                  <div className="flex items-center gap-2 text-[#F59E0B]">
-                    <AlertTriangle className="w-5 h-5" />
-                    <h4 className="font-bold text-sm">Katakana Confusion Drills</h4>
-                  </div>
-                  <p className="text-xs text-[#9CA3AF] leading-relaxed">
-                    Train on visually similar katakana pairs like シ vs ツ, ソ vs ン, and more. Includes comparison flashcards, multiple choice, speed drills, and side-by-side difference highlights.
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {["シ vs ツ", "ソ vs ン", "ク vs ケ", "チ vs テ", "サ vs セ"].map((pair) => (
-                      <span key={pair} className="text-[10px] font-mono bg-[#F59E0B]/10 text-[#F59E0B] px-2 py-0.5 rounded-full border border-[#F59E0B]/20">
-                        {pair}
-                      </span>
-                    ))}
+                <div className="space-y-3">
+                  <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">{t("lookalike_desc")}</label>
+                  <div className="bg-[#0F1117] border border-[#F59E0B]/10 rounded-2xl p-5 space-y-3">
+                    <div className="flex items-center gap-2 text-[#F59E0B]">
+                      <AlertTriangle className="w-5 h-5" />
+                      <h4 className="font-bold text-sm">{t("lookalike_alert_title")}</h4>
+                    </div>
+                    <p className="text-xs text-[#9CA3AF] leading-relaxed">
+                      {t("lookalike_alert_desc")}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {["シ vs ツ", "ソ vs ン", "ク vs ケ", "チ vs テ", "サ vs セ"].map((pair) => (
+                        <span key={pair} className="text-[10px] font-mono bg-[#F59E0B]/10 text-[#F59E0B] px-2 py-0.5 rounded-full border border-[#F59E0B]/20">
+                          {pair}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
               )}
 
             </div>
           ) : (
             /* MANUAL GRANULAR SELECTION PANEL */
             <div className="space-y-8 animate-fadeIn">
-              
+
               {/* Row 1: Session practice settings */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#0F1117] p-5 rounded-2xl border border-[#171A22]">
-                
+
                 {/* 1. Mode Select */}
                 <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-widest text-[#9CA3AF] font-bold">1. Select Practice Mode</label>
+                  <label className="text-[10px] uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_mode")}</label>
                   <div className="grid grid-cols-3 gap-2 bg-[#171A22] p-1 rounded-xl border border-[#0F1117] select-none">
                     {(["flashcard", "choice", "text"] as const).map((m) => (
                       <button
                         key={m}
                         onClick={() => setMode(m)}
-                        className={`py-2 text-xs font-semibold rounded-lg capitalize transition-all ${
-                          mode === m
+                        className={`py-2 text-xs font-semibold rounded-lg capitalize transition-all ${mode === m
                             ? "bg-[#7C5CFF] text-white shadow-lg shadow-[#7C5CFF]/20"
                             : "text-[#9CA3AF] hover:text-white"
-                        }`}
+                          }`}
                       >
-                        {m === "choice" ? "Quiz" : m === "text" ? "Type" : "Card"}
+                        {m === "choice" ? t("choice") : m === "text" ? t("text") : t("flashcard")}
                       </button>
                     ))}
                   </div>
@@ -591,19 +614,18 @@ export default function HomePage() {
 
                 {/* 2. Session Length */}
                 <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-widest text-[#9CA3AF] font-bold">2. Select Session Length</label>
+                  <label className="text-[10px] uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_length")}</label>
                   <div className="grid grid-cols-3 gap-2 bg-[#171A22] p-1 rounded-xl border border-[#0F1117] select-none">
                     {(["10", "20", "all"] as const).map((len) => (
                       <button
                         key={len}
                         onClick={() => setSessionLength(len)}
-                        className={`py-2 text-xs font-semibold rounded-lg transition-all ${
-                          sessionLength === len
+                        className={`py-2 text-xs font-semibold rounded-lg transition-all ${sessionLength === len
                             ? "bg-[#7C5CFF] text-white shadow"
                             : "text-[#9CA3AF] hover:text-white"
-                        }`}
+                          }`}
                       >
-                        {len === "all" ? "All Cards" : `${len} Cards`}
+                        {len === "all" ? t("all_cards") : `${len} ${t("cards")}`}
                       </button>
                     ))}
                   </div>
@@ -613,14 +635,14 @@ export default function HomePage() {
 
               {/* Row 2: Category lists (granulated selectors) */}
               <div className="space-y-6">
-                <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold block">3. Select Custom Character Sets</label>
-                
+                <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold block">{t("select_custom_sets")}</label>
+
                 {/* HIRAGANA GROUP COLLAPSIBLE */}
                 <div className="bg-[#0F1117] border border-[#171A22] rounded-2xl overflow-hidden shadow-inner">
-                  
+
                   {/* Category Header */}
                   <div className="flex items-center justify-between p-4 bg-[#171A22]/40 border-b border-[#171A22] select-none">
-                    <div 
+                    <div
                       onClick={() => toggleCategoryExpand("hiragana")}
                       className="flex items-center gap-3 cursor-pointer flex-1"
                     >
@@ -631,9 +653,9 @@ export default function HomePage() {
                         <ChevronRight className="w-4 h-4" />
                       </motion.div>
                       <div className="flex items-center flex-wrap gap-2">
-                        <span className="font-bold text-white text-sm">Hiragana</span>
+                        <span className="font-bold text-white text-sm">{t("hiragana")}</span>
                         <span className="text-[9px] font-bold font-mono px-2 py-0.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]">
-                          {getCategoryMastery([...HIRAGANA_BASIC_GROUPS, ...HIRAGANA_EXTENDED_GROUPS])}% Mastered
+                          {getCategoryMastery([...HIRAGANA_BASIC_GROUPS, ...HIRAGANA_EXTENDED_GROUPS])}% {t("mastered")}
                         </span>
                       </div>
                     </div>
@@ -642,14 +664,14 @@ export default function HomePage() {
                         onClick={() => selectAllCategory([...HIRAGANA_BASIC_GROUPS, ...HIRAGANA_EXTENDED_GROUPS])}
                         className="text-[10px] uppercase font-bold text-[#7C5CFF] hover:text-[#9175ff] px-2 py-1 transition"
                       >
-                        All
+                        {t("all")}
                       </button>
                       <span className="text-[#171A22] text-xs">|</span>
                       <button
                         onClick={() => selectNoneCategory([...HIRAGANA_BASIC_GROUPS, ...HIRAGANA_EXTENDED_GROUPS])}
                         className="text-[10px] uppercase font-bold text-[#9CA3AF] hover:text-white px-2 py-1 transition"
                       >
-                        None
+                        {t("none")}
                       </button>
                     </div>
                   </div>
@@ -666,7 +688,7 @@ export default function HomePage() {
                       >
                         {/* Basic Set */}
                         <div className="space-y-3.5">
-                          <h4 className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold border-b border-[#171A22] pb-1.5">Basic Set (Core)</h4>
+                          <h4 className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold border-b border-[#171A22] pb-1.5">{t("basic_set_core")}</h4>
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                             {HIRAGANA_BASIC_GROUPS.map((group) => {
                               const checked = selectedGroupIds.includes(group.id);
@@ -675,17 +697,16 @@ export default function HomePage() {
                                 <div
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
-                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${
-                                    checked
+                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
                                       ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
                                       : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
-                                  }`}
+                                    }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
                                     <input
                                       type="checkbox"
                                       checked={checked}
-                                      onChange={() => {}} // handled by div click
+                                      onChange={() => { }} // handled by div click
                                       className="accent-[#7C5CFF] w-4 h-4 shrink-0 pointer-events-none"
                                     />
                                     <div className="truncate">
@@ -693,14 +714,13 @@ export default function HomePage() {
                                       <p className="text-[10px] text-[#9CA3AF] mt-0.5 tracking-wider truncate">{group.display}</p>
                                     </div>
                                   </div>
-                                  
-                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${
-                                    mastery === 100 
+
+                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
                                       ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
                                       : mastery > 0
-                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
-                                  }`}>
+                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    }`}>
                                     {mastery}%
                                   </span>
                                 </div>
@@ -711,7 +731,7 @@ export default function HomePage() {
 
                         {/* Extended Set */}
                         <div className="space-y-3.5 pt-3">
-                          <h4 className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold border-b border-[#171A22] pb-1.5">Extended Set (Dakuten & Combo)</h4>
+                          <h4 className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold border-b border-[#171A22] pb-1.5">{t("extended_set_combo")}</h4>
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                             {HIRAGANA_EXTENDED_GROUPS.map((group) => {
                               const checked = selectedGroupIds.includes(group.id);
@@ -720,17 +740,16 @@ export default function HomePage() {
                                 <div
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
-                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${
-                                    checked
+                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
                                       ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
                                       : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
-                                  }`}
+                                    }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
                                     <input
                                       type="checkbox"
                                       checked={checked}
-                                      onChange={() => {}} // handled by div click
+                                      onChange={() => { }} // handled by div click
                                       className="accent-[#7C5CFF] w-4 h-4 shrink-0 pointer-events-none"
                                     />
                                     <div className="truncate">
@@ -738,14 +757,13 @@ export default function HomePage() {
                                       <p className="text-[10px] text-[#9CA3AF] mt-0.5 tracking-wider truncate">{group.display}</p>
                                     </div>
                                   </div>
-                                  
-                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${
-                                    mastery === 100 
+
+                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
                                       ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
                                       : mastery > 0
-                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
-                                  }`}>
+                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    }`}>
                                     {mastery}%
                                   </span>
                                 </div>
@@ -761,10 +779,10 @@ export default function HomePage() {
 
                 {/* KATAKANA GROUP COLLAPSIBLE */}
                 <div className="bg-[#0F1117] border border-[#171A22] rounded-2xl overflow-hidden shadow-inner">
-                  
+
                   {/* Category Header */}
                   <div className="flex items-center justify-between p-4 bg-[#171A22]/40 border-b border-[#171A22] select-none">
-                    <div 
+                    <div
                       onClick={() => toggleCategoryExpand("katakana")}
                       className="flex items-center gap-3 cursor-pointer flex-1"
                     >
@@ -775,9 +793,9 @@ export default function HomePage() {
                         <ChevronRight className="w-4 h-4" />
                       </motion.div>
                       <div className="flex items-center flex-wrap gap-2">
-                        <span className="font-bold text-white text-sm">Katakana</span>
+                        <span className="font-bold text-white text-sm">{t("katakana")}</span>
                         <span className="text-[9px] font-bold font-mono px-2 py-0.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]">
-                          {getCategoryMastery([...KATAKANA_BASIC_GROUPS, ...KATAKANA_EXTENDED_GROUPS])}% Mastered
+                          {getCategoryMastery([...KATAKANA_BASIC_GROUPS, ...KATAKANA_EXTENDED_GROUPS])}% {t("mastered")}
                         </span>
                       </div>
                     </div>
@@ -786,14 +804,14 @@ export default function HomePage() {
                         onClick={() => selectAllCategory([...KATAKANA_BASIC_GROUPS, ...KATAKANA_EXTENDED_GROUPS, ...KATAKANA_LOOKALIKE_GROUPS])}
                         className="text-[10px] uppercase font-bold text-[#7C5CFF] hover:text-[#9175ff] px-2 py-1 transition"
                       >
-                        All
+                        {t("all")}
                       </button>
                       <span className="text-[#171A22] text-xs">|</span>
                       <button
                         onClick={() => selectNoneCategory([...KATAKANA_BASIC_GROUPS, ...KATAKANA_EXTENDED_GROUPS, ...KATAKANA_LOOKALIKE_GROUPS])}
                         className="text-[10px] uppercase font-bold text-[#9CA3AF] hover:text-white px-2 py-1 transition"
                       >
-                        None
+                        {t("none")}
                       </button>
                     </div>
                   </div>
@@ -810,7 +828,7 @@ export default function HomePage() {
                       >
                         {/* Basic Set */}
                         <div className="space-y-3.5">
-                          <h4 className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold border-b border-[#171A22] pb-1.5">Basic Set (Core)</h4>
+                          <h4 className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold border-b border-[#171A22] pb-1.5">{t("basic_set_core")}</h4>
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                             {KATAKANA_BASIC_GROUPS.map((group) => {
                               const checked = selectedGroupIds.includes(group.id);
@@ -819,17 +837,16 @@ export default function HomePage() {
                                 <div
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
-                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${
-                                    checked
+                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
                                       ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
                                       : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
-                                  }`}
+                                    }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
                                     <input
                                       type="checkbox"
                                       checked={checked}
-                                      onChange={() => {}} // handled by div click
+                                      onChange={() => { }} // handled by div click
                                       className="accent-[#7C5CFF] w-4 h-4 shrink-0 pointer-events-none"
                                     />
                                     <div className="truncate">
@@ -837,14 +854,13 @@ export default function HomePage() {
                                       <p className="text-[10px] text-[#9CA3AF] mt-0.5 tracking-wider truncate">{group.display}</p>
                                     </div>
                                   </div>
-                                  
-                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${
-                                    mastery === 100 
+
+                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
                                       ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
                                       : mastery > 0
-                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
-                                  }`}>
+                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    }`}>
                                     {mastery}%
                                   </span>
                                 </div>
@@ -855,7 +871,7 @@ export default function HomePage() {
 
                         {/* Extended Set */}
                         <div className="space-y-3.5 pt-3">
-                          <h4 className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold border-b border-[#171A22] pb-1.5">Extended Set (Dakuten & Combo)</h4>
+                          <h4 className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold border-b border-[#171A22] pb-1.5">{t("extended_set_combo")}</h4>
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                             {KATAKANA_EXTENDED_GROUPS.map((group) => {
                               const checked = selectedGroupIds.includes(group.id);
@@ -864,17 +880,16 @@ export default function HomePage() {
                                 <div
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
-                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${
-                                    checked
+                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
                                       ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
                                       : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
-                                  }`}
+                                    }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
                                     <input
                                       type="checkbox"
                                       checked={checked}
-                                      onChange={() => {}} // handled by div click
+                                      onChange={() => { }} // handled by div click
                                       className="accent-[#7C5CFF] w-4 h-4 shrink-0 pointer-events-none"
                                     />
                                     <div className="truncate">
@@ -882,14 +897,13 @@ export default function HomePage() {
                                       <p className="text-[10px] text-[#9CA3AF] mt-0.5 tracking-wider truncate">{group.display}</p>
                                     </div>
                                   </div>
-                                  
-                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${
-                                    mastery === 100 
+
+                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
                                       ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
                                       : mastery > 0
-                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
-                                  }`}>
+                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    }`}>
                                     {mastery}%
                                   </span>
                                 </div>
@@ -901,7 +915,7 @@ export default function HomePage() {
                         {/* Look-Alike Set */}
                         <div className="space-y-3.5 pt-3">
                           <h4 className="text-[10px] uppercase tracking-widest text-[#F59E0B]/70 font-bold border-b border-[#171A22] pb-1.5 flex items-center gap-1.5">
-                            <AlertTriangle className="w-3 h-3 text-[#F59E0B]" /> Katakana Look-Alike Set
+                            <AlertTriangle className="w-3 h-3 text-[#F59E0B]" /> {t("katakana_lookalike_set")}
                           </h4>
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                             {KATAKANA_LOOKALIKE_GROUPS.map((group) => {
@@ -911,17 +925,16 @@ export default function HomePage() {
                                 <div
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
-                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${
-                                    checked
+                                  className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
                                       ? "bg-[#F59E0B]/10 border-[#F59E0B]/40 text-white"
                                       : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#F59E0B]/20 hover:text-white"
-                                  }`}
+                                    }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
                                     <input
                                       type="checkbox"
                                       checked={checked}
-                                      onChange={() => {}} // handled by div click
+                                      onChange={() => { }} // handled by div click
                                       className="accent-[#F59E0B] w-4 h-4 shrink-0 pointer-events-none"
                                     />
                                     <div className="truncate">
@@ -929,14 +942,13 @@ export default function HomePage() {
                                       <p className="text-[10px] text-[#9CA3AF] mt-0.5 tracking-wider truncate">{group.display}</p>
                                     </div>
                                   </div>
-                                  
-                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${
-                                    mastery === 100 
+
+                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
                                       ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
                                       : mastery > 0
-                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
-                                  }`}>
+                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    }`}>
                                     {mastery}%
                                   </span>
                                 </div>
@@ -956,7 +968,7 @@ export default function HomePage() {
           )}
 
           {/* Action Trigger Button */}
-          <div className="pt-4 flex justify-center">
+          <div ref={startButtonRef} className="pt-4 flex justify-center">
             <motion.button
               whileHover={{ scale: 1.00 }}
               whileTap={{ scale: 0.98 }}
@@ -964,37 +976,59 @@ export default function HomePage() {
               className="w-full py-4 px-8 bg-[#7C5CFF] text-white rounded-xl font-bold flex items-center justify-center space-x-2 text-base  tracking-wider hover:brightness-110 active:brightness-95 transition"
             >
               <Play className="w-5 h-5 fill-current" />
-              <span>START</span>
+              <span>{t("start")}</span>
             </motion.button>
           </div>
         </section>
 
       </main>
 
+      {/* Floating Start Button for Manual selection mode */}
+      <AnimatePresence>
+        {selectionMode === "manual" && !isStartButtonVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.95 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-45 w-[calc(100%-2rem)] max-w-md px-4"
+          >
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleStart}
+              className="w-full py-4 px-8 bg-[#7C5CFF] text-white rounded-xl font-bold flex items-center justify-center space-x-2 text-base tracking-wider hover:brightness-110 active:brightness-95 shadow-2xl shadow-[#7C5CFF]/40 border border-[#7C5CFF]/20 transition-all"
+            >
+              <Play className="w-5 h-5 fill-current" />
+              <span>{t("start")}</span>
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Confirmation Modal */}
       {showConfirmReset && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="bg-[#171A22] border border-red-500/20 max-w-sm w-full rounded-2xl p-6 shadow-2xl space-y-4"
           >
-            <h3 className="text-lg font-bold text-white">Reset Progress?</h3>
+            <h3 className="text-lg font-bold text-white">{t("reset_progress_title")}</h3>
             <p className="text-sm text-[#9CA3AF]">
-              This will permanently delete your overall correct/wrong answers and character mastery counters from this browser. This action is irreversible.
+              {t("reset_progress_desc")}
             </p>
             <div className="flex items-center justify-end space-x-2.5">
               <button
                 onClick={() => setShowConfirmReset(false)}
                 className="px-4 py-2 text-xs font-semibold text-[#9CA3AF] hover:text-white rounded-lg transition"
               >
-                Cancel
+                {t("cancel")}
               </button>
               <button
                 onClick={handleConfirmReset}
                 className="px-4 py-2 text-xs font-semibold bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
               >
-                Yes, Reset All
+                {t("reset_all")}
               </button>
             </div>
           </motion.div>
@@ -1003,7 +1037,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="py-6 border-t border-[#171A22] text-center text-xs text-[#9CA3AF]">
-        Designed for visual clarity and speed. © {new Date().getFullYear()} Kana Flow.
+        {t("footer_designed")} © {new Date().getFullYear()} SIKANA.
       </footer>
     </div>
   );

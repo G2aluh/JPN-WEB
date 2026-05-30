@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import kanaData from "@/data/kana.json";
+import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ChevronLeft, 
@@ -24,6 +25,7 @@ interface KanaItem {
 function FlashcardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useLanguage();
 
   // Load configuration from URL
   const typeParam = searchParams.get("type") || "mixed";
@@ -156,12 +158,12 @@ function FlashcardContent() {
           className="flex items-center gap-2 text-sm text-[#9CA3AF] hover:text-white transition bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 px-3.5 py-2 rounded-xl"
         >
           <Home className="w-4 h-4" />
-          <span className="hidden sm:inline">Home</span>
+          <span className="hidden sm:inline">{t("home")}</span>
         </button>
 
         <div className="flex items-center space-x-2">
           <span className="text-xs uppercase font-semibold text-[#9CA3AF] tracking-widest bg-[#171A22] border border-[#171A22] px-3.5 py-2 rounded-xl">
-            {typeParam} • {lengthParam === "all" ? "All" : lengthParam} Cards
+            {typeParam} • {lengthParam === "all" ? t("all") : lengthParam} {t("cards")}
           </span>
         </div>
 
@@ -181,7 +183,7 @@ function FlashcardContent() {
       {/* Progress indicators */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-[#9CA3AF] px-1 font-mono">
-          <span>PROGRESS</span>
+          <span>{t("progress")}</span>
           <span>{currentIndex + 1} / {cards.length}</span>
         </div>
         <div className="w-full bg-[#171A22] h-1.5 rounded-full overflow-hidden">
@@ -202,23 +204,23 @@ function FlashcardContent() {
             className="bg-[#171A22] border border-[#7C5CFF]/10 rounded-2xl p-4 overflow-hidden"
           >
             <h4 className="text-xs uppercase tracking-widest text-[#7C5CFF] font-bold mb-2 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" /> Keyboard Shortcuts
+              <Sparkles className="w-3.5 h-3.5" /> {t("keyboard_shortcuts")}
             </h4>
             <div className="grid grid-cols-2 gap-3 text-xs text-[#9CA3AF]">
               <div className="flex items-center justify-between">
-                <span>Flip Card:</span>
+                <span>{t("flip_card")}</span>
                 <kbd className="px-2 py-0.5 bg-[#0F1117] border border-[#171A22] rounded text-white font-mono text-[10px]">Space</kbd>
               </div>
               <div className="flex items-center justify-between">
-                <span>Next Card:</span>
+                <span>{t("next_card")}</span>
                 <kbd className="px-2 py-0.5 bg-[#0F1117] border border-[#171A22] rounded text-white font-mono text-[10px]">Right Arrow / D</kbd>
               </div>
               <div className="flex items-center justify-between">
-                <span>Prev Card:</span>
+                <span>{t("prev_card")}</span>
                 <kbd className="px-2 py-0.5 bg-[#0F1117] border border-[#171A22] rounded text-white font-mono text-[10px]">Left Arrow / A</kbd>
               </div>
               <div className="flex items-center justify-between">
-                <span>Toggle Shuffle:</span>
+                <span>{t("toggle_shuffle")}</span>
                 <kbd className="px-2 py-0.5 bg-[#0F1117] border border-[#171A22] rounded text-white font-mono text-[10px]">S</kbd>
               </div>
             </div>
@@ -247,7 +249,7 @@ function FlashcardContent() {
             >
               <div className="w-full flex justify-between items-center text-xs text-[#9CA3AF] tracking-wide font-medium">
                 <span className="uppercase">{activeCard.type}</span>
-                <span className="opacity-40">Front</span>
+                <span className="opacity-40">{t("front")}</span>
               </div>
               
               <div className="text-8xl sm:text-9xl font-bold text-white tracking-wide font-sans select-text">
@@ -256,7 +258,7 @@ function FlashcardContent() {
 
               <div className="text-xs text-[#9CA3AF] bg-[#0F1117] border border-[#171A22] px-3.5 py-1.5 rounded-full flex items-center gap-1.5 cursor-pointer">
                 <HelpCircle className="w-3.5 h-3.5 text-[#7C5CFF]" />
-                <span>Tap Card to Reveal</span>
+                <span>{t("tap_reveal")}</span>
               </div>
             </div>
 
@@ -268,7 +270,7 @@ function FlashcardContent() {
             >
               <div className="w-full flex justify-between items-center text-xs text-[#9CA3AF] tracking-wide font-medium">
                 <span className="uppercase">{activeCard.type}</span>
-                <span className="opacity-40">Back</span>
+                <span className="opacity-40">{t("back")}</span>
               </div>
 
               <div className="flex flex-col items-center gap-2">
@@ -282,7 +284,7 @@ function FlashcardContent() {
 
               <div className="text-xs text-[#9CA3AF] bg-[#0F1117] border border-[#171A22] px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-[#7C5CFF]" />
-                <span>Standard Romaji Phonetic</span>
+                <span>{t("standard_romaji")}</span>
               </div>
             </div>
           </motion.div>
@@ -308,7 +310,7 @@ function FlashcardContent() {
              active:scale-95 text-sm uppercase flex items-center justify-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>{isFlipped ? "Show Kana" : "Flip / Reveal"}</span>
+            <span>{isFlipped ? t("show_kana") : t("flip_reveal")}</span>
           </button>
 
           {/* Next Card Button */}
@@ -333,7 +335,7 @@ function FlashcardContent() {
             title="Toggle random shuffling (S)"
           >
             <Shuffle className="w-3.5 h-3.5" />
-            <span>Shuffle Mode: {isShuffle ? "ON" : "OFF"}</span>
+            <span>{t("shuffle_mode")}: {isShuffle ? t("shuffle_on") : t("shuffle_off")}</span>
           </button>
 
           <button
@@ -344,7 +346,7 @@ function FlashcardContent() {
             className="flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-[#171A22] border border-[#171A22] text-[#9CA3AF] hover:text-white transition"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Deck</span>
+            <span>{t("reset_deck")}</span>
           </button>
         </div>
       </div>
@@ -353,6 +355,8 @@ function FlashcardContent() {
 }
 
 export default function FlashcardPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="flex flex-col min-h-screen bg-[#0F1117] text-[#F5F7FA] font-sans selection:bg-[#7C5CFF]/30 selection:text-white">
       {/* Header */}
@@ -360,13 +364,13 @@ export default function FlashcardPage() {
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-xl font-bold text-[#7C5CFF] tracking-wide">
-              SIKANA
+              {t("logo")}
             </span>
             <div className="bg-[#7C5CFF]/10 text-[#7C5CFF] text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-[#7C5CFF]/20">
-              STUDY
+              {t("study_badge")}
             </div>
           </div>
-          <span className="text-xs text-[#9CA3AF] font-mono">FLASHCARDS</span>
+          <span className="text-xs text-[#9CA3AF] font-mono">{t("flashcards_label")}</span>
         </div>
       </header>
 
@@ -382,7 +386,7 @@ export default function FlashcardPage() {
       </main>
 
       <footer className="py-6 border-t border-[#171A22] text-center text-xs text-[#9CA3AF]">
-        Use Space to flip, Left/Right arrows to navigate. Enjoy studying!
+        {t("flashcard_footer")}
       </footer>
     </div>
   );

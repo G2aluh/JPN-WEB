@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import kanaData from "@/data/kana.json";
 import { useProgress } from "@/hooks/useProgress";
+import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Home, 
@@ -29,6 +30,7 @@ function QuizContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { recordAnswer } = useProgress();
+  const { t } = useLanguage();
 
   // Load URL Configurations
   const typeParam = searchParams.get("type") || "mixed";
@@ -293,9 +295,9 @@ function QuizContent() {
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-3xl font-extrabold text-white tracking-tight">Session Complete!</h2>
+            <h2 className="text-3xl font-extrabold text-white tracking-tight">{t("session_complete")}</h2>
             <p className="text-xs text-[#9CA3AF] uppercase tracking-widest font-semibold">
-              {typeParam} • {formatParam === "choice" ? "Multiple Choice" : "Text Typing"}
+              {typeParam} • {formatParam === "choice" ? t("multiple_choice") : t("text_typing")}
             </p>
           </div>
 
@@ -304,25 +306,25 @@ function QuizContent() {
             <div className="bg-[#0F1117] border border-[#171A22] p-4 rounded-2xl flex flex-col items-center justify-center">
               <Target className="w-5 h-5 text-[#7C5CFF] mb-1.5" />
               <span className="text-2xl font-black text-white">{score} / {questions.length}</span>
-              <span className="text-[10px] text-[#9CA3AF] uppercase font-bold tracking-wider mt-1">Correct Score</span>
+              <span className="text-[10px] text-[#9CA3AF] uppercase font-bold tracking-wider mt-1">{t("correct_score")}</span>
             </div>
 
             <div className="bg-[#0F1117] border border-[#171A22] p-4 rounded-2xl flex flex-col items-center justify-center">
               <Award className="w-5 h-5 text-[#7C5CFF] mb-1.5" />
               <span className="text-2xl font-black text-white">{accuracy}%</span>
-              <span className="text-[10px] text-[#9CA3AF] uppercase font-bold tracking-wider mt-1">Accuracy</span>
+              <span className="text-[10px] text-[#9CA3AF] uppercase font-bold tracking-wider mt-1">{t("accuracy")}</span>
             </div>
           </div>
 
           {/* Feedback Text */}
           <p className="text-sm text-[#9CA3AF] italic px-4">
             {accuracy === 100 
-              ? "👑 Flawless recall! Subarashii! You've achieved complete mastery for this set." 
+              ? t("flawless_recall")
               : accuracy >= 80 
-              ? "✨ Outstanding work! Your kana memory is getting incredibly solid." 
+              ? t("outstanding_work")
               : accuracy >= 50
-              ? "👍 Good attempt! A bit more practice and you will enter complete flow state." 
-              : "💪 Don't give up! Memorization is built by repetition. Try again!"
+              ? t("good_attempt")
+              : t("dont_give_up")
             }
           </p>
 
@@ -342,7 +344,7 @@ function QuizContent() {
             className="flex-1 p-3 h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl tracking-wide shadow-lg shadow-[#7C5CFF]/15 active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>Practice Again</span>
+            <span>{t("practice_again")}</span>
           </button>
           
           <button
@@ -350,7 +352,7 @@ function QuizContent() {
             className="flex-1 p-3 h-14 bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 text-white font-bold rounded-2xl tracking-wide shadow transition-all hover:scale-[1.02] active:scale-95 text-sm uppercase flex items-center justify-center gap-2"
           >
             <Home className="w-4 h-4 text-[#9CA3AF]" />
-            <span>Return Home</span>
+            <span>{t("return_home")}</span>
           </button>
         </div>
       </motion.div>
@@ -366,7 +368,7 @@ function QuizContent() {
           className="flex items-center gap-2 text-sm text-[#9CA3AF] hover:text-white transition bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 px-3.5 py-2 rounded-xl"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span className="hidden sm:inline">Abandon</span>
+          <span className="hidden sm:inline">{t("abandon")}</span>
         </button>
 
         {/* Score Counter */}
@@ -386,7 +388,7 @@ function QuizContent() {
       {/* Progress Bar */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-[#9CA3AF] px-1 font-mono">
-          <span>PROGRESS</span>
+          <span>{t("progress")}</span>
           <span>{currentIndex + 1} / {questions.length}</span>
         </div>
         <div className="w-full bg-[#171A22] h-1.5 rounded-full overflow-hidden">
@@ -421,12 +423,12 @@ function QuizContent() {
         <div className="min-h-[20px] text-xs font-semibold">
           {feedback === "correct" && (
             <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-[#22C55E] flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5" /> Correct! Nice Job.
+              <CheckCircle2 className="w-3.5 h-3.5" /> {t("correct_feedback")}
             </motion.p>
           )}
           {feedback === "wrong" && (
             <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-[#EF4444] flex items-center justify-center gap-1.5">
-              <XCircle className="w-3.5 h-3.5" /> Incorrect! Correct Answer: <span className="font-mono text-sm bg-red-500/20 px-2 py-0.5 rounded text-white">{activeQuestion.romaji}</span>
+              <XCircle className="w-3.5 h-3.5" /> {t("incorrect_feedback")} <span className="font-mono text-sm bg-red-500/20 px-2 py-0.5 rounded text-white">{activeQuestion.romaji}</span>
             </motion.p>
           )}
         </div>
@@ -444,7 +446,7 @@ function QuizContent() {
                 disabled={feedback === "correct"}
                 value={userAnswer}
                 onChange={(e) => setUserAnswer(e.target.value)}
-                placeholder={feedback === "correct" ? "Loading next..." : "Type Romaji (e.g. ka, shi, tsu)..."}
+                placeholder={feedback === "correct" ? t("loading_next") : t("type_romaji_placeholder")}
                 className={`w-full h-16 bg-[#171A22] border-2 rounded-2xl px-6 text-center text-lg font-mono tracking-wide focus:outline-none focus:ring-0 placeholder-[#9CA3AF]/40 transition ${
                   feedback === "correct"
                     ? "border-[#22C55E] text-[#22C55E]"
@@ -467,7 +469,7 @@ function QuizContent() {
                   onClick={handleAdvance}
                   className="w-full h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl tracking-wide shadow-lg shadow-[#7C5CFF]/10 active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
                 >
-                  <span>Continue</span>
+                  <span>{t("continue")}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
@@ -476,7 +478,7 @@ function QuizContent() {
                   disabled={!userAnswer.trim() || feedback === "correct"}
                   className="w-full h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] disabled:bg-[#171A22] disabled:text-[#9CA3AF]/40 text-white font-bold rounded-2xl tracking-wide transition-all text-sm uppercase flex items-center justify-center gap-2"
                 >
-                  <span>Submit Answer</span>
+                  <span>{t("submit_answer")}</span>
                 </button>
               )}
             </div>
@@ -522,7 +524,7 @@ function QuizContent() {
                 onClick={handleAdvance}
                 className="w-full h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl tracking-wide shadow-lg shadow-[#7C5CFF]/10 active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
               >
-                <span>Continue</span>
+                <span>{t("continue")}</span>
                 <ArrowRight className="w-4 h-4" />
               </motion.button>
             )}
@@ -534,6 +536,8 @@ function QuizContent() {
 }
 
 export default function QuizPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="flex flex-col min-h-screen bg-[#0F1117] text-[#F5F7FA] font-sans selection:bg-[#7C5CFF]/30 selection:text-white">
       {/* Header */}
@@ -541,13 +545,13 @@ export default function QuizPage() {
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-xl font-bold text-[#7C5CFF] tracking-wide">
-              SIKANA
+              {t("logo")}
             </span>
             <div className="bg-[#7C5CFF]/10 text-[#7C5CFF] text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-[#7C5CFF]/20">
-              QUIZ
+              {t("quiz_badge")}
             </div>
           </div>
-          <span className="text-xs text-[#9CA3AF] font-mono">CHALLENGE</span>
+          <span className="text-xs text-[#9CA3AF] font-mono">{t("challenge")}</span>
         </div>
       </header>
 
@@ -563,7 +567,7 @@ export default function QuizPage() {
       </main>
 
       <footer className="py-6 border-t border-[#171A22] text-center text-xs text-[#9CA3AF]">
-        Test your recall. made by @2.shinnra on ig
+        {t("quiz_footer")}
       </footer>
     </div>
   );

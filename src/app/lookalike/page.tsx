@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import lookalikeData from "@/data/lookalike.json";
+import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
@@ -79,6 +80,7 @@ function difficultyColor(d: string) {
 
 export default function LookalikePage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const groups: LookalikeGroup[] = lookalikeData as LookalikeGroup[];
 
   const [mode, setMode] = useState<TrainingMode>("select");
@@ -133,10 +135,10 @@ export default function LookalikePage() {
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-xl font-bold text-[#7C5CFF] tracking-wide">
-              SIKANA
+              {t("logo")}
             </span>
             <div className="bg-[#F59E0B]/10 text-[#F59E0B] text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-[#F59E0B]/20">
-              LOOK-ALIKE
+              {t("lookalike_badge")}
             </div>
           </div>
           <button
@@ -144,7 +146,7 @@ export default function LookalikePage() {
             className="flex items-center gap-2 text-xs text-[#9CA3AF] hover:text-white transition"
           >
             <Home className="w-3.5 h-3.5" />
-            Home
+            {t("home")}
           </button>
         </div>
       </header>
@@ -195,7 +197,7 @@ export default function LookalikePage() {
       </main>
 
       <footer className="py-6 border-t border-[#171A22] text-center text-xs text-[#9CA3AF]">
-        Focus on the differences. Train your eyes. Master the kana.
+        {t("lookalike_footer")}
       </footer>
     </div>
   );
@@ -216,6 +218,7 @@ function GroupSelectView({
   onSelect: (group: LookalikeGroup, mode: TrainingMode) => void;
 }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   return (
     <motion.div
@@ -229,13 +232,11 @@ function GroupSelectView({
       <div className="text-center space-y-2">
         <div className="inline-flex items-center space-x-2 bg-[#171A22] border border-[#F59E0B]/10 px-3 py-1.5 rounded-full text-xs text-[#F59E0B]">
           <AlertTriangle className="w-3.5 h-3.5" />
-          <span>Katakana Look-Alike Training</span>
+          <span>{t("lookalike_training")}</span>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-          Train Your <span className="text-[#F59E0B]">Eye</span>
-        </h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight" dangerouslySetInnerHTML={{ __html: t("train_your_eye") }} />
         <p className="text-sm text-[#9CA3AF] max-w-md mx-auto">
-          Select a confusing pair below and choose a training mode. Focus on stroke direction, placement, and angle differences.
+          {t("lookalike_select_desc")}
         </p>
       </div>
 
@@ -271,11 +272,11 @@ function GroupSelectView({
                           group.difficulty
                         )}`}
                       >
-                        {group.difficulty}
+                        {group.difficulty === "Easy" ? t("difficulty_easy") : group.difficulty === "Medium" ? t("difficulty_medium") : t("difficulty_hard")}
                       </span>
                       {p && (
                         <span className="text-[10px] text-[#9CA3AF]">
-                          {p.correct}✓ {p.wrong}✗ • {mastery}% mastery
+                          {p.correct}✓ {p.wrong}✗ • {mastery}% {t("mastery_label")}
                         </span>
                       )}
                     </div>
@@ -304,28 +305,28 @@ function GroupSelectView({
                         className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[#0F1117] border border-[#171A22] hover:border-[#7C5CFF]/30 text-[#9CA3AF] hover:text-white transition-all"
                       >
                         <BookOpen className="w-4 h-4 text-[#7C5CFF]" />
-                        <span className="text-[10px] font-semibold uppercase tracking-wider">Compare</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider">{t("compare")}</span>
                       </button>
                       <button
                         onClick={() => onSelect(group, "choice")}
                         className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[#0F1117] border border-[#171A22] hover:border-[#7C5CFF]/30 text-[#9CA3AF] hover:text-white transition-all"
                       >
                         <Award className="w-4 h-4 text-[#7C5CFF]" />
-                        <span className="text-[10px] font-semibold uppercase tracking-wider">Choice</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider">{t("choice")}</span>
                       </button>
                       <button
                         onClick={() => onSelect(group, "speed")}
                         className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[#0F1117] border border-[#171A22] hover:border-[#7C5CFF]/30 text-[#9CA3AF] hover:text-white transition-all"
                       >
                         <Zap className="w-4 h-4 text-[#F59E0B]" />
-                        <span className="text-[10px] font-semibold uppercase tracking-wider">Speed</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider">{t("speed")}</span>
                       </button>
                       <button
                         onClick={() => onSelect(group, "highlight")}
                         className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[#0F1117] border border-[#171A22] hover:border-[#7C5CFF]/30 text-[#9CA3AF] hover:text-white transition-all"
                       >
                         <Eye className="w-4 h-4 text-[#22C55E]" />
-                        <span className="text-[10px] font-semibold uppercase tracking-wider">Highlight</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider">{t("highlight")}</span>
                       </button>
                     </div>
                   </motion.div>
@@ -351,6 +352,7 @@ function ComparisonMode({
 }) {
   const [charIndex, setCharIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const { t } = useLanguage();
 
   const char = group.characters[charIndex];
 
@@ -368,7 +370,7 @@ function ComparisonMode({
       exit={{ opacity: 0, y: -15 }}
       className="space-y-6"
     >
-      <ModeHeader title="Flashcard Comparison" subtitle={group.title} onBack={onBack} />
+      <ModeHeader title={t("flashcard_comparison")} subtitle={group.title} onBack={onBack} />
 
       {/* Card */}
       <div className="flex justify-center py-6">
@@ -389,15 +391,15 @@ function ComparisonMode({
               }`}
             >
               <div className="w-full flex justify-between items-center text-xs text-[#9CA3AF] tracking-wide font-medium">
-                <span className="uppercase">katakana</span>
-                <span className="opacity-40">Front</span>
+                <span className="uppercase">{t("katakana").toLowerCase()}</span>
+                <span className="opacity-40">{t("front")}</span>
               </div>
               <div className="text-8xl sm:text-9xl font-bold text-white tracking-wide font-sans">
                 {char.kana}
               </div>
               <div className="text-xs text-[#9CA3AF] bg-[#0F1117] border border-[#171A22] px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
-                <span>Tap to reveal difference</span>
+                <span>{t("tap_reveal_difference")}</span>
               </div>
             </div>
 
@@ -409,7 +411,7 @@ function ComparisonMode({
             >
               <div className="w-full flex justify-between items-center text-xs text-[#9CA3AF] tracking-wide font-medium">
                 <span className="uppercase">{char.romaji}</span>
-                <span className="opacity-40">Back</span>
+                <span className="opacity-40">{t("back")}</span>
               </div>
               <div className="flex flex-col items-center gap-3">
                 <div className="text-6xl font-bold text-[#7C5CFF] font-mono">
@@ -441,7 +443,7 @@ function ComparisonMode({
           className="flex-1 max-w-[200px] h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl tracking-wide shadow-lg shadow-[#7C5CFF]/10 transition-all active:scale-95 text-sm uppercase flex items-center justify-center gap-2"
         >
           <RotateCcw className="w-4 h-4" />
-          <span>{flipped ? "Show Kana" : "Flip"}</span>
+          <span>{flipped ? t("show_kana") : t("flip")}</span>
         </button>
         <button
           onClick={handleNext}
@@ -476,6 +478,7 @@ function ChoiceMode({
   const [selectedKana, setSelectedKana] = useState<string | null>(null);
   const [shaken, setShaken] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const { t } = useLanguage();
 
   // Build a question: pick a random character from the group, ask "Which is {romaji}?"
   const [question, setQuestion] = useState(() => buildQuestion());
@@ -526,23 +529,23 @@ function ChoiceMode({
         exit={{ opacity: 0 }}
         className="space-y-6"
       >
-        <ModeHeader title="Multiple Choice" subtitle={group.title} onBack={onBack} />
+        <ModeHeader title={t("multiple_choice")} subtitle={group.title} onBack={onBack} />
         <div className="bg-[#171A22] border border-[#7C5CFF]/10 rounded-3xl p-6 md:p-8 text-center space-y-5 shadow-2xl relative overflow-hidden">
           <div className="absolute -top-16 -left-16 w-36 h-36 bg-[#7C5CFF]/15 blur-3xl rounded-full" />
           <div className="absolute -bottom-16 -right-16 w-36 h-36 bg-[#7C5CFF]/15 blur-3xl rounded-full" />
           <div className="inline-flex p-4 rounded-full bg-[#7C5CFF]/20 text-[#7C5CFF] mb-2 animate-bounce">
             <Trophy className="w-10 h-10" />
           </div>
-          <h2 className="text-3xl font-extrabold text-white">Round Complete!</h2>
+          <h2 className="text-3xl font-extrabold text-white">{t("round_complete")}</h2>
           <p className="text-xs text-[#9CA3AF] uppercase tracking-widest font-semibold">{group.title}</p>
           <div className="grid grid-cols-2 gap-4 py-3">
             <div className="bg-[#0F1117] border border-[#171A22] p-4 rounded-2xl">
               <span className="text-2xl font-black text-white">{score}/{TOTAL_ROUNDS}</span>
-              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">Correct</p>
+              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">{t("correct_label")}</p>
             </div>
             <div className="bg-[#0F1117] border border-[#171A22] p-4 rounded-2xl">
               <span className="text-2xl font-black text-white">{accuracy}%</span>
-              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">Accuracy</p>
+              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">{t("accuracy")}</p>
             </div>
           </div>
           <div className="w-full bg-[#0F1117] h-2.5 rounded-full overflow-hidden border border-[#171A22]">
@@ -554,13 +557,13 @@ function ChoiceMode({
             onClick={() => { setRound(0); setScore(0); setWrongCount(0); setFeedback(null); setSelectedKana(null); setIsFinished(false); setQuestion(buildQuestion()); }}
             className="flex-1 h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl text-sm uppercase flex items-center justify-center gap-2 transition-all active:scale-95"
           >
-            <RotateCcw className="w-4 h-4" /> Again
+            <RotateCcw className="w-4 h-4" /> {t("again")}
           </button>
           <button
             onClick={onBack}
             className="flex-1 h-14 bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 text-white font-bold rounded-2xl text-sm uppercase flex items-center justify-center gap-2 transition-all active:scale-95"
           >
-            <ArrowLeft className="w-4 h-4 text-[#9CA3AF]" /> Back
+            <ArrowLeft className="w-4 h-4 text-[#9CA3AF]" /> {t("back_button")}
           </button>
         </div>
       </motion.div>
@@ -574,12 +577,12 @@ function ChoiceMode({
       exit={{ opacity: 0, y: -15 }}
       className="space-y-6"
     >
-      <ModeHeader title="Multiple Choice" subtitle={group.title} onBack={onBack} />
+      <ModeHeader title={t("multiple_choice")} subtitle={group.title} onBack={onBack} />
 
       {/* Progress */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-[#9CA3AF] px-1 font-mono">
-          <span>ROUND</span>
+          <span>{t("round")}</span>
           <span>{round + 1} / {TOTAL_ROUNDS}</span>
         </div>
         <div className="w-full bg-[#171A22] h-1.5 rounded-full overflow-hidden">
@@ -600,7 +603,7 @@ function ChoiceMode({
         }`}
       >
         <p className="text-sm text-[#9CA3AF]">
-          Which one is <span className="text-white font-bold font-mono">&quot;{question.target.romaji}&quot;</span>?
+          {t("which_one_is")} <span className="text-white font-bold font-mono">&quot;{question.target.romaji}&quot;</span>?
         </p>
         <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
           {question.options.map((opt) => {
@@ -630,12 +633,12 @@ function ChoiceMode({
         <div className="min-h-[20px] text-xs font-semibold">
           {feedback === "correct" && (
             <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-[#22C55E] flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5" /> Correct!
+              <CheckCircle2 className="w-3.5 h-3.5" /> {t("correct_excl")}
             </motion.p>
           )}
           {feedback === "wrong" && (
             <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-[#EF4444] flex items-center gap-1">
-              <XCircle className="w-3.5 h-3.5" /> Wrong — it&apos;s {question.target.kana}
+              <XCircle className="w-3.5 h-3.5" /> {t("wrong_its")} {question.target.kana}
             </motion.p>
           )}
         </div>
@@ -649,7 +652,7 @@ function ChoiceMode({
           onClick={advance}
           className="w-full h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl text-sm uppercase flex items-center justify-center gap-2 transition-all active:scale-95"
         >
-          Continue <ArrowRight className="w-4 h-4" />
+          {t("continue")} <ArrowRight className="w-4 h-4" />
         </motion.button>
       )}
 
@@ -689,6 +692,7 @@ function SpeedMode({
   const [times, setTimes] = useState<number[]>([]);
   const roundStart = useRef(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
+  const { t } = useLanguage();
 
   // Pick a random character from the group for each round
   const [currentChar, setCurrentChar] = useState(() =>
@@ -751,24 +755,24 @@ function SpeedMode({
         exit={{ opacity: 0 }}
         className="space-y-6"
       >
-        <ModeHeader title="Speed Recognition" subtitle={group.title} onBack={onBack} />
+        <ModeHeader title={t("speed_recognition")} subtitle={group.title} onBack={onBack} />
         <div className="bg-[#171A22] border border-[#7C5CFF]/10 rounded-3xl p-6 md:p-8 text-center space-y-5 shadow-2xl">
           <div className="inline-flex p-4 rounded-full bg-[#F59E0B]/20 text-[#F59E0B] mb-2 animate-bounce">
             <Zap className="w-10 h-10" />
           </div>
-          <h2 className="text-3xl font-extrabold text-white">Speed Results!</h2>
+          <h2 className="text-3xl font-extrabold text-white">{t("speed_results")}</h2>
           <div className="grid grid-cols-3 gap-3 py-3">
             <div className="bg-[#0F1117] border border-[#171A22] p-3 rounded-2xl">
               <span className="text-xl font-black text-white">{score}/{TOTAL_ROUNDS}</span>
-              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">Correct</p>
+              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">{t("correct_label")}</p>
             </div>
             <div className="bg-[#0F1117] border border-[#171A22] p-3 rounded-2xl">
               <span className="text-xl font-black text-[#F59E0B]">{avgTime}ms</span>
-              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">Avg Time</p>
+              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">{t("avg_time")}</p>
             </div>
             <div className="bg-[#0F1117] border border-[#171A22] p-3 rounded-2xl">
               <span className="text-xl font-black text-[#22C55E]">{bestTime}ms</span>
-              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">Best</p>
+              <p className="text-[10px] text-[#9CA3AF] uppercase font-bold mt-1">{t("best")}</p>
             </div>
           </div>
         </div>
@@ -777,10 +781,10 @@ function SpeedMode({
             onClick={() => { setRound(0); setScore(0); setTimes([]); setFeedback(null); setUserAnswer(""); setIsFinished(false); setCurrentChar(group.characters[Math.floor(Math.random() * group.characters.length)]); }}
             className="flex-1 h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl text-sm uppercase flex items-center justify-center gap-2 transition-all active:scale-95"
           >
-            <RotateCcw className="w-4 h-4" /> Again
+            <RotateCcw className="w-4 h-4" /> {t("again")}
           </button>
           <button onClick={onBack} className="flex-1 h-14 bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 text-white font-bold rounded-2xl text-sm uppercase flex items-center justify-center gap-2 transition-all active:scale-95">
-            <ArrowLeft className="w-4 h-4 text-[#9CA3AF]" /> Back
+            <ArrowLeft className="w-4 h-4 text-[#9CA3AF]" /> {t("back_button")}
           </button>
         </div>
       </motion.div>
@@ -794,12 +798,12 @@ function SpeedMode({
       exit={{ opacity: 0, y: -15 }}
       className="space-y-6"
     >
-      <ModeHeader title="Speed Recognition" subtitle={group.title} onBack={onBack} />
+      <ModeHeader title={t("speed_recognition")} subtitle={group.title} onBack={onBack} />
 
       {/* Progress */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-[#9CA3AF] px-1 font-mono">
-          <div className="flex items-center gap-1.5"><Timer className="w-3.5 h-3.5 text-[#F59E0B]" /> SPEED</div>
+          <div className="flex items-center gap-1.5"><Timer className="w-3.5 h-3.5 text-[#F59E0B]" /> {t("speed_label")}</div>
           <span>{round + 1} / {TOTAL_ROUNDS}</span>
         </div>
         <div className="w-full bg-[#171A22] h-1.5 rounded-full overflow-hidden">
@@ -813,16 +817,16 @@ function SpeedMode({
         : feedback === "wrong" ? "border-[#EF4444]/30 bg-[#EF4444]/5"
         : "border-[#F59E0B]/10"
       }`}>
-        <span className="text-[10px] uppercase font-bold tracking-widest text-[#9CA3AF] bg-[#0F1117] px-3 py-1 rounded-full border border-[#171A22]">Type the romaji</span>
+        <span className="text-[10px] uppercase font-bold tracking-widest text-[#9CA3AF] bg-[#0F1117] px-3 py-1 rounded-full border border-[#171A22]">{t("type_the_romaji")}</span>
         <h3 className="text-8xl sm:text-9xl font-bold text-white">{currentChar.kana}</h3>
         {feedback === "wrong" && (
           <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-[#EF4444] text-xs flex items-center gap-1">
-            <XCircle className="w-3.5 h-3.5" /> Answer: <span className="font-mono bg-red-500/20 px-2 py-0.5 rounded text-white">{currentChar.romaji}</span>
+            <XCircle className="w-3.5 h-3.5" /> {t("answer_label")} <span className="font-mono bg-red-500/20 px-2 py-0.5 rounded text-white">{currentChar.romaji}</span>
           </motion.p>
         )}
         {feedback === "correct" && (
           <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-[#22C55E] text-xs flex items-center gap-1">
-            <CheckCircle2 className="w-3.5 h-3.5" /> Correct!
+            <CheckCircle2 className="w-3.5 h-3.5" /> {t("correct_excl")}
           </motion.p>
         )}
       </div>
@@ -835,7 +839,7 @@ function SpeedMode({
           disabled={feedback === "correct"}
           value={userAnswer}
           onChange={(e) => setUserAnswer(e.target.value)}
-          placeholder="Type romaji..."
+          placeholder={t("type_romaji_short")}
           className={`w-full h-16 bg-[#171A22] border-2 rounded-2xl px-6 text-center text-lg font-mono tracking-wide focus:outline-none placeholder-[#9CA3AF]/40 transition ${
             feedback === "correct" ? "border-[#22C55E] text-[#22C55E]"
             : feedback === "wrong" ? "border-[#EF4444] text-[#EF4444]"
@@ -852,7 +856,7 @@ function SpeedMode({
             onClick={advance}
             className="w-full h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl text-sm uppercase flex items-center justify-center gap-2 transition-all active:scale-95"
           >
-            Continue <ArrowRight className="w-4 h-4" />
+            {t("continue")} <ArrowRight className="w-4 h-4" />
           </button>
         ) : (
           <button
@@ -860,7 +864,7 @@ function SpeedMode({
             disabled={!userAnswer.trim() || feedback === "correct"}
             className="w-full h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] disabled:bg-[#171A22] disabled:text-[#9CA3AF]/40 text-white font-bold rounded-2xl text-sm uppercase flex items-center justify-center gap-2 transition-all"
           >
-            Submit
+            {t("submit")}
           </button>
         )}
       </form>
@@ -878,6 +882,8 @@ function HighlightMode({
   group: LookalikeGroup;
   onBack: () => void;
 }) {
+  const { t } = useLanguage();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -885,7 +891,7 @@ function HighlightMode({
       exit={{ opacity: 0, y: -15 }}
       className="space-y-6"
     >
-      <ModeHeader title="Difference Highlight" subtitle={group.title} onBack={onBack} />
+      <ModeHeader title={t("difference_highlight")} subtitle={group.title} onBack={onBack} />
 
       {/* Side-by-side display */}
       <div className="bg-[#171A22] border border-[#F59E0B]/10 rounded-3xl p-6 md:p-8 space-y-6">
@@ -935,7 +941,7 @@ function HighlightMode({
         onClick={onBack}
         className="w-full h-14 bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 text-white font-bold rounded-2xl text-sm uppercase flex items-center justify-center gap-2 transition-all active:scale-95"
       >
-        <ArrowLeft className="w-4 h-4 text-[#9CA3AF]" /> Back to Groups
+        <ArrowLeft className="w-4 h-4 text-[#9CA3AF]" /> {t("back_to_groups")}
       </button>
     </motion.div>
   );
@@ -945,6 +951,8 @@ function HighlightMode({
    SHARED: Mode Header
    ============================================================ */
 function ModeHeader({ title, subtitle, onBack }: { title: string; subtitle: string; onBack: () => void }) {
+  const { t } = useLanguage();
+
   return (
     <div className="flex items-center justify-between">
       <button
@@ -952,7 +960,7 @@ function ModeHeader({ title, subtitle, onBack }: { title: string; subtitle: stri
         className="flex items-center gap-2 text-sm text-[#9CA3AF] hover:text-white transition bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 px-3.5 py-2 rounded-xl"
       >
         <ArrowLeft className="w-4 h-4" />
-        <span className="hidden sm:inline">Back</span>
+        <span className="hidden sm:inline">{t("back_button")}</span>
       </button>
       <div className="text-right">
         <h2 className="text-sm font-bold text-white">{title}</h2>
