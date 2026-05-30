@@ -58,6 +58,53 @@ export default function HomePage() {
     hiragana: true,
     katakana: false,
   });
+  const [isPreferencesLoaded, setIsPreferencesLoaded] = useState(false);
+
+  // Load preferences from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedMode = localStorage.getItem("kana_flow_pref_mode");
+      if (savedMode) setMode(savedMode as any);
+
+      const savedCategory = localStorage.getItem("kana_flow_pref_category");
+      if (savedCategory) setCategory(savedCategory as any);
+
+      const savedSessionLength = localStorage.getItem("kana_flow_pref_session_length");
+      if (savedSessionLength) setSessionLength(savedSessionLength as any);
+
+      const savedSelectionMode = localStorage.getItem("kana_flow_pref_selection_mode");
+      if (savedSelectionMode) setSelectionMode(savedSelectionMode as any);
+
+      const savedSelectedGroupIds = localStorage.getItem("kana_flow_pref_selected_group_ids");
+      if (savedSelectedGroupIds) {
+        setSelectedGroupIds(JSON.parse(savedSelectedGroupIds));
+      }
+
+      const savedExpandedCategories = localStorage.getItem("kana_flow_pref_expanded_categories");
+      if (savedExpandedCategories) {
+        setExpandedCategories(JSON.parse(savedExpandedCategories));
+      }
+    } catch (e) {
+      console.error("Failed to load settings from localStorage", e);
+    } finally {
+      setIsPreferencesLoaded(true);
+    }
+  }, []);
+
+  // Save preferences to localStorage on change
+  useEffect(() => {
+    if (!isPreferencesLoaded) return;
+    try {
+      localStorage.setItem("kana_flow_pref_mode", mode);
+      localStorage.setItem("kana_flow_pref_category", category);
+      localStorage.setItem("kana_flow_pref_session_length", sessionLength);
+      localStorage.setItem("kana_flow_pref_selection_mode", selectionMode);
+      localStorage.setItem("kana_flow_pref_selected_group_ids", JSON.stringify(selectedGroupIds));
+      localStorage.setItem("kana_flow_pref_expanded_categories", JSON.stringify(expandedCategories));
+    } catch (e) {
+      console.error("Failed to save settings to localStorage", e);
+    }
+  }, [mode, category, sessionLength, selectionMode, selectedGroupIds, expandedCategories, isPreferencesLoaded]);
 
   // Floating Start Button observer
   const startButtonRef = useRef<HTMLDivElement>(null);
