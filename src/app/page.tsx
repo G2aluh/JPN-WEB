@@ -209,8 +209,8 @@ export default function HomePage() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center space-x-2 bg-[#171A22] border border-[#7C5CFF]/10 px-3 py-1.5 rounded-full text-xs text-[#7C5CFF]"
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Master Hiragana & Katakana effortlessly by @2.shinnra on ig</span>
+           
+            <span>Master Hiragana & Katakana by @2.shinnra on ig</span>
           </motion.div>
           
           <motion.h1
@@ -631,7 +631,7 @@ export default function HomePage() {
                         <ChevronRight className="w-4 h-4" />
                       </motion.div>
                       <div className="flex items-center flex-wrap gap-2">
-                        <span className="font-bold text-white text-sm">Hiragana (ひらがな)</span>
+                        <span className="font-bold text-white text-sm">Hiragana</span>
                         <span className="text-[9px] font-bold font-mono px-2 py-0.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]">
                           {getCategoryMastery([...HIRAGANA_BASIC_GROUPS, ...HIRAGANA_EXTENDED_GROUPS])}% Mastered
                         </span>
@@ -775,7 +775,7 @@ export default function HomePage() {
                         <ChevronRight className="w-4 h-4" />
                       </motion.div>
                       <div className="flex items-center flex-wrap gap-2">
-                        <span className="font-bold text-white text-sm">Katakana (カタカナ)</span>
+                        <span className="font-bold text-white text-sm">Katakana</span>
                         <span className="text-[9px] font-bold font-mono px-2 py-0.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]">
                           {getCategoryMastery([...KATAKANA_BASIC_GROUPS, ...KATAKANA_EXTENDED_GROUPS])}% Mastered
                         </span>
