@@ -339,7 +339,7 @@ function QuizContent() {
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleRetry}
-            className="flex-1 h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl tracking-wide shadow-lg shadow-[#7C5CFF]/15 active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
+            className="flex-1 p-3 h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl tracking-wide shadow-lg shadow-[#7C5CFF]/15 active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
             <span>Practice Again</span>
@@ -347,7 +347,7 @@ function QuizContent() {
           
           <button
             onClick={() => router.push("/")}
-            className="flex-1 h-14 bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 text-white font-bold rounded-2xl tracking-wide shadow transition-all hover:scale-[1.02] active:scale-95 text-sm uppercase flex items-center justify-center gap-2"
+            className="flex-1 p-3 h-14 bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 text-white font-bold rounded-2xl tracking-wide shadow transition-all hover:scale-[1.02] active:scale-95 text-sm uppercase flex items-center justify-center gap-2"
           >
             <Home className="w-4 h-4 text-[#9CA3AF]" />
             <span>Return Home</span>
