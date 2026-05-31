@@ -1021,14 +1021,14 @@ export default function HomePage() {
           <div className="pt-4 flex justify-center">
             <button
               onClick={() => setShowQrisModal(true)}
-              className="w-full px-6 rounded-xl font-bold flex items-center bg-red-500/50 border border-red-500 justify-center gap-2 text-sm  text-white hover:brightness-110 active:brightness-95 transition "
+              className="w-full py-3 px-6 rounded-xl font-bold flex items-center bg-red-500/50 border border-red-500 justify-center gap-2 text-sm  text-white hover:brightness-110 active:brightness-95 transition "
             >
               <span>Buy me a Coffee ☕</span>
             </button>
           </div>
 
           {/* Action Trigger Button */}
-          <div ref={startButtonRef} className="pt-2 flex justify-center">
+          <div ref={startButtonRef} className="flex justify-center">
             <motion.button
               whileHover={{ scale: 1.00 }}
               whileTap={{ scale: 0.98 }}
@@ -1054,7 +1054,7 @@ export default function HomePage() {
           >
             <button
               onClick={() => setShowQrisModal(true)}
-              className="w-full py-2.5 px-6 rounded-xl font-bold flex items-center justify-center gap-2 text-sm bg-red-500/50 border border-red-500 shadow-lg shadow-red-500/50 text-white hover:brightness-110 active:brightness-95 transition "
+              className="w-full py-2.5 px-6 rounded-xl font-bold flex items-center justify-center gap-2 text-sm bg-red-500/50 border border-red-500 text-white hover:brightness-110 active:brightness-95 transition "
             >
               <span>Buy me a Coffee ☕</span>
             </button>
