@@ -1021,7 +1021,7 @@ export default function HomePage() {
           <div className="pt-4 flex justify-center">
             <button
               onClick={() => setShowQrisModal(true)}
-              className="w-full py-3 px-6 rounded-xl font-bold flex items-center justify-center gap-2 text-sm  text-white hover:brightness-110 active:brightness-95 transition shadow-lg shadow-[#F59E0B]/20"
+              className="w-full py-3 px-6 rounded-xl font-bold flex items-center bg-red-400 border-2 border-red-500 shadow-lg shadow-red-500/50 justify-center gap-2 text-sm  text-white hover:brightness-110 active:brightness-95 transition "
             >
               <span>Buy me a Coffee ☕</span>
             </button>
@@ -1054,7 +1054,7 @@ export default function HomePage() {
           >
             <button
               onClick={() => setShowQrisModal(true)}
-              className="w-full py-2.5 px-6 rounded-xl font-bold flex items-center justify-center gap-2 text-sm bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white hover:brightness-110 active:brightness-95 transition shadow-lg shadow-[#F59E0B]/20"
+              className="w-full py-2.5 px-6 rounded-xl font-bold flex items-center justify-center gap-2 text-sm bg-red-400 border-2 border-red-500 shadow-lg shadow-red-500/50 text-white hover:brightness-110 active:brightness-95 transition "
             >
               <span>Buy me a Coffee ☕</span>
             </button>
@@ -1129,8 +1129,7 @@ export default function HomePage() {
 
               {/* Header */}
               <div className="text-center space-y-1.5">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#F59E0B] to-[#F97316] mx-auto mb-2">
-                </div>
+               
                 <h3 className="text-lg font-bold text-white">Buy me a Coffee ☕</h3>
                 <p className="text-xs text-[#9CA3AF]">
                   Scan QRIS di bawah untuk mentraktir saya kopi 
@@ -1138,7 +1137,7 @@ export default function HomePage() {
               </div>
 
               {/* QRIS Placeholder */}
-              <img className="w-12 h-12 " src="./qrs.jpg" alt="QRIS" />
+              <img className="w-full" src="./qrs.jpg" alt="QRIS" />
 
               {/* Alternative link */}
              
