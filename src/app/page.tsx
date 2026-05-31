@@ -18,7 +18,9 @@ import {
   Lock,
   Zap,
   ChevronRight,
-  Globe
+  Globe,
+  Coffee,
+  X
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import kanaData from "@/data/kana.json";
@@ -49,6 +51,7 @@ export default function HomePage() {
   const [mode, setMode] = useState<"flashcard" | "choice" | "text">("flashcard");
   const [sessionLength, setSessionLength] = useState<"10" | "20" | "all">("10");
   const [showConfirmReset, setShowConfirmReset] = useState(false);
+  const [showQrisModal, setShowQrisModal] = useState(false);
 
   // Custom Granular Selection States
   const [selectionMode, setSelectionMode] = useState<"automatic" | "manual">("automatic");
@@ -1014,8 +1017,18 @@ export default function HomePage() {
             </div>
           )}
 
+          {/* Buy me a Coffee */}
+          <div className="pt-4 flex justify-center">
+            <button
+              onClick={() => setShowQrisModal(true)}
+              className="w-full py-3 px-6 rounded-xl font-bold flex items-center justify-center gap-2 text-sm  text-white hover:brightness-110 active:brightness-95 transition shadow-lg shadow-[#F59E0B]/20"
+            >
+              <span>Buy me a Coffee ☕</span>
+            </button>
+          </div>
+
           {/* Action Trigger Button */}
-          <div ref={startButtonRef} className="pt-4 flex justify-center">
+          <div ref={startButtonRef} className="pt-2 flex justify-center">
             <motion.button
               whileHover={{ scale: 1.00 }}
               whileTap={{ scale: 0.98 }}
@@ -1037,8 +1050,14 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 50, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-45 w-[calc(100%-2rem)] max-w-md px-4"
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-45 w-[calc(100%-2rem)] max-w-md px-4 flex flex-col gap-2"
           >
+            <button
+              onClick={() => setShowQrisModal(true)}
+              className="w-full py-2.5 px-6 rounded-xl font-bold flex items-center justify-center gap-2 text-sm bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white hover:brightness-110 active:brightness-95 transition shadow-lg shadow-[#F59E0B]/20"
+            >
+              <span>Buy me a Coffee ☕</span>
+            </button>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -1081,6 +1100,65 @@ export default function HomePage() {
           </motion.div>
         </div>
       )}
+
+      {/* QRIS Modal */}
+      <AnimatePresence>
+        {showQrisModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
+            onClick={() => setShowQrisModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-[#171A22] border border-[#7C5CFF]/20 max-w-sm w-full rounded-2xl p-6 shadow-2xl space-y-5 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setShowQrisModal(false)}
+                className="absolute top-4 right-4 text-[#9CA3AF] hover:text-white transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Header */}
+              <div className="text-center space-y-1.5">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#F59E0B] to-[#F97316] mx-auto mb-2">
+                </div>
+                <h3 className="text-lg font-bold text-white">Buy me a Coffee ☕</h3>
+                <p className="text-xs text-[#9CA3AF]">
+                  Scan QRIS di bawah untuk mentraktir saya kopi 
+                </p>
+              </div>
+
+              {/* QRIS Placeholder */}
+              <img className="w-12 h-12 " src="./qrs.jpg" alt="QRIS" />
+
+              {/* Alternative link */}
+             
+              <a
+                href="https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012023062413708390"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full py-3 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm bg-[#7C5CFF]/10 border border-[#7C5CFF]/30 text-[#7C5CFF] hover:bg-[#7C5CFF]/20 transition text-center"
+              >
+                Atau klik disini untuk donasi 
+              </a>
+
+              {/* Footer note */}
+              <p className="text-center text-[10px] text-[#9CA3AF]">
+                Jangan lupa follow instagram @2.shinnra ya... Terima kasih 
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Footer */}
       <footer className="py-6 border-t border-[#171A22] text-center text-xs text-[#9CA3AF]">
