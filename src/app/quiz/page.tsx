@@ -49,9 +49,10 @@ function QuizContent() {
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [shuffledChoices, setShuffledChoices] = useState<string[]>([]);
   const [isFinished, setIsFinished] = useState(false);
-  const [shaken, setShaken] = useState(false);
-
-  const inputRef = useRef<HTMLInputElement>(null);
+   const [shaken, setShaken] = useState(false);
+   const [kanaPool, setKanaPool] = useState<KanaItem[]>([]);
+   
+   const inputRef = useRef<HTMLInputElement>(null);
 
   // Normalization & alternate romaji mappings helper
   const checkAnswer = (input: string, correct: string) => {
@@ -98,9 +99,12 @@ function QuizContent() {
         if (typeParam === "combo") return item.type === "combo";
         return item.type === "hiragana" || item.type === "katakana"; // mixed
       });
-    }
-
-    // Shuffle questions
+     }
+     
+     // Store pool for choice generation
+     setKanaPool(filtered);
+     
+     // Shuffle questions
     filtered = [...filtered].sort(() => 0.5 - Math.random());
 
     // Slice to specified length
@@ -144,11 +148,11 @@ function QuizContent() {
 
   const activeQuestion = questions[currentIndex];
 
-  // Regulate choice options when question index updates
-  useEffect(() => {
-    if (activeQuestion && formatParam === "choice") {
-      generateChoices(activeQuestion, kanaData);
-    }
+   // Regulate choice options when question index updates
+   useEffect(() => {
+     if (activeQuestion && formatParam === "choice") {
+       generateChoices(activeQuestion, kanaPool);
+     }
     
     // Auto-focus input on question load
     if (formatParam === "text") {
