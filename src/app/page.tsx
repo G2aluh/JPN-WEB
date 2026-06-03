@@ -20,7 +20,10 @@ import {
   ChevronRight,
   Globe,
   Coffee,
-  X
+  X,
+  ChevronDown,
+  Check,
+  Keyboard
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import kanaData from "@/data/kana.json";
@@ -36,6 +39,36 @@ import {
 export default function HomePage() {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
+  const modesList = [
+    {
+      id: "flashcard",
+      title: t("flashcard_title"),
+      desc: t("flashcard_desc"),
+      icon: BookOpen,
+      color: "text-[#7C5CFF] bg-[#7C5CFF]/10 border border-[#7C5CFF]/20",
+    },
+    {
+      id: "choice",
+      title: t("quiz_title"),
+      desc: t("quiz_desc"),
+      icon: Award,
+      color: "text-[#7C5CFF] bg-[#7C5CFF]/10 border border-[#7C5CFF]/20",
+    },
+    {
+      id: "text",
+      title: t("text_title"),
+      desc: t("text_desc"),
+      icon: Sparkles,
+      color: "text-[#22C55E] bg-[#22C55E]/10 border border-[#22C55E]/20",
+    },
+    {
+      id: "long-typing",
+      title: t("long_typing_title"),
+      desc: t("long_typing_desc"),
+      icon: Keyboard,
+      color: "text-[#EC4899] bg-[#EC4899]/10 border border-[#EC4899]/20",
+    },
+  ];
   const {
     totalCorrect,
     totalWrong,
@@ -48,8 +81,10 @@ export default function HomePage() {
   } = useProgress();
 
   const [category, setCategory] = useState<"hiragana" | "katakana" | "mixed" | "lookalike" | "dakuten" | "handakuten" | "combo">("mixed");
-  const [mode, setMode] = useState<"flashcard" | "choice" | "text">("flashcard");
+  const [mode, setMode] = useState<"flashcard" | "choice" | "text" | "long-typing">("flashcard");
   const [sessionLength, setSessionLength] = useState<"10" | "20" | "all">("10");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   const [showQrisModal, setShowQrisModal] = useState(false);
 
@@ -108,6 +143,37 @@ export default function HomePage() {
       console.error("Failed to save settings to localStorage", e);
     }
   }, [mode, category, sessionLength, selectionMode, selectedGroupIds, expandedCategories, isPreferencesLoaded]);
+
+  // Click outside dropdown logic
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Enforce restrictions for Long Typing mode
+  useEffect(() => {
+    if (mode === "long-typing") {
+      setSelectionMode("automatic");
+      if (sessionLength === "all") {
+        setSessionLength("10");
+      }
+      if (
+        category === "lookalike" ||
+        category === "dakuten" ||
+        category === "handakuten" ||
+        category === "combo"
+      ) {
+        setCategory("mixed");
+      }
+    }
+  }, [mode, sessionLength, category]);
 
   // Floating Start Button observer
   const startButtonRef = useRef<HTMLDivElement>(null);
@@ -198,6 +264,11 @@ export default function HomePage() {
   };
 
   const handleStart = () => {
+    if (mode === "long-typing") {
+      router.push(`/long-typing?length=${sessionLength}&type=${category}`);
+      return;
+    }
+
     if (selectionMode === "manual") {
       const allSelectedChars: any[] = [];
       const allGroups = [
@@ -271,7 +342,7 @@ export default function HomePage() {
               rel="noreferrer"
               className="text-xs text-[#9CA3AF] hover:text-[#F5F7FA] transition"
             >
-              v1.0.0
+              v1.0.2
             </a>
             <button
               onClick={() => setLanguage(language === "en" ? "id" : "en")}
@@ -419,27 +490,29 @@ export default function HomePage() {
             <h2 className="text-xl font-bold flex items-center gap-2">
               <Layers className="w-5 h-5 text-[#7C5CFF]" /> {t("setup_session")}
             </h2>
-            <div className="flex bg-[#0F1117] p-1 rounded-xl border border-[#171A22] self-start sm:self-auto select-none">
+            <div className={`flex bg-[#0F1117] p-1 rounded-xl border border-[#171A22] self-start sm:self-auto select-none ${mode === "long-typing" ? "opacity-30 pointer-events-none" : ""}`}>
               <button
+                disabled={mode === "long-typing"}
                 onClick={() => {
                   setValidationError(null);
                   setSelectionMode("automatic");
                 }}
                 className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${selectionMode === "automatic"
-                    ? "bg-[#7C5CFF] text-white shadow"
-                    : "text-[#9CA3AF] hover:text-white"
+                  ? "bg-[#7C5CFF] text-white shadow"
+                  : "text-[#9CA3AF] hover:text-white"
                   }`}
               >
                 {t("automatic")}
               </button>
               <button
+                disabled={mode === "long-typing"}
                 onClick={() => {
                   setValidationError(null);
                   setSelectionMode("manual");
                 }}
                 className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${selectionMode === "manual"
-                    ? "bg-[#7C5CFF] text-white shadow"
-                    : "text-[#9CA3AF] hover:text-white"
+                  ? "bg-[#7C5CFF] text-white shadow"
+                  : "text-[#9CA3AF] hover:text-white"
                   }`}
               >
                 {t("manual")}
@@ -466,15 +539,17 @@ export default function HomePage() {
               <div className="space-y-6">
                 {/* Category selector */}
                 <div className="space-y-3">
-                  <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_category")}</label>
-                  <div className="grid grid-cols-3 gap-2 bg-[#0F1117] p-1 rounded-xl border border-[#171A22]">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_category")}</label>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 bg-[#0F1117] p-1 rounded-xl border border-[#171A22] transition-all duration-300">
                     {(["hiragana", "katakana", "mixed"] as const).map((cat) => (
                       <button
                         key={cat}
                         onClick={() => setCategory(cat)}
                         className={`py-2 text-sm font-medium rounded-lg capitalize transition-all ${category === cat
-                            ? "bg-[#7C5CFF] text-white shadow-lg shadow-[#7C5CFF]/20"
-                            : "text-[#9CA3AF] hover:text-white"
+                          ? "bg-[#7C5CFF] text-white shadow-lg shadow-[#7C5CFF]/20"
+                          : "text-[#9CA3AF] hover:text-white"
                           }`}
                       >
                         {t(cat)}
@@ -485,13 +560,14 @@ export default function HomePage() {
                   {/* Extended Set */}
                   <div className="mt-4 space-y-2">
                     <span className="text-[10px] uppercase tracking-widest text-[#9CA3AF]/60 font-bold">{t("extended_set")}</span>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className={`grid grid-cols-2 gap-2 transition-all duration-300 ${mode === "long-typing" ? "opacity-30 pointer-events-none" : ""}`}>
                       {/* Look-Alike Training - Active */}
                       <button
+                        disabled={mode === "long-typing"}
                         onClick={() => setCategory("lookalike")}
                         className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${category === "lookalike"
-                            ? "bg-[#F59E0B]/10 border-[#F59E0B]/40 text-[#F59E0B]"
-                            : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#F59E0B]/20"
+                          ? "bg-[#F59E0B]/10 border-[#F59E0B]/40 text-[#F59E0B]"
+                          : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#F59E0B]/20"
                           }`}
                       >
                         <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
@@ -499,10 +575,11 @@ export default function HomePage() {
                       </button>
                       {/* Dakuten - Active */}
                       <button
+                        disabled={mode === "long-typing"}
                         onClick={() => setCategory("dakuten")}
                         className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${category === "dakuten"
-                            ? "bg-[#6366F1]/10 border-[#6366F1]/40 text-[#6366F1]"
-                            : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#6366F1]/20"
+                          ? "bg-[#6366F1]/10 border-[#6366F1]/40 text-[#6366F1]"
+                          : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#6366F1]/20"
                           }`}
                       >
                         <Zap className="w-3.5 h-3.5 shrink-0" />
@@ -510,10 +587,11 @@ export default function HomePage() {
                       </button>
                       {/* Handakuten - Active */}
                       <button
+                        disabled={mode === "long-typing"}
                         onClick={() => setCategory("handakuten")}
                         className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${category === "handakuten"
-                            ? "bg-[#22C55E]/10 border-[#22C55E]/40 text-[#22C55E]"
-                            : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#22C55E]/20"
+                          ? "bg-[#22C55E]/10 border-[#22C55E]/40 text-[#22C55E]"
+                          : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#22C55E]/20"
                           }`}
                       >
                         <Sparkles className="w-3.5 h-3.5 shrink-0" />
@@ -521,10 +599,11 @@ export default function HomePage() {
                       </button>
                       {/* Combination - Active */}
                       <button
+                        disabled={mode === "long-typing"}
                         onClick={() => setCategory("combo")}
                         className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${category === "combo"
-                            ? "bg-[#EC4899]/10 border-[#EC4899]/40 text-[#EC4899]"
-                            : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#EC4899]/20"
+                          ? "bg-[#EC4899]/10 border-[#EC4899]/40 text-[#EC4899]"
+                          : "bg-[#0F1117] border-[#171A22] text-[#9CA3AF] hover:text-white hover:border-[#EC4899]/20"
                           }`}
                       >
                         <Layers className="w-3.5 h-3.5 shrink-0" />
@@ -538,18 +617,25 @@ export default function HomePage() {
                   <div className="space-y-3">
                     <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_length")}</label>
                     <div className="grid grid-cols-3 gap-2 bg-[#0F1117] p-1 rounded-xl border border-[#171A22]">
-                      {(["10", "20", "all"] as const).map((len) => (
-                        <button
-                          key={len}
-                          onClick={() => setSessionLength(len)}
-                          className={`py-2 text-sm font-medium rounded-lg transition-all ${sessionLength === len
-                              ? "bg-[#7C5CFF] text-white shadow-lg shadow-[#7C5CFF]/20"
-                              : "text-[#9CA3AF] hover:text-white"
+                      {(["10", "20", "all"] as const).map((len) => {
+                        const isDisabled = mode === "long-typing" && len === "all";
+                        return (
+                          <button
+                            key={len}
+                            disabled={isDisabled}
+                            onClick={() => setSessionLength(len)}
+                            className={`py-2 text-sm font-medium rounded-lg transition-all ${
+                              isDisabled
+                                ? "opacity-30 cursor-not-allowed text-[#9CA3AF]/40"
+                                : sessionLength === len
+                                ? "bg-[#7C5CFF] text-white shadow-lg shadow-[#7C5CFF]/20"
+                                : "text-[#9CA3AF] hover:text-white"
                             }`}
-                        >
-                          {len === "all" ? t("all_cards") : `${len} ${t("cards")}`}
-                        </button>
-                      ))}
+                          >
+                            {len === "all" ? t("all_cards") : `${len} ${t("cards")}`}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -560,57 +646,76 @@ export default function HomePage() {
                 <div className="space-y-3">
                   <label className="text-xs uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_mode")}</label>
 
-                  <div className="flex flex-col gap-2.5">
-                    {/* Flashcard Mode Button */}
+                  <div className="relative" ref={dropdownRef}>
                     <button
-                      onClick={() => setMode("flashcard")}
-                      className={`flex items-start text-left p-3.5 rounded-xl border transition-all ${mode === "flashcard"
-                          ? "bg-[#7C5CFF]/5 border-[#7C5CFF] text-white"
-                          : "bg-[#0F1117] border-[#0F1117] hover:border-[#171A22] text-[#9CA3AF] hover:text-[#F5F7FA]"
-                        }`}
+                      type="button"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="w-full flex items-center justify-between p-4 bg-[#0F1117] border border-[#171A22] hover:border-[#7C5CFF]/30 rounded-2xl transition text-left focus:outline-none select-none"
                     >
-                      <div className="mr-3 bg-[#7C5CFF]/10 text-[#7C5CFF] p-2 rounded-lg mt-0.5">
-                        <BookOpen className="w-4 h-4" />
+                      <div className="flex items-center min-w-0">
+                        {(() => {
+                          const activeMode = modesList.find((m) => m.id === mode) || modesList[0];
+                          const ModeIcon = activeMode.icon;
+                          return (
+                            <>
+                              <div className={`mr-3.5 p-2.5 rounded-xl shrink-0 ${activeMode.color}`}>
+                                <ModeIcon className="w-5 h-5" />
+                              </div>
+                              <div className="truncate pr-2">
+                                <h4 className="font-semibold text-sm text-white">{activeMode.title}</h4>
+                                <p className="text-xs text-[#9CA3AF] mt-0.5 truncate max-w-[240px]">{activeMode.desc}</p>
+                              </div>
+                            </>
+                          );
+                        })()}
                       </div>
-                      <div>
-                        <h4 className="font-semibold text-sm text-white">{t("flashcard_title")}</h4>
-                        <p className="text-xs text-[#9CA3AF] mt-1">{t("flashcard_desc")}</p>
-                      </div>
+                      <ChevronDown className={`w-4 h-4 text-[#9CA3AF] shrink-0 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
                     </button>
 
-                    {/* Multiple Choice Mode Button */}
-                    <button
-                      onClick={() => setMode("choice")}
-                      className={`flex items-start text-left p-3.5 rounded-xl border transition-all ${mode === "choice"
-                          ? "bg-[#7C5CFF]/5 border-[#7C5CFF] text-white"
-                          : "bg-[#0F1117] border-[#0F1117] hover:border-[#171A22] text-[#9CA3AF] hover:text-[#F5F7FA]"
-                        }`}
-                    >
-                      <div className="mr-3 bg-[#7C5CFF]/10 text-[#7C5CFF] p-2 rounded-lg mt-0.5">
-                        <Award className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm text-white">{t("quiz_title")}</h4>
-                        <p className="text-xs text-[#9CA3AF] mt-1">{t("quiz_desc")}</p>
-                      </div>
-                    </button>
-
-                    {/* Text Input Mode Button */}
-                    <button
-                      onClick={() => setMode("text")}
-                      className={`flex items-start text-left p-3.5 rounded-xl border transition-all ${mode === "text"
-                          ? "bg-[#7C5CFF]/5 border-[#7C5CFF] text-white"
-                          : "bg-[#0F1117] border-[#0F1117] hover:border-[#171A22] text-[#9CA3AF] hover:text-[#F5F7FA]"
-                        }`}
-                    >
-                      <div className="mr-3 bg-[#22C55E]/10 text-[#22C55E] p-2 rounded-lg mt-0.5">
-                        <Sparkles className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm text-white">{t("text_title")}</h4>
-                        <p className="text-xs text-[#9CA3AF] mt-1">{t("text_desc")}</p>
-                      </div>
-                    </button>
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute z-20 left-0 right-0 mt-2 bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-md"
+                        >
+                          <div className="p-1.5 space-y-1 bg-[#171A22]/95">
+                            {modesList.map((m) => {
+                              const OptionIcon = m.icon;
+                              const isSelected = m.id === mode;
+                              return (
+                                <button
+                                  key={m.id}
+                                  type="button"
+                                  onClick={() => {
+                                    setMode(m.id as any);
+                                    setIsDropdownOpen(false);
+                                  }}
+                                  className={`w-full flex items-center p-3 rounded-xl transition text-left select-none ${
+                                    isSelected
+                                      ? "bg-[#7C5CFF]/10 text-white font-medium"
+                                      : "text-[#9CA3AF] hover:text-white hover:bg-[#0F1117]/60"
+                                  }`}
+                                >
+                                  <div className={`mr-3 p-2 rounded-lg shrink-0 ${m.color}`}>
+                                    <OptionIcon className="w-4 h-4" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <h5 className="font-semibold text-xs text-white">{m.title}</h5>
+                                    <p className="text-[10px] text-[#9CA3AF] mt-0.5 truncate">{m.desc}</p>
+                                  </div>
+                                  {isSelected && (
+                                    <Check className="w-4 h-4 text-[#7C5CFF] shrink-0 ml-2" />
+                                  )}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
               ) : (
@@ -646,19 +751,75 @@ export default function HomePage() {
                 {/* 1. Mode Select */}
                 <div className="space-y-3">
                   <label className="text-[10px] uppercase tracking-widest text-[#9CA3AF] font-bold">{t("select_mode")}</label>
-                  <div className="grid grid-cols-3 gap-2 bg-[#171A22] p-1 rounded-xl border border-[#0F1117] select-none">
-                    {(["flashcard", "choice", "text"] as const).map((m) => (
-                      <button
-                        key={m}
-                        onClick={() => setMode(m)}
-                        className={`py-2 text-xs font-semibold rounded-lg capitalize transition-all ${mode === m
-                            ? "bg-[#7C5CFF] text-white shadow-lg shadow-[#7C5CFF]/20"
-                            : "text-[#9CA3AF] hover:text-white"
-                          }`}
-                      >
-                        {m === "choice" ? t("choice") : m === "text" ? t("text") : t("flashcard")}
-                      </button>
-                    ))}
+                  <div className="relative" ref={dropdownRef}>
+                    <button
+                      type="button"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="w-full flex items-center justify-between p-3.5 bg-[#171A22] border border-[#0F1117] hover:border-[#7C5CFF]/30 rounded-xl transition text-left focus:outline-none select-none"
+                    >
+                      <div className="flex items-center min-w-0">
+                        {(() => {
+                          const activeMode = modesList.find((m) => m.id === mode) || modesList[0];
+                          const ModeIcon = activeMode.icon;
+                          return (
+                            <>
+                              <div className={`mr-2.5 p-2 rounded-lg shrink-0 ${activeMode.color}`}>
+                                <ModeIcon className="w-4 h-4" />
+                              </div>
+                              <div className="truncate pr-1">
+                                <h4 className="font-semibold text-xs text-white">{activeMode.title}</h4>
+                              </div>
+                            </>
+                          );
+                        })()}
+                      </div>
+                      <ChevronDown className={`w-3.5 h-3.5 text-[#9CA3AF] shrink-0 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
+                    </button>
+
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute z-20 left-0 right-0 mt-2 bg-[#171A22] border border-[#0F1117] hover:border-[#7C5CFF]/20 rounded-xl shadow-2xl overflow-hidden backdrop-blur-md"
+                        >
+                          <div className="p-1.5 space-y-1 bg-[#171A22]/95">
+                            {modesList.map((m) => {
+                              const OptionIcon = m.icon;
+                              const isSelected = m.id === mode;
+                              return (
+                                <button
+                                  key={m.id}
+                                  type="button"
+                                  onClick={() => {
+                                    setMode(m.id as any);
+                                    setIsDropdownOpen(false);
+                                  }}
+                                  className={`w-full flex items-center p-2.5 rounded-lg transition text-left select-none ${
+                                    isSelected
+                                      ? "bg-[#7C5CFF]/10 text-white font-medium"
+                                      : "text-[#9CA3AF] hover:text-white hover:bg-[#0F1117]/60"
+                                  }`}
+                                >
+                                  <div className={`mr-2.5 p-1.5 rounded-md shrink-0 ${m.color}`}>
+                                    <OptionIcon className="w-3.5 h-3.5" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <h5 className="font-semibold text-[11px] text-white">{m.title}</h5>
+                                    <p className="text-[9px] text-[#9CA3AF] mt-0.5 truncate">{m.desc}</p>
+                                  </div>
+                                  {isSelected && (
+                                    <Check className="w-3.5 h-3.5 text-[#7C5CFF] shrink-0 ml-1.5" />
+                                  )}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
 
@@ -671,8 +832,8 @@ export default function HomePage() {
                         key={len}
                         onClick={() => setSessionLength(len)}
                         className={`py-2 text-xs font-semibold rounded-lg transition-all ${sessionLength === len
-                            ? "bg-[#7C5CFF] text-white shadow"
-                            : "text-[#9CA3AF] hover:text-white"
+                          ? "bg-[#7C5CFF] text-white shadow"
+                          : "text-[#9CA3AF] hover:text-white"
                           }`}
                       >
                         {len === "all" ? t("all_cards") : `${len} ${t("cards")}`}
@@ -748,8 +909,8 @@ export default function HomePage() {
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
                                   className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
-                                      ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
-                                      : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
+                                    ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
+                                    : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
                                     }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
@@ -766,10 +927,10 @@ export default function HomePage() {
                                   </div>
 
                                   <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
-                                      ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
-                                      : mastery > 0
-                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
+                                    : mastery > 0
+                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
                                     }`}>
                                     {mastery}%
                                   </span>
@@ -791,8 +952,8 @@ export default function HomePage() {
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
                                   className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
-                                      ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
-                                      : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
+                                    ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
+                                    : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
                                     }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
@@ -809,10 +970,10 @@ export default function HomePage() {
                                   </div>
 
                                   <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
-                                      ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
-                                      : mastery > 0
-                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
+                                    : mastery > 0
+                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
                                     }`}>
                                     {mastery}%
                                   </span>
@@ -888,8 +1049,8 @@ export default function HomePage() {
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
                                   className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
-                                      ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
-                                      : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
+                                    ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
+                                    : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
                                     }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
@@ -906,10 +1067,10 @@ export default function HomePage() {
                                   </div>
 
                                   <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
-                                      ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
-                                      : mastery > 0
-                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
+                                    : mastery > 0
+                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
                                     }`}>
                                     {mastery}%
                                   </span>
@@ -931,8 +1092,8 @@ export default function HomePage() {
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
                                   className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
-                                      ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
-                                      : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
+                                    ? "bg-[#7C5CFF]/10 border-[#7C5CFF]/45 text-white"
+                                    : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#7C5CFF]/20 hover:text-white"
                                     }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
@@ -949,10 +1110,10 @@ export default function HomePage() {
                                   </div>
 
                                   <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
-                                      ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
-                                      : mastery > 0
-                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
+                                    : mastery > 0
+                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
                                     }`}>
                                     {mastery}%
                                   </span>
@@ -976,8 +1137,8 @@ export default function HomePage() {
                                   key={group.id}
                                   onClick={() => toggleGroup(group.id)}
                                   className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer select-none transition-all ${checked
-                                      ? "bg-[#F59E0B]/10 border-[#F59E0B]/40 text-white"
-                                      : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#F59E0B]/20 hover:text-white"
+                                    ? "bg-[#F59E0B]/10 border-[#F59E0B]/40 text-white"
+                                    : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:border-[#F59E0B]/20 hover:text-white"
                                     }`}
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
@@ -994,10 +1155,10 @@ export default function HomePage() {
                                   </div>
 
                                   <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full shrink-0 ${mastery === 100
-                                      ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
-                                      : mastery > 0
-                                        ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
-                                        : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
+                                    ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
+                                    : mastery > 0
+                                      ? "bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]"
+                                      : "bg-[#9CA3AF]/10 border border-[#9CA3AF]/10 text-[#9CA3AF]/60"
                                     }`}>
                                     {mastery}%
                                   </span>
@@ -1129,10 +1290,10 @@ export default function HomePage() {
 
               {/* Header */}
               <div className="text-center space-y-1.5">
-               
+
                 <h3 className="text-lg font-bold text-white">Buy me a Coffee ☕</h3>
                 <p className="text-xs text-[#9CA3AF]">
-                  Scan QRIS di bawah untuk mentraktir saya kopi 
+                  Scan QRIS di bawah untuk mentraktir saya kopi
                 </p>
               </div>
 
@@ -1140,19 +1301,19 @@ export default function HomePage() {
               <img className="w-full" src="./qrs.jpg" alt="QRIS" />
 
               {/* Alternative link */}
-             
+
               <a
                 href="https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012023062413708390"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-3 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm bg-[#7C5CFF]/10 border border-[#7C5CFF]/30 text-[#7C5CFF] hover:bg-[#7C5CFF]/20 transition text-center"
               >
-                Atau klik disini untuk donasi 
+                Atau klik disini untuk donasi
               </a>
 
               {/* Footer note */}
               <p className="text-center text-[10px] text-[#9CA3AF]">
-                Jangan lupa follow instagram @2.shinnra ya... Terima kasih 
+                Jangan lupa follow instagram @2.shinnra ya... Terima kasih
               </p>
             </motion.div>
           </motion.div>

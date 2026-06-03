@@ -129,5 +129,11 @@
   "best": "Best",
   "difference_highlight": "Difference Highlight",
   "back_to_groups": "Back to Groups",
-  "lookalike_footer": "Focus on the differences. Train your eyes. Master the kana."
+  "lookalike_footer": "Focus on the differences. Train your eyes. Master the kana.",
+  "long_typing_title": "Long Typing Drill",
+  "long_typing_desc": "Practice typing full Japanese words in romaji phonetic spelling.",
+  "long_typing": "Long Typing",
+  "long_typing_badge": "TYPING",
+  "long_typing_footer": "Build speed and muscle memory. made by @2.shinnra on ig",
+  "type_romaji_word_placeholder": "Type the word in Romaji (e.g. ohayo)..."
 }

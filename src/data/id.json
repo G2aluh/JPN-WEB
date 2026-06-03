@@ -129,5 +129,11 @@
   "best": "Terbaik",
   "difference_highlight": "Sorotan Perbedaan",
   "back_to_groups": "Kembali ke Grup",
-  "lookalike_footer": "Fokus pada perbedaan. Latih matamu. Kuasai kana."
+  "lookalike_footer": "Fokus pada perbedaan. Latih matamu. Kuasai kana.",
+  "long_typing_title": "Latihan Ketik Panjang",
+  "long_typing_desc": "Latih mengetik kata bahasa Jepang lengkap dalam ejaan romaji.",
+  "long_typing": "Ketik Panjang",
+  "long_typing_badge": "KETIK",
+  "long_typing_footer": "Latih kecepatan dan memori otot. dibuat oleh @2.shinnra di ig",
+  "type_romaji_word_placeholder": "Ketik kata dalam Romaji (misal: ohayo)..."
 }

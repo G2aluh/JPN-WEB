@@ -5,11 +5,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import kanaData from "@/data/kana.json";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Shuffle, 
-  Home, 
+import {
+  ChevronLeft,
+  ChevronRight,
+  Shuffle,
+  Home,
   RotateCcw,
   Sparkles,
   HelpCircle,
@@ -69,7 +69,7 @@ function FlashcardContent() {
     setCards(filtered);
     setCurrentIndex(0);
     setIsFlipped(false);
-    
+
     // Reset shuffling state
     setIsShuffle(false);
     setShuffledIndices([]);
@@ -169,11 +169,10 @@ function FlashcardContent() {
 
         <button
           onClick={() => setShowShortcuts(!showShortcuts)}
-          className={`flex items-center justify-center p-2 rounded-xl transition ${
-            showShortcuts 
-              ? "bg-[#7C5CFF]/15 text-[#7C5CFF] border border-[#7C5CFF]/30" 
+          className={`flex items-center justify-center p-2 rounded-xl transition ${showShortcuts
+              ? "bg-[#7C5CFF]/15 text-[#7C5CFF] border border-[#7C5CFF]/30"
               : "bg-[#171A22] text-[#9CA3AF] hover:text-white border border-[#171A22]"
-          }`}
+            }`}
           title="Toggle keyboard shortcuts panel"
         >
           <Keyboard className="w-4 h-4" />
@@ -187,7 +186,7 @@ function FlashcardContent() {
           <span>{currentIndex + 1} / {cards.length}</span>
         </div>
         <div className="w-full bg-[#171A22] h-1.5 rounded-full overflow-hidden">
-          <div 
+          <div
             className="bg-[#7C5CFF] h-full rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
           />
@@ -230,7 +229,7 @@ function FlashcardContent() {
 
       {/* 3D Flashcard Container */}
       <div className="flex-1 flex items-center justify-center py-6 min-h-[340px]">
-        <div 
+        <div
           className="relative w-72 sm:w-80 h-96 [perspective:1000px] select-none"
           onClick={handleFlip}
         >
@@ -243,15 +242,14 @@ function FlashcardContent() {
           >
             {/* Front Side (Japanese Character) */}
             <div
-              className={`absolute inset-0 w-full h-full bg-[#171A22] border-2 rounded-3xl flex flex-col items-center justify-between p-8 [backface-visibility:hidden] transition-all duration-300 ${
-                isFlipped ? "border-[#7C5CFF]/10 pointer-events-none" : "border-[#7C5CFF]/30"
-              }`}
+              className={`absolute inset-0 w-full h-full bg-[#171A22] border-2 rounded-3xl flex flex-col items-center justify-between p-8 [backface-visibility:hidden] transition-all duration-300 ${isFlipped ? "border-[#7C5CFF]/10 pointer-events-none" : "border-[#7C5CFF]/30"
+                }`}
             >
               <div className="w-full flex justify-between items-center text-xs text-[#9CA3AF] tracking-wide font-medium">
                 <span className="uppercase">{activeCard.type}</span>
                 <span className="opacity-40">{t("front")}</span>
               </div>
-              
+
               <div className="text-8xl sm:text-9xl font-bold text-white tracking-wide font-sans select-text">
                 {activeCard.character}
               </div>
@@ -264,9 +262,8 @@ function FlashcardContent() {
 
             {/* Back Side (Romaji Answer) */}
             <div
-              className={`absolute inset-0 w-full h-full bg-[#171A22] border-2 rounded-3xl flex flex-col items-center justify-between p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] transition-all duration-300 ${
-                isFlipped ? "border-[#7C5CFF]/30" : "border-[#7C5CFF]/10 pointer-events-none"
-              }`}
+              className={`absolute inset-0 w-full h-full bg-[#171A22] border-2 rounded-3xl flex flex-col items-center justify-between p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] transition-all duration-300 ${isFlipped ? "border-[#7C5CFF]/30" : "border-[#7C5CFF]/10 pointer-events-none"
+                }`}
             >
               <div className="w-full flex justify-between items-center text-xs text-[#9CA3AF] tracking-wide font-medium">
                 <span className="uppercase">{activeCard.type}</span>
@@ -327,11 +324,10 @@ function FlashcardContent() {
         <div className="flex items-center justify-center space-x-3.5">
           <button
             onClick={toggleShuffle}
-            className={`flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl border transition ${
-              isShuffle 
-                ? "bg-[#7C5CFF]/15 border-[#7C5CFF]/30 text-white" 
+            className={`flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl border transition ${isShuffle
+                ? "bg-[#7C5CFF]/15 border-[#7C5CFF]/30 text-white"
                 : "bg-[#171A22] border-[#171A22] text-[#9CA3AF] hover:text-white"
-            }`}
+              }`}
             title="Toggle random shuffling (S)"
           >
             <Shuffle className="w-3.5 h-3.5" />
