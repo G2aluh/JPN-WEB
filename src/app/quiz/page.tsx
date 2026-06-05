@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import kanaData from "@/data/kana.json";
 import { useProgress } from "@/hooks/useProgress";
 import { useLanguage } from "@/context/LanguageContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { 
   Home, 
   RotateCcw, 
@@ -13,11 +13,9 @@ import {
   XCircle, 
   ArrowRight, 
   Award, 
-  Sparkles,
   Trophy,
   Target,
-  ArrowLeft,
-  Volume2
+  ArrowLeft
 } from "lucide-react";
 
 interface KanaItem {
@@ -81,6 +79,7 @@ function QuizContent() {
     return false;
   };
 
+  // Initialize Quiz
   useEffect(() => {
     let filtered: KanaItem[] = [];
     if (typeParam === "custom") {
@@ -101,20 +100,18 @@ function QuizContent() {
       });
      }
      
-     // Store pool for choice generation
      setKanaPool(filtered);
      
-     // Shuffle questions
-    filtered = [...filtered].sort(() => 0.5 - Math.random());
+     const shuffled = [...filtered].sort(() => 0.5 - Math.random());
 
-    // Slice to specified length
+    let sliced = shuffled;
     if (lengthParam === "10") {
-      filtered = filtered.slice(0, 10);
+      sliced = shuffled.slice(0, 10);
     } else if (lengthParam === "20") {
-      filtered = filtered.slice(0, 20);
+      sliced = shuffled.slice(0, 20);
     }
 
-    setQuestions(filtered);
+    setQuestions(sliced);
     setCurrentIndex(0);
     setScore(0);
     setWrongCount(0);
@@ -160,7 +157,7 @@ function QuizContent() {
         inputRef.current?.focus();
       }, 50);
     }
-  }, [activeQuestion, formatParam, generateChoices]);
+  }, [activeQuestion, formatParam, generateChoices, kanaPool]);
 
   // Handle submissions
   const handleSubmitText = (e?: React.FormEvent) => {
@@ -227,35 +224,17 @@ function QuizContent() {
   };
 
   const handleRetry = () => {
-    // Re-trigger the mount initial state
-    let filtered: KanaItem[] = [];
-    if (typeParam === "custom") {
-      try {
-        const stored = localStorage.getItem("active_session_kana");
-        filtered = stored ? JSON.parse(stored) : [];
-      } catch (e) {
-        console.error("Failed to parse custom session kana", e);
-      }
-    } else {
-      filtered = kanaData.filter((item) => {
-        if (typeParam === "hiragana") return item.type === "hiragana";
-        if (typeParam === "katakana") return item.type === "katakana";
-        if (typeParam === "dakuten") return item.type === "dakuten";
-        if (typeParam === "handakuten") return item.type === "handakuten";
-        if (typeParam === "combo") return item.type === "combo";
-        return item.type === "hiragana" || item.type === "katakana"; // mixed
-      });
-    }
+    // Re-trigger the same initial logic
+    const shuffled = [...kanaPool].sort(() => 0.5 - Math.random());
 
-    filtered = [...filtered].sort(() => 0.5 - Math.random());
-
+    let sliced = shuffled;
     if (lengthParam === "10") {
-      filtered = filtered.slice(0, 10);
+      sliced = shuffled.slice(0, 10);
     } else if (lengthParam === "20") {
-      filtered = filtered.slice(0, 20);
+      sliced = shuffled.slice(0, 20);
     }
 
-    setQuestions(filtered);
+    setQuestions(sliced);
     setCurrentIndex(0);
     setScore(0);
     setWrongCount(0);
@@ -332,7 +311,7 @@ function QuizContent() {
             }
           </p>
 
-          {/* Progress ring or summary */}
+          {/* Progress summary */}
           <div className="w-full bg-[#0F1117] h-2.5 rounded-full mt-4 overflow-hidden border border-[#171A22]">
             <div 
               className="bg-[#7C5CFF] h-full rounded-full transition-all duration-500"
@@ -341,7 +320,7 @@ function QuizContent() {
           </div>
         </div>
 
-        {/* Call to Actions */}
+        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleRetry}
@@ -540,25 +519,8 @@ function QuizContent() {
 }
 
 export default function QuizPage() {
-  const { t } = useLanguage();
-
   return (
-    <div className="flex flex-col min-h-screen bg-[#0F1117] text-[#F5F7FA] font-sans selection:bg-[#7C5CFF]/30 selection:text-white">
-      {/* Header */}
-      <header className="border-b border-[#171A22] bg-[#0F1117]/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-[#7C5CFF] tracking-wide">
-              {t("logo")}
-            </span>
-            <div className="bg-[#7C5CFF]/10 text-[#7C5CFF] text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-[#7C5CFF]/20">
-              {t("quiz_badge")}
-            </div>
-          </div>
-          <span className="text-xs text-[#9CA3AF] font-mono">{t("challenge")}</span>
-        </div>
-      </header>
-
+    <div className="flex flex-col min-h-screen">
       {/* Main Study Container */}
       <main className="flex-1 flex flex-col justify-center">
         <Suspense fallback={
@@ -569,10 +531,6 @@ export default function QuizPage() {
           <QuizContent />
         </Suspense>
       </main>
-
-      <footer className="py-6 border-t border-[#171A22] text-center text-xs text-[#9CA3AF]">
-        {t("quiz_footer")}
-      </footer>
     </div>
   );
 }

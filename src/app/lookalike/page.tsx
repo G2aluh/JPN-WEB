@@ -1,12 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
 import lookalikeData from "@/data/lookalike.json";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Home,
   AlertTriangle,
   BookOpen,
   Zap,
@@ -79,18 +77,16 @@ function difficultyColor(d: string) {
 }
 
 export default function LookalikePage() {
-  const router = useRouter();
-  const { t } = useLanguage();
   const groups: LookalikeGroup[] = lookalikeData as LookalikeGroup[];
 
   const [mode, setMode] = useState<TrainingMode>("select");
   const [activeGroup, setActiveGroup] = useState<LookalikeGroup | null>(null);
-  const [progress, setProgress] = useState<Record<string, PairProgress>>({});
-
-  // Load progress on mount
-  useEffect(() => {
-    setProgress(loadProgress());
-  }, []);
+  const [progress, setProgress] = useState<Record<string, PairProgress>>(() => {
+    if (typeof window !== "undefined") {
+      return loadProgress();
+    }
+    return {};
+  });
 
   const updateProgress = (groupId: string, isCorrect: boolean, reactionMs?: number) => {
     setProgress((prev) => {
@@ -129,28 +125,7 @@ export default function LookalikePage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#0F1117] text-[#F5F7FA] font-sans selection:bg-[#7C5CFF]/30 selection:text-white">
-      {/* Header */}
-      <header className="border-b border-[#171A22] bg-[#0F1117]/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-[#7C5CFF] tracking-wide">
-              {t("logo")}
-            </span>
-            <div className="bg-[#F59E0B]/10 text-[#F59E0B] text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-[#F59E0B]/20">
-              {t("lookalike_badge")}
-            </div>
-          </div>
-          <button
-            onClick={() => router.push("/")}
-            className="flex items-center gap-2 text-xs text-[#9CA3AF] hover:text-white transition"
-          >
-            <Home className="w-3.5 h-3.5" />
-            {t("home")}
-          </button>
-        </div>
-      </header>
-
+    <div className="flex flex-col min-h-screen">
       <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-8 md:py-12">
         <AnimatePresence mode="wait">
           {mode === "select" && (
@@ -173,7 +148,6 @@ export default function LookalikePage() {
             <ChoiceMode
               key="choice"
               group={activeGroup}
-              groups={groups}
               onBack={handleBack}
               updateProgress={updateProgress}
             />
@@ -195,10 +169,6 @@ export default function LookalikePage() {
           )}
         </AnimatePresence>
       </main>
-
-      <footer className="py-6 border-t border-[#171A22] text-center text-xs text-[#9CA3AF]">
-        {t("lookalike_footer")}
-      </footer>
     </div>
   );
 }
@@ -461,12 +431,10 @@ function ComparisonMode({
    ============================================================ */
 function ChoiceMode({
   group,
-  groups,
   onBack,
   updateProgress,
 }: {
   group: LookalikeGroup;
-  groups: LookalikeGroup[];
   onBack: () => void;
   updateProgress: (groupId: string, isCorrect: boolean) => void;
 }) {
@@ -690,7 +658,7 @@ function SpeedMode({
   const [userAnswer, setUserAnswer] = useState("");
   const [isFinished, setIsFinished] = useState(false);
   const [times, setTimes] = useState<number[]>([]);
-  const roundStart = useRef(Date.now());
+  const roundStart = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
 
@@ -706,12 +674,12 @@ function SpeedMode({
 
   const checkAnswer = (input: string, correct: string) => {
     const u = input.trim().toLowerCase();
-    const t = correct.trim().toLowerCase();
-    if (u === t) return true;
-    if (t === "shi" && u === "si") return true;
-    if (t === "chi" && u === "ti") return true;
-    if (t === "tsu" && u === "tu") return true;
-    if (t === "fu" && u === "hu") return true;
+    const target = correct.trim().toLowerCase();
+    if (u === target) return true;
+    if (target === "shi" && u === "si") return true;
+    if (target === "chi" && u === "ti") return true;
+    if (target === "tsu" && u === "tu") return true;
+    if (target === "fu" && u === "hu") return true;
     return false;
   };
 
@@ -719,7 +687,8 @@ function SpeedMode({
     if (e) e.preventDefault();
     if (feedback !== null || !userAnswer.trim()) return;
 
-    const reactionMs = Date.now() - roundStart.current;
+    const now = Date.now();
+    const reactionMs = roundStart.current ? now - roundStart.current : 0;
     const isCorrect = checkAnswer(userAnswer, currentChar.romaji);
     updateProgress(group.id, isCorrect, reactionMs);
 

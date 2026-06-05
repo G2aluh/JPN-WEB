@@ -1,0 +1,142 @@
+"use client";
+
+import { useProgress } from "@/hooks/useProgress";
+import { useLanguage } from "@/context/LanguageContext";
+import { 
+  Settings, 
+  Trash2, 
+  AlertTriangle, 
+  Check,
+  RotateCcw
+} from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+export default function SettingsPage() {
+  const { t } = useLanguage();
+  const { resetProgress } = useProgress();
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [isReset, setIsReset] = useState(false);
+
+  const handleReset = () => {
+    resetProgress();
+    setIsReset(true);
+    setShowConfirm(false);
+    setTimeout(() => setIsReset(false), 3000);
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto px-6 py-12 space-y-10">
+      <div className="space-y-1">
+        <h1 className="text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
+          <Settings className="w-8 h-8 text-primary" />
+          {t("settings")}
+        </h1>
+        <p className="text-muted font-medium">Manage your preferences and learning data.</p>
+      </div>
+
+      <div className="space-y-6">
+        {/* Data Management Section */}
+        <section className="bg-card border border-border rounded-[32px] p-8 space-y-6">
+          <div className="flex items-center space-x-3 text-danger">
+            <Trash2 className="w-5 h-5" />
+            <h2 className="text-xl font-bold tracking-tight">Danger Zone</h2>
+          </div>
+
+          <div className="bg-background border border-border rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="space-y-1">
+              <h3 className="font-bold text-white">{t("reset_progress_title")}</h3>
+              <p className="text-xs text-muted max-w-sm leading-relaxed">
+                {t("reset_progress_desc")}
+              </p>
+            </div>
+
+            <button
+              onClick={() => setShowConfirm(true)}
+              className="px-6 py-3 bg-danger/10 text-danger border border-danger/20 rounded-xl font-bold text-sm hover:bg-danger hover:text-white transition-all active:scale-95"
+            >
+              {t("reset_mastery")}
+            </button>
+          </div>
+        </section>
+
+        {/* Info Section */}
+        <section className="bg-primary/5 border border-primary/10 rounded-[32px] p-8">
+          <div className="flex items-start space-x-4">
+            <div className="p-2 rounded-xl bg-primary/10 text-primary">
+              <RotateCcw className="w-5 h-5" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-bold text-white">Cloud Sync</h3>
+              <p className="text-xs text-muted leading-relaxed">
+                Currently, your progress is saved locally to your browser. We are working on a cloud sync feature for SIKANA Pro users in the future.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* Confirmation Modal */}
+      <AnimatePresence>
+        {showConfirm && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowConfirm(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative w-full max-w-md bg-card border border-border rounded-[32px] p-8 space-y-6 shadow-2xl"
+            >
+              <div className="w-16 h-16 bg-danger/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                <AlertTriangle className="w-8 h-8 text-danger" />
+              </div>
+              
+              <div className="text-center space-y-2">
+                <h3 className="text-2xl font-bold text-white">Are you sure?</h3>
+                <p className="text-sm text-muted">
+                  This will permanently delete your mastery stats. This action cannot be undone.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <button
+                  onClick={() => setShowConfirm(false)}
+                  className="flex-1 py-4 bg-background border border-border text-white rounded-2xl font-bold hover:bg-card transition-all"
+                >
+                  {t("cancel")}
+                </button>
+                <button
+                  onClick={handleReset}
+                  className="flex-1 py-4 bg-danger text-white rounded-2xl font-bold hover:brightness-110 transition-all shadow-lg shadow-danger/20"
+                >
+                  {t("reset_all")}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Reset Success Toast */}
+      <AnimatePresence>
+        {isReset && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-success text-white px-6 py-3 rounded-2xl font-bold shadow-xl flex items-center space-x-3"
+          >
+            <Check className="w-5 h-5" />
+            <span>Progress successfully reset!</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

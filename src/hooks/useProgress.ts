@@ -20,19 +20,17 @@ const DEFAULT_STATE: ProgressState = {
 };
 
 export function useProgress() {
-  const [state, setState] = useState<ProgressState>(DEFAULT_STATE);
+  const [state, setState] = useState<ProgressState>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("kana_progress_flow_v1");
+      if (stored) return JSON.parse(stored);
+    }
+    return DEFAULT_STATE;
+  });
+  
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load progress from localStorage on mount
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem("kana_progress_flow_v1");
-      if (stored) {
-        setState(JSON.parse(stored));
-      }
-    } catch (e) {
-      console.error("Failed to load progress from localStorage", e);
-    }
     setIsLoaded(true);
   }, []);
 

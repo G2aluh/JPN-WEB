@@ -351,25 +351,8 @@ function FlashcardContent() {
 }
 
 export default function FlashcardPage() {
-  const { t } = useLanguage();
-
   return (
-    <div className="flex flex-col min-h-screen bg-[#0F1117] text-[#F5F7FA] font-sans selection:bg-[#7C5CFF]/30 selection:text-white">
-      {/* Header */}
-      <header className="border-b border-[#171A22] bg-[#0F1117]/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-[#7C5CFF] tracking-wide">
-              {t("logo")}
-            </span>
-            <div className="bg-[#7C5CFF]/10 text-[#7C5CFF] text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-[#7C5CFF]/20">
-              {t("study_badge")}
-            </div>
-          </div>
-          <span className="text-xs text-[#9CA3AF] font-mono">{t("flashcards_label")}</span>
-        </div>
-      </header>
-
+    <div className="flex flex-col min-h-screen">
       {/* Main Study Container */}
       <main className="flex-1 flex flex-col justify-center">
         <Suspense fallback={
@@ -380,10 +363,6 @@ export default function FlashcardPage() {
           <FlashcardContent />
         </Suspense>
       </main>
-
-      <footer className="py-6 border-t border-[#171A22] text-center text-xs text-[#9CA3AF]">
-        {t("flashcard_footer")}
-      </footer>
     </div>
   );
 }

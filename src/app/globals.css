@@ -5,10 +5,12 @@
   --foreground: #F5F7FA;
   --card: #171A22;
   --primary: #7C5CFF;
-  --accent: #FF5C8A;
-  --muted: #9CA3AF;
   --success: #22C55E;
-  --error: #EF4444;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --muted: #9CA3AF;
+  --border: #171A22;
+  --radius: 20px;
 }
 
 @theme {
@@ -16,10 +18,13 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-primary: var(--primary);
-  --color-accent: var(--accent);
-  --color-muted: var(--muted);
   --color-success: var(--success);
-  --color-error: var(--error);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  
+  --radius-xl: var(--radius);
   
   --font-sans: var(--font-inter), var(--font-noto-sans-jp), sans-serif;
 }
@@ -35,6 +40,14 @@ body {
   overflow-x: hidden;
 }
 
+.card {
+  @apply bg-card rounded-xl border border-border p-6 transition-all duration-300;
+}
+
+.card-interactive {
+  @apply bg-card rounded-xl border border-border p-6 transition-all duration-300 hover:border-primary/30 cursor-pointer active:scale-[0.98];
+}
+
 /* Custom interactive animation helper classes */
 .card-glow {
   box-shadow: 0 0 25px -5px rgba(124, 92, 255, 0.1);
@@ -45,3 +58,12 @@ body {
   box-shadow: 0 0 30px 2px rgba(124, 92, 255, 0.2);
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.animate-shake {
+  animation: shake 0.2s ease-in-out 0s 2;
+}
