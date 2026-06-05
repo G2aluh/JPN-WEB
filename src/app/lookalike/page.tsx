@@ -81,12 +81,11 @@ export default function LookalikePage() {
 
   const [mode, setMode] = useState<TrainingMode>("select");
   const [activeGroup, setActiveGroup] = useState<LookalikeGroup | null>(null);
-  const [progress, setProgress] = useState<Record<string, PairProgress>>(() => {
-    if (typeof window !== "undefined") {
-      return loadProgress();
-    }
-    return {};
-  });
+  const [progress, setProgress] = useState<Record<string, PairProgress>>({});
+
+  useEffect(() => {
+    setProgress(loadProgress());
+  }, []);
 
   const updateProgress = (groupId: string, isCorrect: boolean, reactionMs?: number) => {
     setProgress((prev) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useProgress } from "@/hooks/useProgress";
 import { useLanguage } from "@/context/LanguageContext";
@@ -20,6 +20,14 @@ interface KanaItem {
 }
 
 export default function MatchingPairPage() {
+  return (
+    <Suspense fallback={null}>
+      <MatchingPairContent />
+    </Suspense>
+  );
+}
+
+function MatchingPairContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useLanguage();
