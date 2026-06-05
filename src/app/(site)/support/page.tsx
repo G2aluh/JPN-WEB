@@ -43,8 +43,7 @@ export default function SupportPage() {
           {t("support_me")}
         </h1>
         <p className="text-muted max-w-lg mx-auto leading-relaxed">
-          SIKANA is a passion project built to help everyone learn Japanese faster. 
-          Your support helps keep the servers running and development active.
+          {t("support_desc")}
         </p>
       </section>
 
@@ -55,7 +54,7 @@ export default function SupportPage() {
             <div className="p-2 rounded-xl bg-primary/10 border border-primary/20">
               <QrCode className="w-5 h-5 text-primary" />
             </div>
-            <h2 className="text-xl font-bold text-white tracking-tight">QRIS Payment</h2>
+            <h2 className="text-xl font-bold text-white tracking-tight">{t("support_qris")}</h2>
           </div>
           
           <div className="bg-white rounded-2xl p-4 aspect-square flex items-center justify-center overflow-hidden">
@@ -67,7 +66,7 @@ export default function SupportPage() {
           </div>
           
           <p className="text-xs text-muted text-center leading-relaxed">
-            Scan using any digital wallet (DANA, OVO, GoPay, LinkAja) or mobile banking app.
+            {t("support_qris_desc")}
           </p>
         </section>
 
@@ -78,7 +77,7 @@ export default function SupportPage() {
               <div className="p-2 rounded-xl bg-warning/10 border border-warning/20">
                 <Coffee className="w-5 h-5 text-warning" />
               </div>
-              <h2 className="text-xl font-bold text-white tracking-tight">Direct Support</h2>
+              <h2 className="text-xl font-bold text-white tracking-tight">{t("support_direct")}</h2>
             </div>
 
             <div className="space-y-4">
@@ -124,7 +123,7 @@ export default function SupportPage() {
           {/* Socials */}
           <section className="bg-primary/5 border border-primary/10 rounded-[32px] p-8 text-center space-y-4">
             <p className="text-sm text-primary font-medium">
-              Don&apos;t forget to follow me on Instagram for updates!
+              {t("support_social")}
             </p>
             <a 
               href="https://instagram.com/2.shinnra" 

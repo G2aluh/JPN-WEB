@@ -138,8 +138,8 @@ export default function HomePage() {
     },
     { 
       id: "matching", 
-      label: "Matching Pair", 
-      description: "Match Kana with Romaji", 
+      label: t("matching_pair_option"), 
+      description: t("matching_pair_desc"), 
       icon: Layers,
       color: "bg-warning/10 text-warning"
     },
@@ -294,10 +294,10 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full md:w-auto">
-            <StatMini label={t("mastery")} value={`${masteryPercentage}%`} icon={Award} color="text-primary" />
-            <StatMini label={t("correct")} value={totalCorrect} icon={CheckCircle2} color="text-success" />
-            <StatMini label={t("accuracy")} value={`${getAccuracy()}%`} icon={Zap} color="text-warning" />
-            <StatMini label={t("learned")} value={masteredCount} icon={BookOpen} color="text-primary" />
+            <StatMini label={t("mastery")} value={isLoaded ? `${masteryPercentage}%` : "—"} icon={Award} color="text-primary" />
+            <StatMini label={t("correct")} value={isLoaded ? totalCorrect : "—"} icon={CheckCircle2} color="text-success" />
+            <StatMini label={t("accuracy")} value={isLoaded ? `${getAccuracy()}%` : "—"} icon={Zap} color="text-warning" />
+            <StatMini label={t("learned")} value={isLoaded ? masteredCount : "—"} icon={BookOpen} color="text-primary" />
           </div>
         </div>
       </section>

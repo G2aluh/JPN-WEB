@@ -32,7 +32,7 @@ export default function SettingsPage() {
           <Settings className="w-8 h-8 text-primary" />
           {t("settings")}
         </h1>
-        <p className="text-muted font-medium">Manage your preferences and learning data.</p>
+        <p className="text-muted font-medium">{t("settings_desc")}</p>
       </div>
 
       <div className="space-y-6">
@@ -40,7 +40,7 @@ export default function SettingsPage() {
         <section className="bg-card border border-border rounded-[32px] p-8 space-y-6">
           <div className="flex items-center space-x-3 text-danger">
             <Trash2 className="w-5 h-5" />
-            <h2 className="text-xl font-bold tracking-tight">Danger Zone</h2>
+            <h2 className="text-xl font-bold tracking-tight">{t("settings_danger_zone")}</h2>
           </div>
 
           <div className="bg-background border border-border rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -67,9 +67,9 @@ export default function SettingsPage() {
               <RotateCcw className="w-5 h-5" />
             </div>
             <div className="space-y-1">
-              <h3 className="font-bold text-white">Cloud Sync</h3>
+              <h3 className="font-bold text-white">{t("settings_cloud_sync")}</h3>
               <p className="text-xs text-muted leading-relaxed">
-                Currently, your progress is saved locally to your browser. We are working on a cloud sync feature for SIKANA Pro users in the future.
+                {t("settings_cloud_sync_desc")}
               </p>
             </div>
           </div>
@@ -98,9 +98,9 @@ export default function SettingsPage() {
               </div>
               
               <div className="text-center space-y-2">
-                <h3 className="text-2xl font-bold text-white">Are you sure?</h3>
+                <h3 className="text-2xl font-bold text-white">{t("settings_confirm_title")}</h3>
                 <p className="text-sm text-muted">
-                  This will permanently delete your mastery stats. This action cannot be undone.
+                  {t("settings_confirm_desc")}
                 </p>
               </div>
 
@@ -133,7 +133,7 @@ export default function SettingsPage() {
             className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-success text-white px-6 py-3 rounded-2xl font-bold shadow-xl flex items-center space-x-3"
           >
             <Check className="w-5 h-5" />
-            <span>Progress successfully reset!</span>
+            <span>{t("settings_reset_success")}</span>
           </motion.div>
         )}
       </AnimatePresence>

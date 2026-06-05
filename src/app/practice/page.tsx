@@ -22,7 +22,7 @@ export default function KanaChartPage() {
             <Grid3X3 className="w-8 h-8 text-primary" />
             {t("kana_chart")}
           </h1>
-          <p className="text-muted font-medium">Quick reference for all basic characters.</p>
+          <p className="text-muted font-medium">{t("practice_desc")}</p>
         </div>
 
         <div className="flex bg-card p-1 rounded-2xl border border-border">
@@ -75,14 +75,14 @@ export default function KanaChartPage() {
           <BookOpen className="w-8 h-8" />
         </div>
         <div className="space-y-1 text-center md:text-left">
-          <h4 className="text-lg font-bold text-white">Ready to test your knowledge?</h4>
-          <p className="text-sm text-muted">Head back to the dashboard to start a personalized study session.</p>
+          <h4 className="text-lg font-bold text-white">{t("practice_cta_title")}</h4>
+          <p className="text-sm text-muted">{t("practice_cta_desc")}</p>
         </div>
         <button 
           onClick={() => window.location.href = "/"}
           className="md:ml-auto px-8 py-4 bg-primary text-white rounded-2xl font-bold shadow-lg shadow-primary/20 hover:brightness-110 transition-all"
         >
-          Go to Dashboard
+          {t("practice_go_dashboard")}
         </button>
       </div>
     </div>

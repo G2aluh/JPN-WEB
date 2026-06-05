@@ -18,8 +18,8 @@ import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
 
 export const metadata: Metadata = {
-  title: "SIKANA | Master Japanese Kana",
-  description: "Master Japanese Hiragana and Katakana with a fast, gorgeous, and distraction-free memorization app. Practice using interactive flashcards, typing quizzes, and more.",
+  title: "SIKANA | Kuasai Bahasa Jepang",
+  description: "Kuasai Hiragana dan Katakana dengan aplikasi memorisasi yang cepat, indah, dan bebas gangguan. Berlatih menggunakan flashcard interaktif, kuis mengetik, dan banyak lagi.",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="id"
       className={`${inter.variable} ${notoSansJP.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground font-sans">

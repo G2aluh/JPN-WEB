@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useProgress } from "@/hooks/useProgress";
+import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import { 
   CheckCircle2, 
@@ -21,6 +22,7 @@ interface KanaItem {
 export default function MatchingPairPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useLanguage();
   const { recordAnswer } = useProgress();
 
   const pairsPerPage = parseInt(searchParams.get("pairs") || "5");
@@ -135,17 +137,17 @@ export default function MatchingPairPage() {
         </motion.div>
         
         <div className="space-y-2">
-          <h1 className="text-4xl font-extrabold text-white">Matching Complete!</h1>
-          <p className="text-muted">You matched all {allKana.length} pairs successfully.</p>
+          <h1 className="text-4xl font-extrabold text-white">{t("matching_complete")}</h1>
+          <p className="text-muted">{t("matching_complete_desc")} {allKana.length} {t("matching_pairs")}</p>
         </div>
 
         <div className="bg-card border border-border rounded-3xl p-8 flex justify-center gap-12">
           <div className="text-center">
-            <p className="text-[10px] uppercase tracking-widest text-muted font-bold mb-1">Score</p>
+            <p className="text-[10px] uppercase tracking-widest text-muted font-bold mb-1">{t("matching_score")}</p>
             <p className="text-3xl font-extrabold text-white">{score}</p>
           </div>
           <div className="text-center">
-            <p className="text-[10px] uppercase tracking-widest text-muted font-bold mb-1">Kana</p>
+            <p className="text-[10px] uppercase tracking-widest text-muted font-bold mb-1">{t("kana").toUpperCase()}</p>
             <p className="text-3xl font-extrabold text-white">{allKana.length}</p>
           </div>
         </div>
@@ -156,14 +158,14 @@ export default function MatchingPairPage() {
             className="flex-1 flex items-center justify-center space-x-2 py-4 bg-primary text-white rounded-2xl font-bold hover:brightness-110 transition-all"
           >
             <RotateCcw className="w-5 h-5" />
-            <span>Try Again</span>
+            <span>{t("matching_try_again")}</span>
           </button>
           <button
             onClick={() => router.push("/")}
             className="flex-1 flex items-center justify-center space-x-2 py-4 bg-card border border-border text-white rounded-2xl font-bold hover:bg-background transition-all"
           >
             <Home className="w-5 h-5" />
-            <span>Back Home</span>
+            <span>{t("return_home")}</span>
           </button>
         </div>
       </div>
@@ -177,11 +179,11 @@ export default function MatchingPairPage() {
         <div className="space-y-1">
           <h1 className="text-2xl font-bold text-white flex items-center gap-3">
             <Layers className="w-6 h-6 text-primary" />
-            Matching Pair
+            {t("matching_title")}
           </h1>
           <div className="flex items-center space-x-2">
             <span className="text-xs font-bold text-muted uppercase tracking-widest">
-              Page {currentPage + 1} of {totalPages}
+              {t("matching_page")} {currentPage + 1} {t("matching_page_of")} {totalPages}
             </span>
             <div className="flex space-x-1">
               {Array.from({ length: totalPages }).map((_, i) => (
@@ -197,7 +199,7 @@ export default function MatchingPairPage() {
         </div>
 
         <div className="bg-card border border-border px-4 py-2 rounded-xl">
-          <span className="text-xs font-bold text-muted mr-2">Score:</span>
+          <span className="text-xs font-bold text-muted mr-2">{t("matching_score")}:</span>
           <span className="text-lg font-extrabold text-white">{score}</span>
         </div>
       </div>
@@ -206,7 +208,7 @@ export default function MatchingPairPage() {
       <div className="grid grid-cols-2 gap-8 md:gap-16">
         {/* Left: Kana */}
         <div className="space-y-4">
-          <h3 className="text-[10px] uppercase tracking-widest text-muted font-bold ml-2">Kana</h3>
+          <h3 className="text-[10px] uppercase tracking-widest text-muted font-bold ml-2">{t("kana").toUpperCase()}</h3>
           {shuffledKana.map((item) => {
             const isMatched = matchedPairs.includes(item.character);
             const isSelected = selectedKana === item.character;
@@ -278,7 +280,7 @@ export default function MatchingPairPage() {
           className="text-muted hover:text-white flex items-center space-x-2 text-sm font-bold transition-colors"
         >
           <XCircle className="w-4 h-4" />
-          <span>Cancel Session</span>
+          <span>{t("matching_cancel_session")}</span>
         </button>
       </div>
     </div>

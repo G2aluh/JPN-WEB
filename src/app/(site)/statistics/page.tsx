@@ -83,16 +83,16 @@ export default function StatisticsPage() {
             <BarChart2 className="w-8 h-8 text-primary" />
             {t("statistics")}
           </h1>
-          <p className="text-muted font-medium">Detailed breakdown of your Japanese learning journey.</p>
+          <p className="text-muted font-medium">{t("statistics_desc")}</p>
         </div>
       </section>
 
       {/* Overall Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard label="Mastery" value={`${masteryPercentage}%`} subValue={`${masteredCount}/${totalCharacters}`} icon={Award} delay={0.1} />
-        <StatCard label="Accuracy" value={`${getAccuracy()}%`} icon={Zap} color="text-warning" delay={0.2} />
-        <StatCard label="Correct" value={totalCorrect} icon={CheckCircle2} color="text-success" delay={0.3} />
-        <StatCard label="Wrong" value={totalWrong} icon={XCircle} color="text-danger" delay={0.4} />
+        <StatCard label={t("mastery")} value={`${masteryPercentage}%`} subValue={`${masteredCount}/${totalCharacters}`} icon={Award} delay={0.1} />
+        <StatCard label={t("statistics_accuracy_label")} value={`${getAccuracy()}%`} icon={Zap} color="text-warning" delay={0.2} />
+        <StatCard label={t("correct")} value={totalCorrect} icon={CheckCircle2} color="text-success" delay={0.3} />
+        <StatCard label={t("statistics_wrong")} value={totalWrong} icon={XCircle} color="text-danger" delay={0.4} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -100,7 +100,7 @@ export default function StatisticsPage() {
         <section className="bg-card border border-border rounded-[32px] p-8 space-y-8">
           <h2 className="text-xl font-bold text-white flex items-center gap-3">
             <Target className="w-5 h-5 text-primary" />
-            Writing Systems
+            {t("statistics_writing_systems")}
           </h2>
           
           <div className="space-y-8">
@@ -138,7 +138,7 @@ export default function StatisticsPage() {
         <section className="bg-card border border-border rounded-[32px] p-8 space-y-6">
           <h2 className="text-xl font-bold text-white flex items-center gap-3">
             <TrendingDown className="w-5 h-5 text-danger" />
-            Weakest Characters
+            {t("statistics_weakest")}
           </h2>
 
           <div className="space-y-3">
@@ -149,12 +149,12 @@ export default function StatisticsPage() {
                     <span className="text-2xl font-bold text-white w-8 text-center">{item.character}</span>
                     <div className="h-8 w-px bg-border" />
                     <div>
-                      <p className="text-[10px] uppercase tracking-widest text-muted font-bold">Mistakes</p>
+                      <p className="text-[10px] uppercase tracking-widest text-muted font-bold">{t("statistics_mistakes")}</p>
                       <p className="text-sm font-bold text-white">{item.mistakes}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] uppercase tracking-widest text-muted font-bold">Accuracy</p>
+                    <p className="text-[10px] uppercase tracking-widest text-muted font-bold">{t("statistics_accuracy_label")}</p>
                     <p className={`text-sm font-bold ${item.accuracy < 50 ? "text-danger" : "text-warning"}`}>
                       {item.accuracy}%
                     </p>
@@ -163,8 +163,8 @@ export default function StatisticsPage() {
               ))
             ) : (
               <div className="py-12 text-center space-y-2">
-                <p className="text-muted text-sm">No mistakes recorded yet.</p>
-                <p className="text-primary text-xs font-bold uppercase tracking-widest">Keep up the great work!</p>
+                <p className="text-muted text-sm">{t("statistics_no_mistakes")}</p>
+                <p className="text-primary text-xs font-bold uppercase tracking-widest">{t("statistics_keep_up")}</p>
               </div>
             )}
           </div>

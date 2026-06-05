@@ -25,7 +25,7 @@ export default function Select({
   options, 
   value, 
   onChange, 
-  placeholder = "Select an option" 
+  placeholder = "Pilih opsi" 
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
