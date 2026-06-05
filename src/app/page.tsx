@@ -50,37 +50,23 @@ export default function HomePage() {
   const mainStartRef = useRef<HTMLButtonElement>(null);
   const [showFloatingStart, setShowFloatingStart] = useState(false);
 
-  // State with lazy initializers for localStorage
-  const [mode, setMode] = useState<Mode>(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("sikana_pref_mode") as Mode) || "flashcard";
-    }
-    return "flashcard";
-  });
-
-  const [sessionLength, setSessionLength] = useState<Length>(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("sikana_pref_length") as Length) || "10";
-    }
-    return "10";
-  });
-
-  const [writingSystem, setWritingSystem] = useState<WritingSystem>(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("sikana_pref_ws") as WritingSystem) || "mixed";
-    }
-    return "mixed";
-  });
-
+  const [mode, setMode] = useState<Mode>("flashcard");
+  const [sessionLength, setSessionLength] = useState<Length>("10");
+  const [writingSystem, setWritingSystem] = useState<WritingSystem>("mixed");
   const [pairsPerPage, setPairsPerPage] = useState<"5" | "10">("5");
+  const [selectedGroupIds, setSelectedGroupIds] = useState<string[]>(["h_b_a"]);
 
-  const [selectedGroupIds, setSelectedGroupIds] = useState<string[]>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("sikana_pref_groups");
-      return saved ? JSON.parse(saved) : ["h_b_a"];
-    }
-    return ["h_b_a"];
-  });
+  // Load saved preferences after mount
+  useEffect(() => {
+    const savedMode = localStorage.getItem("sikana_pref_mode") as Mode | null;
+    if (savedMode) setMode(savedMode);
+    const savedLength = localStorage.getItem("sikana_pref_length") as Length | null;
+    if (savedLength) setSessionLength(savedLength);
+    const savedWs = localStorage.getItem("sikana_pref_ws") as WritingSystem | null;
+    if (savedWs) setWritingSystem(savedWs);
+    const savedGroups = localStorage.getItem("sikana_pref_groups");
+    if (savedGroups) setSelectedGroupIds(JSON.parse(savedGroups));
+  }, []);
 
   // Save preferences
   useEffect(() => {
