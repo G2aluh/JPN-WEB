@@ -344,7 +344,7 @@ function ComparisonMode({
       {/* Card */}
       <div className="flex justify-center py-6">
         <div
-          className="relative w-72 sm:w-80 h-96 [perspective:1000px] select-none cursor-pointer"
+          className="relative w-full max-w-[300px] sm:max-w-[320px] h-96 [perspective:1000px] select-none cursor-pointer"
           onClick={() => setFlipped(!flipped)}
         >
           <motion.div
@@ -589,7 +589,7 @@ function ChoiceMode({
                 key={opt.kana}
                 disabled={feedback !== null}
                 onClick={() => handleSelect(opt.kana)}
-                className={`h-24 text-5xl font-bold rounded-2xl border-2 transition-all duration-200 active:scale-[0.97] ${btnStyle}`}
+                className={`h-20 sm:h-24 text-4xl sm:text-5xl font-bold rounded-2xl border-2 transition-all duration-200 active:scale-[0.97] ${btnStyle}`}
               >
                 {opt.kana}
               </button>

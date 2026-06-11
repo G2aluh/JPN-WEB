@@ -75,11 +75,11 @@ export default function StatisticsPage() {
   const weakest = getWeakestCharacters();
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12 space-y-12">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-12">
       {/* Header */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">
-          <h1 className="text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
             <BarChart2 className="w-8 h-8 text-primary" />
             {t("statistics")}
           </h1>
@@ -88,7 +88,7 @@ export default function StatisticsPage() {
       </section>
 
       {/* Overall Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <StatCard label={t("mastery")} value={`${masteryPercentage}%`} subValue={`${masteredCount}/${totalCharacters}`} icon={Award} delay={0.1} />
         <StatCard label={t("statistics_accuracy_label")} value={`${getAccuracy()}%`} icon={Zap} color="text-warning" delay={0.2} />
         <StatCard label={t("correct")} value={totalCorrect} icon={CheckCircle2} color="text-success" delay={0.3} />
@@ -97,7 +97,7 @@ export default function StatisticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* Writing System Progress */}
-        <section className="bg-card border border-border rounded-[32px] p-8 space-y-8">
+        <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-5 sm:p-8 space-y-8">
           <h2 className="text-xl font-bold text-white flex items-center gap-3">
             <Target className="w-5 h-5 text-primary" />
             {t("statistics_writing_systems")}
@@ -135,7 +135,7 @@ export default function StatisticsPage() {
         </section>
 
         {/* Weakest Characters */}
-        <section className="bg-card border border-border rounded-[32px] p-8 space-y-6">
+        <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-5 sm:p-8 space-y-6">
           <h2 className="text-xl font-bold text-white flex items-center gap-3">
             <TrendingDown className="w-5 h-5 text-danger" />
             {t("statistics_weakest")}

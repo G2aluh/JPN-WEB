@@ -230,7 +230,7 @@ function FlashcardContent() {
       {/* 3D Flashcard Container */}
       <div className="flex-1 flex items-center justify-center py-6 min-h-[340px]">
         <div
-          className="relative w-72 sm:w-80 h-96 [perspective:1000px] select-none"
+          className="relative w-full max-w-[300px] sm:max-w-[320px] h-96 [perspective:1000px] select-none"
           onClick={handleFlip}
         >
           <motion.div

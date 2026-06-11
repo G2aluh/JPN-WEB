@@ -13,7 +13,8 @@ import {
   Play,
   Keyboard,
   Layers,
-  LucideIcon
+  LucideIcon,
+  ChevronDown
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import kanaData from "@/data/kana.json";
@@ -55,6 +56,8 @@ export default function HomePage() {
   const [writingSystem, setWritingSystem] = useState<WritingSystem>("mixed");
   const [pairsPerPage, setPairsPerPage] = useState<"5" | "10">("5");
   const [selectedGroupIds, setSelectedGroupIds] = useState<string[]>(["h_b_a"]);
+  const [isExtHiraganaOpen, setIsExtHiraganaOpen] = useState(false);
+  const [isExtKatakanaOpen, setIsExtKatakanaOpen] = useState(false);
 
   // Load saved preferences after mount
   useEffect(() => {
@@ -263,15 +266,15 @@ export default function HomePage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10 space-y-12">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-12">
       
       {/* Welcome Card */}
-      <section className="bg-card border border-border rounded-[32px] p-8 md:p-12 relative overflow-hidden">
+      <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-8 md:p-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32" />
         
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-          <div className="space-y-2">
-            <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div className="space-y-2 lg:hidden">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               {t("welcome_back")}
             </h1>
             <p className="text-muted text-sm md:text-base font-medium max-w-md">
@@ -279,7 +282,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full md:w-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full">
             <StatMini label={t("mastery")} value={isLoaded ? `${masteryPercentage}%` : "—"} icon={Award} color="text-primary" />
             <StatMini label={t("correct")} value={isLoaded ? totalCorrect : "—"} icon={CheckCircle2} color="text-success" />
             <StatMini label={t("accuracy")} value={isLoaded ? `${getAccuracy()}%` : "—"} icon={Zap} color="text-warning" />
@@ -308,7 +311,7 @@ export default function HomePage() {
                   onClear={() => bulkClear(HIRAGANA_BASIC_GROUPS.map(g => g.id))}
                   t={t}
                 />
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {HIRAGANA_BASIC_GROUPS.map((group) => (
                     <KanaGroupCard
                       key={group.id}
@@ -327,18 +330,32 @@ export default function HomePage() {
                   onSelectAll={() => bulkSelect(HIRAGANA_EXTENDED_GROUPS.map(g => g.id))}
                   onClear={() => bulkClear(HIRAGANA_EXTENDED_GROUPS.map(g => g.id))}
                   t={t}
+                  isCollapsible
+                  isOpen={isExtHiraganaOpen}
+                  onToggle={() => setIsExtHiraganaOpen(!isExtHiraganaOpen)}
                 />
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                  {HIRAGANA_EXTENDED_GROUPS.map((group) => (
-                    <KanaGroupCard
-                      key={group.id}
-                      group={group}
-                      isSelected={selectedGroupIds.includes(group.id)}
-                      mastery={getGroupMastery(group)}
-                      onToggle={toggleGroup}
-                    />
-                  ))}
-                </div>
+                <AnimatePresence initial={false}>
+                  {isExtHiraganaOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+                        {HIRAGANA_EXTENDED_GROUPS.map((group) => (
+                          <KanaGroupCard
+                            key={group.id}
+                            group={group}
+                            isSelected={selectedGroupIds.includes(group.id)}
+                            mastery={getGroupMastery(group)}
+                            onToggle={toggleGroup}
+                          />
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </Accordion>
@@ -352,7 +369,7 @@ export default function HomePage() {
                   onClear={() => bulkClear(KATAKANA_BASIC_GROUPS.map(g => g.id))}
                   t={t}
                 />
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {KATAKANA_BASIC_GROUPS.map((group) => (
                     <KanaGroupCard
                       key={group.id}
@@ -371,18 +388,32 @@ export default function HomePage() {
                   onSelectAll={() => bulkSelect(KATAKANA_EXTENDED_GROUPS.map(g => g.id))}
                   onClear={() => bulkClear(KATAKANA_EXTENDED_GROUPS.map(g => g.id))}
                   t={t}
+                  isCollapsible
+                  isOpen={isExtKatakanaOpen}
+                  onToggle={() => setIsExtKatakanaOpen(!isExtKatakanaOpen)}
                 />
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                  {KATAKANA_EXTENDED_GROUPS.map((group) => (
-                    <KanaGroupCard
-                      key={group.id}
-                      group={group}
-                      isSelected={selectedGroupIds.includes(group.id)}
-                      mastery={getGroupMastery(group)}
-                      onToggle={toggleGroup}
-                    />
-                  ))}
-                </div>
+                <AnimatePresence initial={false}>
+                  {isExtKatakanaOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+                        {KATAKANA_EXTENDED_GROUPS.map((group) => (
+                          <KanaGroupCard
+                            key={group.id}
+                            group={group}
+                            isSelected={selectedGroupIds.includes(group.id)}
+                            mastery={getGroupMastery(group)}
+                            onToggle={toggleGroup}
+                          />
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </Accordion>
@@ -391,7 +422,7 @@ export default function HomePage() {
         {/* Right: Study Settings */}
         <div className="lg:col-span-5 space-y-6">
           <div className="sticky top-28 space-y-6">
-            <div className="bg-card border border-border rounded-[24px] p-8 space-y-8 shadow-xl">
+            <div className="bg-card border border-border rounded-[24px] p-5 sm:p-8 space-y-8 shadow-xl">
               <h2 className="text-xl font-bold text-white flex items-center space-x-2">
                 <Zap className="w-5 h-5 text-warning" />
                 <span>{t("session_setup")}</span>
@@ -512,23 +543,36 @@ interface SetHeaderProps {
   onSelectAll: () => void;
   onClear: () => void;
   t: (key: string) => string;
+  isCollapsible?: boolean;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
-function SetHeader({ title, onSelectAll, onClear, t }: SetHeaderProps) {
+function SetHeader({ title, onSelectAll, onClear, t, isCollapsible, isOpen, onToggle }: SetHeaderProps) {
   return (
     <div className="flex items-center justify-between border-b border-border pb-2 px-1">
-      <h4 className="text-[10px] uppercase tracking-widest text-muted font-bold">
-        {title}
-      </h4>
+      <div 
+        className={`flex items-center space-x-1.5 ${isCollapsible ? "cursor-pointer select-none group" : ""}`}
+        onClick={isCollapsible ? onToggle : undefined}
+      >
+        <h4 className="text-[10px] uppercase tracking-widest text-muted font-bold group-hover:text-primary transition-colors">
+          {title}
+        </h4>
+        {isCollapsible && (
+          <ChevronDown 
+            className={`w-3.5 h-3.5 text-muted group-hover:text-primary transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          />
+        )}
+      </div>
       <div className="flex items-center space-x-4">
         <button 
-          onClick={onSelectAll}
+          onClick={(e) => { e.stopPropagation(); onSelectAll(); }}
           className="text-[9px] uppercase font-bold text-primary hover:text-white transition-colors cursor-pointer"
         >
           {t("select_all")}
         </button>
         <button 
-          onClick={onClear}
+          onClick={(e) => { e.stopPropagation(); onClear(); }}
           className="text-[9px] uppercase font-bold text-muted hover:text-danger transition-colors cursor-pointer"
         >
           {t("clear")}
@@ -547,10 +591,10 @@ interface StatMiniProps {
 
 function StatMini({ label, value, icon: Icon, color }: StatMiniProps) {
   return (
-    <div className="bg-background/40 backdrop-blur-sm border border-white/5 rounded-2xl p-3 flex flex-col items-center text-center">
-      <Icon className={`w-3.5 h-3.5 mb-1.5 ${color}`} />
-      <span className="text-sm font-bold text-white">{value}</span>
-      <span className="text-[8px] uppercase tracking-wider text-muted font-bold mt-0.5">{label}</span>
+    <div className="bg-background/40 backdrop-blur-sm border border-white/5 rounded-2xl p-3 lg:p-5 flex flex-col items-center justify-center text-center lg:aspect-square">
+      <Icon className={`w-4 h-4 lg:w-8 lg:h-8 mb-1.5 lg:mb-3.5 ${color}`} />
+      <span className="text-base lg:text-2xl font-bold lg:font-extrabold text-white">{value}</span>
+      <span className="text-[10px] lg:text-xs uppercase tracking-wider text-muted font-bold mt-0.5 lg:mt-2">{label}</span>
     </div>
   );
 }

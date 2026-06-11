@@ -19,7 +19,7 @@ export default function KanaGroupCard({
   return (
     <div
       onClick={() => onToggle(group.id)}
-      className={`relative flex flex-col justify-between p-4 rounded-xl border cursor-pointer select-none transition-all duration-200 group ${
+      className={`relative flex flex-col justify-between p-4 rounded-xl border cursor-pointer select-none transition-all duration-200 group lg:aspect-square ${
         isSelected
           ? "bg-primary/10 border-primary/40 text-white"
           : "bg-card border-border text-muted hover:border-primary/20 hover:text-white"
@@ -52,7 +52,7 @@ export default function KanaGroupCard({
           {mastery}%
         </span>
       </div>
-      <div className="text-xl font-bold tracking-widest text-center mt-1">
+      <div className="flex-1 flex items-center justify-center text-xl font-bold tracking-widest text-center mt-1">
         {group.display}
       </div>
     </div>

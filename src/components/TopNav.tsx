@@ -31,7 +31,7 @@ export default function TopNav() {
 
   return (
     <>
-      <header className="lg:hidden sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border px-4 py-4">
+      <header className="lg:hidden sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border px-4 py-3">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-xl font-bold text-primary">{t("logo")}</span>
@@ -101,20 +101,6 @@ export default function TopNav() {
                   );
                 })}
               </nav>
-
-              <div className="p-6 border-t border-border space-y-4">
-                <button
-                  onClick={() => setLanguage(language === "en" ? "id" : "en")}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-background border border-border rounded-xl text-muted"
-                >
-                  <div className="flex items-center space-x-2">
-                    <Globe className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-bold uppercase tracking-wider">
-                      {language === "en" ? "English" : "Indonesia"}
-                    </span>
-                  </div>
-                </button>
-              </div>
             </motion.div>
           </>
         )}

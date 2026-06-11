@@ -187,5 +187,14 @@
   "settings_confirm_desc": "Ini akan menghapus secara permanen statistik penguasaanmu. Tindakan ini tidak dapat dibatalkan.",
   "settings_reset_success": "Progres berhasil direset!",
   "matching_pair_option": "Pasangan Kana",
-  "matching_pair_desc": "Cocokkan Kana dengan Romaji"
+  "matching_pair_desc": "Cocokkan Kana dengan Romaji",
+  "characters": "Karakter",
+  "mastery": "Penguasaan",
+  "correct": "Benar",
+  "learned": "Dipelajari",
+  "pairs": "Pasangan",
+  "start_practice": "Mulai Latihan",
+  "npetup": "Pengaturan Sesi",
+  "session_setup": "Atur Sesi",
+  "romaji": "Romaji"
 }

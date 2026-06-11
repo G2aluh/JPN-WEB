@@ -65,7 +65,7 @@ export default function Sidebar() {
           </div>
 
           <p className="text-[10px] text-muted mt-3 font-medium">
-            {isLoaded ? `${masteredCount} / ${totalCharacters} ${t("kana")} mastered` : ""}
+            {isLoaded ? `${masteredCount} / ${totalCharacters} ${t("kana")} dikuasai` : ""}
           </p>
         </div>
       </div>
@@ -95,17 +95,6 @@ export default function Sidebar() {
 
       {/* Footer */}
       <div className="p-6 border-t border-border space-y-4">
-        <button
-          onClick={() => setLanguage(language === "en" ? "id" : "en")}
-          className="w-full flex items-center justify-between px-4 py-2.5 bg-background border border-border rounded-xl hover:border-primary/30 transition-all text-muted hover:text-white"
-        >
-          <div className="flex items-center space-x-2">
-            <Globe className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold uppercase tracking-wider">{language === "en" ? "English" : "Indonesia"}</span>
-          </div>
-          <span className="text-[10px] font-bold text-muted uppercase tracking-widest">{t("language")}</span>
-        </button>
-
         <div className="flex items-center justify-between px-2">
           <span className="text-[10px] font-bold text-muted/50 tracking-widest uppercase">Version 2.0.0</span>
           <div className="w-1.5 h-1.5 rounded-full bg-success" />

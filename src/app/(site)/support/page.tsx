@@ -33,13 +33,13 @@ export default function SupportPage() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-12">
       {/* Header */}
       <section className="text-center space-y-4">
         <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-danger/10 border border-danger/20 mb-2">
           <Heart className="w-8 h-8 text-danger fill-danger/20" />
         </div>
-        <h1 className="text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
           {t("support_me")}
         </h1>
         <p className="text-muted max-w-lg mx-auto leading-relaxed">
@@ -49,7 +49,7 @@ export default function SupportPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* QRIS Section */}
-        <section className="bg-card border border-border rounded-[32px] p-8 space-y-6">
+        <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-5 sm:p-8 space-y-6">
           <div className="flex items-center space-x-3">
             <div className="p-2 rounded-xl bg-primary/10 border border-primary/20">
               <QrCode className="w-5 h-5 text-primary" />
@@ -72,7 +72,7 @@ export default function SupportPage() {
 
         {/* Other Methods */}
         <div className="space-y-6">
-          <section className="bg-card border border-border rounded-[32px] p-8 space-y-6">
+          <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-5 sm:p-8 space-y-6">
             <div className="flex items-center space-x-3">
               <div className="p-2 rounded-xl bg-warning/10 border border-warning/20">
                 <Coffee className="w-5 h-5 text-warning" />
@@ -121,7 +121,7 @@ export default function SupportPage() {
           </section>
 
           {/* Socials */}
-          <section className="bg-primary/5 border border-primary/10 rounded-[32px] p-8 text-center space-y-4">
+          <section className="bg-primary/5 border border-primary/10 rounded-2xl sm:rounded-[32px] p-5 sm:p-8 text-center space-y-4">
             <p className="text-sm text-primary font-medium">
               {t("support_social")}
             </p>

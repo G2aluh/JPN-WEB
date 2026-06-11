@@ -15,10 +15,10 @@ export default function KanaChartPage() {
   const groups = activeTab === "hiragana" ? HIRAGANA_BASIC_GROUPS : KATAKANA_BASIC_GROUPS;
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12 space-y-10">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-10">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">
-          <h1 className="text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
             <Grid3X3 className="w-8 h-8 text-primary" />
             {t("kana_chart")}
           </h1>
@@ -70,7 +70,7 @@ export default function KanaChartPage() {
         ))}
       </div>
 
-      <div className="p-8 bg-primary/5 border border-primary/10 rounded-[32px] flex flex-col md:flex-row items-center gap-6">
+      <div className="p-8 bg-primary/5 border border-primary/10 rounded-2xl sm:rounded-[32px] flex flex-col md:flex-row items-center gap-6">
         <div className="p-4 rounded-2xl bg-primary/10 text-primary">
           <BookOpen className="w-8 h-8" />
         </div>

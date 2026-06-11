@@ -343,7 +343,7 @@ function QuizContent() {
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-between max-w-xl w-full mx-auto px-4 py-8 md:py-12 gap-8">
+    <div className="flex-1 flex flex-col justify-center max-w-xl w-full mx-auto px-4 py-8 md:py-12 gap-6">
       {/* Top Header stats */}
       <div className="flex items-center justify-between">
         <button
@@ -398,7 +398,7 @@ function QuizContent() {
           {activeQuestion.type}
         </span>
 
-        <h3 className="text-8xl sm:text-9xl font-bold text-white font-sans tracking-wide">
+        <h3 className="text-7xl sm:text-8xl font-bold text-white font-sans tracking-wide">
           {activeQuestion.character}
         </h3>
 
@@ -418,7 +418,7 @@ function QuizContent() {
       </motion.div>
 
       {/* User Input Interactions */}
-      <div className="flex-1 flex flex-col justify-end">
+      <div className="w-full mt-2">
         {formatParam === "text" ? (
           /* Text input field mode */
           <form onSubmit={handleSubmitText} className="space-y-4">
@@ -491,7 +491,7 @@ function QuizContent() {
                     key={choice}
                     disabled={feedback !== null}
                     onClick={() => handleChoiceSelect(choice)}
-                    className={`h-16 text-lg font-mono rounded-2xl border-2 tracking-wide font-medium transition-all duration-200 active:scale-[0.98] ${btnStyles}`}
+                    className={`h-14 text-base font-mono rounded-2xl border-2 tracking-wide font-medium transition-all duration-200 active:scale-[0.98] ${btnStyles}`}
                   >
                     {choice}
                   </button>

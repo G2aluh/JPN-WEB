@@ -26,9 +26,9 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-12 space-y-10">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-10">
       <div className="space-y-1">
-        <h1 className="text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
           <Settings className="w-8 h-8 text-primary" />
           {t("settings")}
         </h1>
@@ -37,7 +37,7 @@ export default function SettingsPage() {
 
       <div className="space-y-6">
         {/* Data Management Section */}
-        <section className="bg-card border border-border rounded-[32px] p-8 space-y-6">
+        <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-5 sm:p-8 space-y-6">
           <div className="flex items-center space-x-3 text-danger">
             <Trash2 className="w-5 h-5" />
             <h2 className="text-xl font-bold tracking-tight">{t("settings_danger_zone")}</h2>
@@ -61,7 +61,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Info Section */}
-        <section className="bg-primary/5 border border-primary/10 rounded-[32px] p-8">
+        <section className="bg-primary/5 border border-primary/10 rounded-2xl sm:rounded-[32px] p-5 sm:p-8">
           <div className="flex items-start space-x-4">
             <div className="p-2 rounded-xl bg-primary/10 text-primary">
               <RotateCcw className="w-5 h-5" />
@@ -91,7 +91,7 @@ export default function SettingsPage() {
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative w-full max-w-md bg-card border border-border rounded-[32px] p-8 space-y-6 shadow-2xl"
+              className="relative w-full max-w-md bg-card border border-border rounded-2xl sm:rounded-[32px] p-6 sm:p-8 space-y-6 shadow-2xl"
             >
               <div className="w-16 h-16 bg-danger/10 rounded-full flex items-center justify-center mx-auto mb-2">
                 <AlertTriangle className="w-8 h-8 text-danger" />

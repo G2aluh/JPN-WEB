@@ -292,13 +292,13 @@ function LongTypingContent() {
           {t("long_typing")}
         </span>
 
-        <h3 className="text-5xl sm:text-6xl font-bold text-white font-sans tracking-wide">
+        <h3 className="text-4xl sm:text-5xl font-bold text-white font-sans tracking-wide">
           {activeQuestion.word}
         </h3>
 
         {/* Translation under the word */}
         <p className="text-base text-[#9CA3AF] font-medium leading-relaxed max-w-[280px]">
-          {language === "id" ? activeQuestion.translationId : activeQuestion.translationEn}
+          {activeQuestion.translationId}
         </p>
 
         {/* Context Feedback alerts */}

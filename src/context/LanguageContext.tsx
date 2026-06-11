@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import idTranslations from "@/data/id.json";
-import enTranslations from "@/data/en.json";
 
 export type Language = "id" | "en";
 
@@ -15,21 +14,15 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("id");
-
-  useEffect(() => {
-    const stored = localStorage.getItem("app_language") as Language;
-    if (stored === "en" || stored === "id") setLanguageState(stored);
-  }, []);
+  // Always default to "id"
+  const language: Language = "id";
 
   const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    localStorage.setItem("app_language", lang);
+    // No-op, we only support Indonesian
   };
 
   const t = (key: string): string => {
-    const translations = language === "en" ? enTranslations : idTranslations;
-    return (translations as Record<string, string>)[key] || key;
+    return (idTranslations as Record<string, string>)[key] || key;
   };
 
   return (
@@ -46,3 +39,4 @@ export function useLanguage() {
   }
   return context;
 }
+

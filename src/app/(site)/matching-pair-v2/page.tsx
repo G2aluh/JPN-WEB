@@ -135,7 +135,7 @@ function MatchingPairContent() {
 
   if (isComplete) {
     return (
-      <div className="max-w-xl mx-auto px-6 py-20 text-center space-y-8">
+      <div className="max-w-xl mx-auto px-4 sm:px-6 py-10 sm:py-20 text-center space-y-8">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -181,7 +181,7 @@ function MatchingPairContent() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 space-y-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-10">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
@@ -213,7 +213,7 @@ function MatchingPairContent() {
       </div>
 
       {/* Game Board */}
-      <div className="grid grid-cols-2 gap-8 md:gap-16">
+      <div className="grid grid-cols-2 gap-4 sm:gap-8 md:gap-16">
         {/* Left: Kana */}
         <div className="space-y-4">
           <h3 className="text-[10px] uppercase tracking-widest text-muted font-bold ml-2">{t("kana").toUpperCase()}</h3>
@@ -229,7 +229,7 @@ function MatchingPairContent() {
                 onClick={() => handleSelectKana(item.character)}
                 whileHover={!isMatched ? { scale: 1.02, x: 5 } : {}}
                 whileTap={!isMatched ? { scale: 0.98 } : {}}
-                className={`w-full p-6 rounded-3xl text-3xl font-bold border-2 transition-all flex items-center justify-between ${
+                className={`w-full p-4 sm:p-6 rounded-2xl sm:rounded-3xl text-2xl sm:text-3xl font-bold border-2 transition-all flex items-center justify-between ${
                   isMatched 
                     ? "bg-success/10 border-success/30 text-success opacity-50 cursor-default" 
                     : isWrong
@@ -249,7 +249,7 @@ function MatchingPairContent() {
 
         {/* Right: Romaji */}
         <div className="space-y-4">
-          <h3 className="text-[10px] uppercase tracking-widest text-muted font-bold ml-2 text-right">Romaji</h3>
+          <h3 className="text-[10px] uppercase tracking-widest text-muted font-bold ml-2 text-right">{t("romaji")}</h3>
           {shuffledRomaji.map((item) => {
             const isMatched = matchedPairs.some(k => pageKana.find(pk => pk.character === k)?.romaji === item.romaji);
             const isSelected = selectedRomaji === item.romaji;
@@ -262,7 +262,7 @@ function MatchingPairContent() {
                 onClick={() => handleSelectRomaji(item.romaji)}
                 whileHover={!isMatched ? { scale: 1.02, x: -5 } : {}}
                 whileTap={!isMatched ? { scale: 0.98 } : {}}
-                className={`w-full p-6 rounded-3xl text-xl font-bold border-2 transition-all flex items-center justify-between ${
+                className={`w-full p-4 sm:p-6 rounded-2xl sm:rounded-3xl text-lg sm:text-xl font-bold border-2 transition-all flex items-center justify-between ${
                   isMatched 
                     ? "bg-success/10 border-success/30 text-success opacity-50 cursor-default" 
                     : isWrong
