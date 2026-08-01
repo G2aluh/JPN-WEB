@@ -109,35 +109,35 @@ export default function HomePage() {
       label: t("flashcard_title"), 
       description: t("flashcard_desc"), 
       icon: BookOpen,
-      color: "bg-primary/10 text-primary"
+      color: "bg-foreground/5 text-foreground"
     },
     { 
       id: "choice", 
       label: t("quiz_title"), 
       description: t("quiz_desc"), 
       icon: Award,
-      color: "bg-primary/10 text-primary"
+      color: "bg-foreground/5 text-foreground"
     },
     { 
       id: "text", 
       label: t("text_title"), 
       description: t("text_desc"), 
       icon: Sparkles,
-      color: "bg-success/10 text-success"
+      color: "bg-foreground/5 text-foreground"
     },
     { 
       id: "matching", 
       label: t("matching_pair_option"), 
       description: t("matching_pair_desc"), 
       icon: Layers,
-      color: "bg-warning/10 text-warning"
+      color: "bg-foreground/5 text-foreground"
     },
     { 
       id: "long-typing", 
       label: t("long_typing_title"), 
       description: t("long_typing_desc"), 
       icon: Keyboard,
-      color: "bg-[#EC4899]/10 text-[#EC4899]"
+      color: "bg-foreground/5 text-foreground"
     },
   ];
 
@@ -270,11 +270,11 @@ export default function HomePage() {
       
       {/* Welcome Card */}
       <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-8 md:p-12 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/3 rounded-full blur-3xl -mr-32 -mt-32" />
         
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
           <div className="space-y-2 lg:hidden">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
               {t("welcome_back")}
             </h1>
             <p className="text-muted text-sm md:text-base font-medium max-w-md">
@@ -283,10 +283,10 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full">
-            <StatMini label={t("mastery")} value={isLoaded ? `${masteryPercentage}%` : "—"} icon={Award} color="text-primary" />
-            <StatMini label={t("correct")} value={isLoaded ? totalCorrect : "—"} icon={CheckCircle2} color="text-success" />
-            <StatMini label={t("accuracy")} value={isLoaded ? `${getAccuracy()}%` : "—"} icon={Zap} color="text-warning" />
-            <StatMini label={t("learned")} value={isLoaded ? masteredCount : "—"} icon={BookOpen} color="text-primary" />
+            <StatMini label={t("mastery")} value={isLoaded ? `${masteryPercentage}%` : "—"} icon={Award} color="text-foreground" />
+            <StatMini label={t("correct")} value={isLoaded ? totalCorrect : "—"} icon={CheckCircle2} color="text-foreground" />
+            <StatMini label={t("accuracy")} value={isLoaded ? `${getAccuracy()}%` : "—"} icon={Zap} color="text-muted" />
+            <StatMini label={t("learned")} value={isLoaded ? masteredCount : "—"} icon={BookOpen} color="text-foreground" />
           </div>
         </div>
       </section>
@@ -296,8 +296,8 @@ export default function HomePage() {
         {/* Left: Character Selection */}
         <div className={`lg:col-span-7 space-y-6 ${mode === "text" ? "opacity-30 pointer-events-none grayscale" : ""}`}>
           <div className="flex items-center justify-between mb-4 px-2">
-            <h2 className="text-xl font-bold text-white flex items-center space-x-2">
-              <Layers className="w-5 h-5 text-primary" />
+            <h2 className="text-xl font-bold text-foreground flex items-center space-x-2">
+              <Layers className="w-5 h-5 text-foreground" />
               <span>{t("characters")}</span>
             </h2>
           </div>
@@ -422,9 +422,9 @@ export default function HomePage() {
         {/* Right: Study Settings */}
         <div className="lg:col-span-5 space-y-6">
           <div className="sticky top-28 space-y-6">
-            <div className="bg-card border border-border rounded-[24px] p-5 sm:p-8 space-y-8 shadow-xl">
-              <h2 className="text-xl font-bold text-white flex items-center space-x-2">
-                <Zap className="w-5 h-5 text-warning" />
+            <div className="bg-card border border-border rounded-[24px] p-5 sm:p-8 space-y-8 shadow-sm">
+              <h2 className="text-xl font-bold text-foreground flex items-center space-x-2">
+                <Zap className="w-5 h-5 text-muted" />
                 <span>{t("session_setup")}</span>
               </h2>
 
@@ -495,7 +495,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleStart}
-                className="w-full py-5 bg-primary text-white rounded-2xl font-bold flex items-center justify-center space-x-3 text-lg shadow-lg shadow-primary/30 hover:brightness-110 transition-all"
+                className="w-full py-5 bg-white text-black rounded-2xl font-bold flex items-center justify-center space-x-3 text-lg hover:bg-white/90 transition-all"
               >
                 <Play className="w-6 h-6 fill-current" />
                 <span>{t("start")}</span>
@@ -503,8 +503,8 @@ export default function HomePage() {
             </div>
 
             {/* Quick Tips */}
-            <div className="p-6 bg-primary/5 border border-primary/10 rounded-2xl">
-              <p className="text-xs text-primary font-medium leading-relaxed">
+            <div className="p-6 bg-foreground/5 border border-border rounded-2xl">
+              <p className="text-xs text-muted font-medium leading-relaxed">
                 <Sparkles className="w-3 h-3 inline mr-2" />
                 {t("pro_tip")}: {writingSystem === "mixed" ? t("pro_tip_mixed_desc") : t("pro_tip_general_desc")}
               </p>
@@ -526,7 +526,7 @@ export default function HomePage() {
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={handleStart}
-              className="w-full py-4 bg-primary text-white rounded-2xl font-bold flex items-center justify-center space-x-3 text-base shadow-2xl shadow-primary/40 border border-white/10"
+              className="w-full py-4 bg-white text-black rounded-2xl font-bold flex items-center justify-center space-x-3 text-base shadow-2xl border border-white/10"
             >
               <Play className="w-5 h-5 fill-current" />
               <span>{t("start_practice")}</span>
@@ -555,19 +555,19 @@ function SetHeader({ title, onSelectAll, onClear, t, isCollapsible, isOpen, onTo
         className={`flex items-center space-x-1.5 ${isCollapsible ? "cursor-pointer select-none group" : ""}`}
         onClick={isCollapsible ? onToggle : undefined}
       >
-        <h4 className="text-[10px] uppercase tracking-widest text-muted font-bold group-hover:text-primary transition-colors">
+        <h4 className="text-[10px] uppercase tracking-widest text-muted font-bold group-hover:text-foreground transition-colors">
           {title}
         </h4>
         {isCollapsible && (
           <ChevronDown 
-            className={`w-3.5 h-3.5 text-muted group-hover:text-primary transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+            className={`w-3.5 h-3.5 text-muted group-hover:text-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
           />
         )}
       </div>
       <div className="flex items-center space-x-4">
         <button 
           onClick={(e) => { e.stopPropagation(); onSelectAll(); }}
-          className="text-[9px] uppercase font-bold text-primary hover:text-white transition-colors cursor-pointer"
+          className="text-[9px] uppercase font-bold text-foreground hover:text-muted transition-colors cursor-pointer"
         >
           {t("select_all")}
         </button>
@@ -591,9 +591,9 @@ interface StatMiniProps {
 
 function StatMini({ label, value, icon: Icon, color }: StatMiniProps) {
   return (
-    <div className="bg-background/40 backdrop-blur-sm border border-white/5 rounded-2xl p-3 lg:p-5 flex flex-col items-center justify-center text-center lg:aspect-square">
+    <div className="bg-card border border-border rounded-2xl p-3 lg:p-5 flex flex-col items-center justify-center text-center lg:aspect-square">
       <Icon className={`w-4 h-4 lg:w-8 lg:h-8 mb-1.5 lg:mb-3.5 ${color}`} />
-      <span className="text-base lg:text-2xl font-bold lg:font-extrabold text-white">{value}</span>
+      <span className="text-base lg:text-2xl font-bold lg:font-extrabold text-foreground">{value}</span>
       <span className="text-[10px] lg:text-xs uppercase tracking-wider text-muted font-bold mt-0.5 lg:mt-2">{label}</span>
     </div>
   );

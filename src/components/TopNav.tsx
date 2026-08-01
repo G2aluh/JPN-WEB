@@ -34,15 +34,15 @@ export default function TopNav() {
       <header className="lg:hidden sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border px-4 py-3">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-primary">{t("logo")}</span>
-            <div className="bg-primary/10 text-primary text-[10px] uppercase font-bold px-1.5 py-0.5 rounded border border-primary/20">
+            <span className="text-xl font-bold text-foreground">{t("logo")}</span>
+            <div className="bg-foreground/5 text-foreground text-[10px] uppercase font-bold px-1.5 py-0.5 rounded border border-border">
               V2.0
             </div>
           </Link>
 
           <button
             onClick={() => setIsOpen(true)}
-            className="p-2 text-muted hover:text-white transition-colors"
+            className="p-2 text-muted hover:text-foreground transition-colors"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -58,7 +58,7 @@ export default function TopNav() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm lg:hidden"
             />
 
             {/* Drawer */}
@@ -70,10 +70,10 @@ export default function TopNav() {
               className="fixed inset-y-0 left-0 z-[60] w-full max-w-[300px] bg-card border-r border-border shadow-2xl flex flex-col lg:hidden"
             >
               <div className="p-6 flex items-center justify-between border-b border-border">
-                <span className="text-xl font-bold text-primary">{t("logo")}</span>
+                <span className="text-xl font-bold text-foreground">{t("logo")}</span>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 text-muted hover:text-white transition-colors"
+                  className="p-2 text-muted hover:text-foreground transition-colors"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -91,8 +91,8 @@ export default function TopNav() {
                       onClick={() => setIsOpen(false)}
                       className={`flex items-center space-x-3 px-4 py-4 rounded-xl transition-all duration-200 ${
                         isActive
-                          ? "bg-primary text-white shadow-lg shadow-primary/20"
-                          : "text-muted hover:text-white hover:bg-background"
+                          ? "bg-white text-black"
+                          : "text-muted hover:text-foreground hover:bg-white/5"
                       }`}
                     >
                       <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-muted"}`} />

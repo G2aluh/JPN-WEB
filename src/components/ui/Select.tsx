@@ -54,7 +54,7 @@ export default function Select({
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={`w-full flex items-center justify-between p-4 bg-background border rounded-2xl transition-all text-left focus:outline-none select-none group ${
-            isOpen ? "border-primary shadow-lg shadow-primary/10" : "border-border hover:border-primary/30"
+            isOpen ? "border-white/30 shadow-lg shadow-white/5" : "border-border hover:border-white/20"
           }`}
         >
           <div className="flex items-center min-w-0">
@@ -66,7 +66,7 @@ export default function Select({
                   </div>
                 )}
                 <div className="truncate">
-                  <h4 className="font-bold text-sm text-white">{selectedOption.label}</h4>
+                    <h4 className="font-bold text-sm text-foreground">{selectedOption.label}</h4>
                   {selectedOption.description && (
                     <p className="text-[10px] text-muted mt-0.5 truncate">{selectedOption.description}</p>
                   )}
@@ -78,7 +78,7 @@ export default function Select({
           </div>
           <motion.div
             animate={{ rotate: isOpen ? 180 : 0 }}
-            className="ml-4 text-muted group-hover:text-white transition-colors"
+            className="ml-4 text-muted group-hover:text-foreground transition-colors"
           >
             <ChevronDown className="w-4 h-4" />
           </motion.div>
@@ -108,13 +108,13 @@ export default function Select({
                       }}
                       className={`w-full flex items-center p-3 rounded-xl transition-all text-left select-none group ${
                         isSelected
-                          ? "bg-primary text-white shadow-lg shadow-primary/20"
-                          : "text-muted hover:text-white hover:bg-background"
+                          ? "bg-white text-black"
+                          : "text-muted hover:text-foreground hover:bg-white/5"
                       }`}
                     >
                       {Icon && (
                         <div className={`mr-3 p-2 rounded-lg shrink-0 transition-colors ${
-                          isSelected ? "bg-white/20 text-white" : (option.color || "bg-primary/10 text-primary group-hover:text-primary")
+                          isSelected ? "bg-black/20 text-black" : (option.color || "bg-white/5 text-foreground group-hover:text-foreground")
                         }`}>
                           <Icon className="w-4 h-4" />
                         </div>
@@ -122,13 +122,13 @@ export default function Select({
                       <div className="flex-1 min-w-0">
                         <h5 className="font-bold text-xs">{option.label}</h5>
                         {option.description && (
-                          <p className={`text-[9px] mt-0.5 truncate ${isSelected ? "text-white/70" : "text-muted"}`}>
+                          <p className={`text-[9px] mt-0.5 truncate ${isSelected ? "text-black/60" : "text-muted"}`}>
                             {option.description}
                           </p>
                         )}
                       </div>
                       {isSelected && (
-                        <Check className="w-4 h-4 text-white shrink-0 ml-2" />
+                        <Check className="w-4 h-4 text-black shrink-0 ml-2" />
                       )}
                     </button>
                   );

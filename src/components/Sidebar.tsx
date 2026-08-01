@@ -32,10 +32,10 @@ export default function Sidebar() {
     <aside className="hidden lg:flex flex-col w-[280px] bg-card border-r border-border h-screen sticky top-0 overflow-y-auto">
       {/* Logo */}
       <div className="p-8 flex items-center space-x-3">
-        <span className="text-2xl font-bold text-primary tracking-tight">
+        <span className="text-2xl font-bold text-foreground tracking-tight">
           {t("logo")}
         </span>
-        <div className="bg-primary/10 text-primary text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-primary/20">
+        <div className="bg-foreground/5 text-foreground text-[10px] uppercase font-bold px-1.5 py-0.5 rounded tracking-widest border border-border">
           V2.0
         </div>
       </div>
@@ -47,16 +47,16 @@ export default function Sidebar() {
             <span className="text-[10px] uppercase tracking-widest text-muted font-bold">
               {t("mastery_percentage")}
             </span>
-            <Award className="w-4 h-4 text-primary" />
+            <Award className="w-4 h-4 text-foreground" />
           </div>
           
           <div className="flex items-baseline space-x-2 mb-3">
-            <span className="text-3xl font-extrabold text-white">
+            <span className="text-3xl font-extrabold text-foreground">
               {isLoaded ? `${masteryPercentage}%` : "—"}
             </span>
           </div>
 
-          <div className="w-full bg-card h-1.5 rounded-full overflow-hidden border border-border">
+          <div className="w-full bg-border h-1.5 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: isLoaded ? `${masteryPercentage}%` : 0 }}
@@ -82,11 +82,11 @@ export default function Sidebar() {
               href={item.href}
               className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                 isActive 
-                  ? "bg-primary text-white shadow-lg shadow-primary/20" 
-                  : "text-muted hover:text-white hover:bg-background"
+                  ? "bg-white text-black" 
+                  : "text-muted hover:text-foreground hover:bg-white/5"
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-muted group-hover:text-primary transition-colors"}`} />
+              <Icon className={`w-5 h-5 ${isActive ? "text-black" : "text-muted group-hover:text-foreground transition-colors"}`} />
               <span className="font-semibold text-sm">{item.label}</span>
             </Link>
           );

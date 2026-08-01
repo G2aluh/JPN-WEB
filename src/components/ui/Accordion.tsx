@@ -23,14 +23,14 @@ export default function Accordion({
     <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-6 hover:bg-background/40 transition-colors group"
+        className="w-full flex items-center justify-between p-6 hover:bg-white/5 transition-colors group"
       >
         <div className="flex items-center space-x-4">
-          <h3 className="text-lg font-bold text-white tracking-tight group-hover:text-primary transition-colors">
+          <h3 className="text-lg font-bold text-foreground tracking-tight group-hover:text-foreground transition-colors">
             {title}
           </h3>
           {badge && (
-            <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded-full bg-success/10 text-success border border-success/20">
+            <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded-full bg-foreground/5 text-foreground border border-border">
               {badge}
             </span>
           )}
@@ -38,7 +38,7 @@ export default function Accordion({
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          className="text-muted group-hover:text-white transition-colors"
+          className="text-muted group-hover:text-foreground transition-colors"
         >
           <ChevronDown className="w-5 h-5" />
         </motion.div>
@@ -52,7 +52,7 @@ export default function Accordion({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
           >
-            <div className="p-6 pt-0 border-t border-border/50 bg-background/20">
+            <div className="p-6 pt-0 border-t border-border/50">
               {children}
             </div>
           </motion.div>

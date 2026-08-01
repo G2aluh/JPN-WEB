@@ -25,19 +25,19 @@ export default function StatCard({
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
-      className="bg-card rounded-2xl p-6 border border-border hover:border-primary/20 transition-all duration-300 group"
+      className="bg-card rounded-2xl p-6 border border-border hover:border-white/15 transition-all duration-300 group"
     >
       <div className="flex items-center justify-between mb-4">
-        <span className="text-[10px] uppercase tracking-[0.15em] text-muted font-bold group-hover:text-white transition-colors">
+        <span className="text-[10px] uppercase tracking-[0.15em] text-muted font-bold group-hover:text-foreground transition-colors">
           {label}
         </span>
-        <div className={`p-2 rounded-xl bg-background border border-border group-hover:border-primary/20 transition-all`}>
+        <div className={`p-2 rounded-xl bg-background border border-border group-hover:border-white/15 transition-all`}>
           <Icon className={`w-4 h-4 ${color}`} />
         </div>
       </div>
 
       <div className="flex items-baseline space-x-2">
-        <span className="text-3xl font-extrabold text-white tracking-tight">
+        <span className="text-3xl font-extrabold text-foreground tracking-tight">
           {value}
         </span>
         {subValue && (
