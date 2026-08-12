@@ -343,25 +343,25 @@ function QuizContent() {
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-center max-w-xl w-full mx-auto px-4 py-6 sm:py-10 gap-6">
+    <div className="flex-1 flex flex-col justify-center max-w-xl w-full mx-auto px-4 py-4 sm:py-10 gap-5 sm:gap-6">
       {/* Top Header stats */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => router.push("/")}
-          className="flex items-center gap-2 text-sm text-muted hover:text-foreground transition bg-card border border-border hover:border-white/20 px-3.5 py-2 rounded-xl font-medium"
+          className="flex items-center gap-2 text-xs sm:text-sm text-muted hover:text-foreground transition bg-card border border-border hover:border-white/20 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="hidden sm:inline">{t("abandon")}</span>
         </button>
 
         {/* Score Counter */}
-        <div className="flex items-center gap-3">
-          <div className="bg-card px-3.5 py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="bg-card px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
             <CheckCircle2 className="w-3.5 h-3.5 text-success" />
             <span className="font-mono font-bold text-foreground">{score}</span>
           </div>
 
-          <div className="bg-card px-3.5 py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
+          <div className="bg-card px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
             <XCircle className="w-3.5 h-3.5 text-danger" />
             <span className="font-mono font-bold text-foreground">{wrongCount}</span>
           </div>
@@ -369,7 +369,7 @@ function QuizContent() {
       </div>
 
       {/* Progress Bar */}
-      <div className="space-y-2">
+      <div className="space-y-1.5 sm:space-y-2">
         <div className="flex items-center justify-between text-xs text-muted px-1 font-mono font-medium">
           <span>{t("progress")}</span>
           <span>{currentIndex + 1} / {questions.length}</span>
@@ -386,7 +386,7 @@ function QuizContent() {
       <motion.div
         animate={shaken ? { x: [-10, 10, -8, 8, -5, 5, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className={`bg-card border-2 rounded-3xl p-8 text-center flex flex-col items-center justify-center gap-8 shadow-xl min-h-[220px] transition-all duration-300 ${
+        className={`bg-card border-2 rounded-3xl p-6 sm:p-8 text-center flex flex-col items-center justify-center gap-6 sm:gap-8 shadow-xl min-h-[190px] sm:min-h-[220px] transition-all duration-300 ${
           feedback === "correct" 
             ? "border-success/40 bg-success/5" 
             : feedback === "wrong" 
@@ -398,7 +398,7 @@ function QuizContent() {
           {activeQuestion.type}
         </span>
 
-        <h3 className="text-7xl sm:text-8xl font-bold text-foreground font-sans tracking-wide">
+        <h3 className="text-6xl sm:text-8xl font-bold text-foreground font-sans tracking-wide">
           {activeQuestion.character}
         </h3>
 
@@ -418,10 +418,10 @@ function QuizContent() {
       </motion.div>
 
       {/* User Input Interactions */}
-      <div className="w-full mt-2">
+      <div className="w-full mt-1 sm:mt-2">
         {formatParam === "text" ? (
           /* Text input field mode */
-          <form onSubmit={handleSubmitText} className="space-y-4">
+          <form onSubmit={handleSubmitText} className="space-y-3 sm:space-y-4">
             <div className="relative flex items-center">
               <input
                 ref={inputRef}
@@ -430,7 +430,7 @@ function QuizContent() {
                 value={userAnswer}
                 onChange={(e) => setUserAnswer(e.target.value)}
                 placeholder={feedback === "correct" ? t("loading_next") : t("type_romaji_placeholder")}
-                className={`w-full h-16 bg-card border-2 rounded-2xl px-6 text-center text-lg font-mono tracking-wide focus:outline-none placeholder-muted/40 transition ${
+                className={`w-full h-14 sm:h-16 bg-card border-2 rounded-2xl px-5 sm:px-6 text-center text-base sm:text-lg font-mono tracking-wide focus:outline-none placeholder-muted/40 transition ${
                   feedback === "correct"
                     ? "border-success text-success"
                     : feedback === "wrong"
@@ -450,7 +450,7 @@ function QuizContent() {
                 <button
                   type="button"
                   onClick={handleAdvance}
-                  className="w-full h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
+                  className="w-full h-12 sm:h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm active:scale-95 transition-all text-xs sm:text-sm uppercase flex items-center justify-center gap-2"
                 >
                   <span>{t("continue")}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -459,7 +459,7 @@ function QuizContent() {
                 <button
                   type="submit"
                   disabled={!userAnswer.trim() || feedback === "correct"}
-                  className="w-full h-14 bg-white hover:bg-white/90 disabled:bg-card disabled:text-muted/40 text-black font-bold rounded-2xl tracking-wide transition-all text-sm uppercase flex items-center justify-center gap-2"
+                  className="w-full h-12 sm:h-14 bg-white hover:bg-white/90 disabled:bg-card disabled:text-muted/40 text-black font-bold rounded-2xl tracking-wide transition-all text-xs sm:text-sm uppercase flex items-center justify-center gap-2"
                 >
                   <span>{t("submit_answer")}</span>
                 </button>
@@ -468,8 +468,8 @@ function QuizContent() {
           </form>
         ) : (
           /* Multiple choice button grid mode */
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3.5">
+          <div className="space-y-3 sm:space-y-4">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-3.5">
               {shuffledChoices.map((choice) => {
                 let btnStyles = "bg-card border-border text-foreground hover:border-white/30";
                 
@@ -491,7 +491,7 @@ function QuizContent() {
                     key={choice}
                     disabled={feedback !== null}
                     onClick={() => handleChoiceSelect(choice)}
-                    className={`h-14 text-base font-mono rounded-2xl border-2 tracking-wide font-medium transition-all duration-200 active:scale-[0.98] ${btnStyles}`}
+                    className={`h-12 sm:h-14 text-sm sm:text-base font-mono rounded-2xl border-2 tracking-wide font-medium transition-all duration-200 active:scale-[0.98] ${btnStyles}`}
                   >
                     {choice}
                   </button>
@@ -505,7 +505,7 @@ function QuizContent() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 onClick={handleAdvance}
-                className="w-full h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
+                className="w-full h-12 sm:h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm active:scale-95 transition-all text-xs sm:text-sm uppercase flex items-center justify-center gap-2"
               >
                 <span>{t("continue")}</span>
                 <ArrowRight className="w-4 h-4" />

@@ -229,9 +229,9 @@ function FlashcardContent() {
       </AnimatePresence>
 
       {/* 3D Flashcard Container */}
-      <div className="flex-1 flex items-center justify-center py-6 min-h-[340px]">
+      <div className="flex-1 flex items-center justify-center py-4 sm:py-6 min-h-[300px] sm:min-h-[340px]">
         <div
-          className="relative w-full max-w-[300px] sm:max-w-[320px] h-96 [perspective:1000px] select-none cursor-pointer"
+          className="relative w-full max-w-[280px] sm:max-w-[320px] h-80 sm:h-96 [perspective:1000px] select-none cursor-pointer"
           onClick={handleFlip}
         >
           <motion.div
@@ -243,7 +243,7 @@ function FlashcardContent() {
           >
             {/* Front Side (Japanese Character) */}
             <div
-              className={`absolute inset-0 w-full h-full bg-card border-2 rounded-3xl flex flex-col items-center justify-between p-8 [backface-visibility:hidden] transition-all duration-300 ${
+              className={`absolute inset-0 w-full h-full bg-card border-2 rounded-3xl flex flex-col items-center justify-between p-6 sm:p-8 [backface-visibility:hidden] transition-all duration-300 ${
                 isFlipped ? "border-border pointer-events-none" : "border-white/20"
               }`}
             >
@@ -252,7 +252,7 @@ function FlashcardContent() {
                 <span className="opacity-60">{t("front")}</span>
               </div>
 
-              <div className="text-8xl sm:text-9xl font-bold text-foreground tracking-wide font-sans select-text">
+              <div className="text-7xl sm:text-9xl font-bold text-foreground tracking-wide font-sans select-text">
                 {activeCard.character}
               </div>
 
@@ -264,7 +264,7 @@ function FlashcardContent() {
 
             {/* Back Side (Romaji Answer) */}
             <div
-              className={`absolute inset-0 w-full h-full bg-card border-2 rounded-3xl flex flex-col items-center justify-between p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] transition-all duration-300 ${
+              className={`absolute inset-0 w-full h-full bg-card border-2 rounded-3xl flex flex-col items-center justify-between p-6 sm:p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] transition-all duration-300 ${
                 isFlipped ? "border-white/30" : "border-border pointer-events-none"
               }`}
             >
@@ -274,10 +274,10 @@ function FlashcardContent() {
               </div>
 
               <div className="flex flex-col items-center gap-2">
-                <div className="text-6xl sm:text-7xl font-extrabold text-foreground font-mono tracking-tight select-text">
+                <div className="text-5xl sm:text-7xl font-extrabold text-foreground font-mono tracking-tight select-text">
                   {activeCard.romaji}
                 </div>
-                <div className="text-3xl font-semibold text-foreground tracking-wide font-sans mt-2 select-text">
+                <div className="text-2xl sm:text-3xl font-semibold text-foreground tracking-wide font-sans mt-1 sm:mt-2 select-text">
                   {activeCard.character}
                 </div>
               </div>
@@ -292,21 +292,21 @@ function FlashcardContent() {
       </div>
 
       {/* Control Buttons */}
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-center space-x-4">
+      <div className="flex flex-col gap-3 sm:gap-4">
+        <div className="flex items-center justify-center gap-3 sm:gap-4">
           {/* Previous Card Button */}
           <button
             onClick={handlePrev}
-            className="flex items-center justify-center w-14 h-14 bg-card border border-border hover:border-white/20 text-muted hover:text-foreground rounded-2xl transition-all active:scale-95"
+            className="flex items-center justify-center w-12 sm:w-14 h-12 sm:h-14 bg-card border border-border hover:border-white/20 text-muted hover:text-foreground rounded-2xl transition-all active:scale-95 shrink-0"
             title="Previous card (Left Arrow / A)"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
           {/* Flip / Reveal Button */}
           <button
             onClick={handleFlip}
-            className="flex-1 max-w-[200px] h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm transition-all active:scale-95 text-sm uppercase flex items-center justify-center gap-2"
+            className="flex-1 max-w-[170px] sm:max-w-[200px] h-12 sm:h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm transition-all active:scale-95 text-xs sm:text-sm uppercase flex items-center justify-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
             <span>{isFlipped ? t("show_kana") : t("flip_reveal")}</span>
@@ -315,18 +315,18 @@ function FlashcardContent() {
           {/* Next Card Button */}
           <button
             onClick={handleNext}
-            className="flex items-center justify-center w-14 h-14 bg-card border border-border hover:border-white/20 text-muted hover:text-foreground rounded-2xl transition-all active:scale-95"
+            className="flex items-center justify-center w-12 sm:w-14 h-12 sm:h-14 bg-card border border-border hover:border-white/20 text-muted hover:text-foreground rounded-2xl transition-all active:scale-95 shrink-0"
             title="Next card (Right Arrow / D)"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
         {/* Shuffle and Mode toggles */}
-        <div className="flex items-center justify-center space-x-3.5">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3.5">
           <button
             onClick={toggleShuffle}
-            className={`flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl border transition ${
+            className={`flex items-center gap-2 text-xs font-semibold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border transition ${
               isShuffle
                 ? "bg-white text-black border-white"
                 : "bg-card border-border text-muted hover:text-foreground"
@@ -342,7 +342,7 @@ function FlashcardContent() {
               setIsFlipped(false);
               setCurrentIndex(0);
             }}
-            className="flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-card border border-border text-muted hover:text-foreground transition"
+            className="flex items-center gap-2 text-xs font-semibold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-card border border-border text-muted hover:text-foreground transition"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>{t("reset_deck")}</span>

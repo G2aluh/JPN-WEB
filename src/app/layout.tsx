@@ -32,13 +32,13 @@ export default function RootLayout({
       lang="id"
       className={`${inter.variable} ${notoSansJP.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-background text-foreground font-sans">
+      <body className="min-h-full bg-background text-foreground font-sans overflow-x-hidden">
         <LanguageProvider>
-          <div className="flex flex-col lg:flex-row min-h-screen">
+          <div className="flex flex-col lg:flex-row min-h-screen overflow-x-hidden">
             <Sidebar />
-            <div className="flex-1 flex flex-col min-w-0">
+            <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
               <TopNav />
-              <main className="flex-1">
+              <main className="flex-1 min-w-0">
                 {children}
               </main>
             </div>

@@ -237,25 +237,25 @@ function LongTypingContent() {
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-between max-w-xl w-full mx-auto px-4 py-6 sm:py-10 gap-8">
+    <div className="flex-1 flex flex-col justify-between max-w-xl w-full mx-auto px-4 py-4 sm:py-10 gap-5 sm:gap-8">
       {/* Top Header stats */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => router.push("/")}
-          className="flex items-center gap-2 text-sm text-muted hover:text-foreground transition bg-card border border-border hover:border-white/20 px-3.5 py-2 rounded-xl select-none font-medium"
+          className="flex items-center gap-2 text-xs sm:text-sm text-muted hover:text-foreground transition bg-card border border-border hover:border-white/20 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl select-none font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="hidden sm:inline">{t("abandon")}</span>
         </button>
 
         {/* Score Counter */}
-        <div className="flex items-center gap-3 select-none">
-          <div className="bg-card px-3.5 py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
+        <div className="flex items-center gap-2 sm:gap-3 select-none">
+          <div className="bg-card px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
             <CheckCircle2 className="w-3.5 h-3.5 text-success" />
             <span className="font-mono font-bold text-foreground">{score}</span>
           </div>
 
-          <div className="bg-card px-3.5 py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
+          <div className="bg-card px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
             <XCircle className="w-3.5 h-3.5 text-danger" />
             <span className="font-mono font-bold text-foreground">{wrongCount}</span>
           </div>
@@ -263,7 +263,7 @@ function LongTypingContent() {
       </div>
 
       {/* Progress Bar */}
-      <div className="space-y-2 select-none">
+      <div className="space-y-1.5 sm:space-y-2 select-none">
         <div className="flex items-center justify-between text-xs text-muted px-1 font-mono font-medium">
           <span>{t("progress")}</span>
           <span>{currentIndex + 1} / {questions.length}</span>
@@ -280,7 +280,7 @@ function LongTypingContent() {
       <motion.div
         animate={shaken ? { x: [-10, 10, -8, 8, -5, 5, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className={`bg-card border-2 rounded-3xl p-8 text-center flex flex-col items-center justify-center gap-5 shadow-xl min-h-[220px] transition-all duration-300 relative ${
+        className={`bg-card border-2 rounded-3xl p-6 sm:p-8 text-center flex flex-col items-center justify-center gap-4 sm:gap-5 shadow-xl min-h-[190px] sm:min-h-[220px] transition-all duration-300 relative ${
           feedback === "correct"
             ? "border-success/40 bg-success/5"
             : feedback === "wrong"
@@ -292,12 +292,12 @@ function LongTypingContent() {
           {t("long_typing")}
         </span>
 
-        <h3 className="text-4xl sm:text-5xl font-bold text-foreground font-sans tracking-wide">
+        <h3 className="text-3xl sm:text-5xl font-bold text-foreground font-sans tracking-wide break-words max-w-full">
           {activeQuestion.word}
         </h3>
 
         {/* Translation under the word */}
-        <p className="text-base text-muted font-medium leading-relaxed max-w-[280px]">
+        <p className="text-xs sm:text-base text-muted font-medium leading-relaxed max-w-[280px]">
           {activeQuestion.translationId}
         </p>
 
@@ -319,7 +319,7 @@ function LongTypingContent() {
 
       {/* User Input Interactions */}
       <div className="flex-1 flex flex-col justify-end">
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <div className="relative flex items-center">
             <input
               ref={inputRef}
@@ -328,7 +328,7 @@ function LongTypingContent() {
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
               placeholder={feedback === "correct" ? t("loading_next") : t("type_romaji_word_placeholder")}
-              className={`w-full h-16 bg-card border-2 rounded-2xl px-6 text-center text-lg font-mono tracking-wide focus:outline-none placeholder-muted/40 transition ${
+              className={`w-full h-14 sm:h-16 bg-card border-2 rounded-2xl px-5 sm:px-6 text-center text-base sm:text-lg font-mono tracking-wide focus:outline-none placeholder-muted/40 transition ${
                 feedback === "correct"
                   ? "border-success text-success"
                   : feedback === "wrong"
@@ -348,7 +348,7 @@ function LongTypingContent() {
               <button
                 type="button"
                 onClick={handleAdvance}
-                className="w-full h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
+                className="w-full h-12 sm:h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm active:scale-95 transition-all text-xs sm:text-sm uppercase flex items-center justify-center gap-2"
               >
                 <span>{t("continue")}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -357,7 +357,7 @@ function LongTypingContent() {
               <button
                 type="submit"
                 disabled={!userAnswer.trim() || feedback === "correct"}
-                className="w-full h-14 bg-white hover:bg-white/90 disabled:bg-card disabled:text-muted/40 text-black font-bold rounded-2xl tracking-wide transition-all text-sm uppercase flex items-center justify-center gap-2"
+                className="w-full h-12 sm:h-14 bg-white hover:bg-white/90 disabled:bg-card disabled:text-muted/40 text-black font-bold rounded-2xl tracking-wide transition-all text-xs sm:text-sm uppercase flex items-center justify-center gap-2"
               >
                 <span>{t("submit_answer")}</span>
               </button>

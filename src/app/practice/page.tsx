@@ -49,22 +49,22 @@ export default function KanaChartPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {groups.map((group) => (
-          <div key={group.id} className="bg-card border border-border rounded-2xl sm:rounded-3xl p-6 space-y-4">
-            <h3 className="text-[10px] uppercase tracking-[0.2em] text-muted font-bold border-b border-border pb-3">
+          <div key={group.id} className="bg-card border border-border rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-3 sm:space-y-4">
+            <h3 className="text-[10px] uppercase tracking-[0.2em] text-muted font-bold border-b border-border pb-2.5 sm:pb-3">
               {group.label}
             </h3>
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
               {group.characters.map((char, idx) => (
                 <div 
                   key={char} 
-                  className="bg-background border border-border rounded-xl p-3 flex flex-col items-center justify-center group hover:border-white/20 transition-all cursor-default"
+                  className="bg-background border border-border rounded-xl p-2 sm:p-3 flex flex-col items-center justify-center group hover:border-white/20 transition-all cursor-default min-w-0"
                 >
-                  <span className="text-2xl font-bold text-foreground mb-1 group-hover:scale-110 transition-transform">
+                  <span className="text-xl sm:text-2xl font-bold text-foreground mb-0.5 sm:mb-1 group-hover:scale-110 transition-transform">
                     {char}
                   </span>
-                  <span className="text-[10px] font-mono text-muted uppercase font-bold">
+                  <span className="text-[9px] sm:text-[10px] font-mono text-muted uppercase font-bold truncate max-w-full">
                     {group.romaji[idx]}
                   </span>
                 </div>

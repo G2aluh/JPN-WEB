@@ -220,22 +220,22 @@ function GroupSelectView({
             <motion.div
               key={group.id}
               layout
-              className="bg-[#171A22] border border-[#171A22] hover:border-[#F59E0B]/15 rounded-2xl overflow-hidden transition-colors"
+              className="bg-card border border-border hover:border-white/15 rounded-2xl overflow-hidden transition-colors"
             >
               {/* Card Header */}
               <button
                 onClick={() => setExpandedId(isExpanded ? null : group.id)}
                 className="w-full flex items-center justify-between p-4 text-left"
               >
-                <div className="flex items-center gap-3">
-                  <div className="bg-[#F59E0B]/10 text-[#F59E0B] p-2 rounded-xl">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div className="bg-warning/10 text-warning p-2 rounded-xl shrink-0">
                     <AlertTriangle className="w-5 h-5" />
                   </div>
-                  <div>
-                    <h3 className="font-bold text-white text-base font-mono tracking-wide">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-bold text-foreground text-base font-mono tracking-wide truncate">
                       {group.title}
                     </h3>
-                    <div className="flex items-center gap-2 mt-0.5">
+                    <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                       <span
                         className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded border ${difficultyColor(
                           group.difficulty
@@ -244,7 +244,7 @@ function GroupSelectView({
                         {group.difficulty === "Easy" ? t("difficulty_easy") : group.difficulty === "Medium" ? t("difficulty_medium") : t("difficulty_hard")}
                       </span>
                       {p && (
-                        <span className="text-[10px] text-[#9CA3AF]">
+                        <span className="text-[10px] text-muted">
                           {p.correct}✓ {p.wrong}✗ • {mastery}% {t("mastery_label")}
                         </span>
                       )}
@@ -252,7 +252,7 @@ function GroupSelectView({
                   </div>
                 </div>
                 <ChevronRight
-                  className={`w-5 h-5 text-[#9CA3AF] transition-transform duration-200 ${
+                  className={`w-5 h-5 text-muted shrink-0 transition-transform duration-200 ${
                     isExpanded ? "rotate-90" : ""
                   }`}
                 />
@@ -271,30 +271,30 @@ function GroupSelectView({
                     <div className="px-4 pb-4 pt-1 grid grid-cols-2 sm:grid-cols-4 gap-2">
                       <button
                         onClick={() => onSelect(group, "comparison")}
-                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[#0F1117] border border-[#171A22] hover:border-[#7C5CFF]/30 text-[#9CA3AF] hover:text-white transition-all"
+                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-background border border-border hover:border-white/20 text-muted hover:text-foreground transition-all"
                       >
-                        <BookOpen className="w-4 h-4 text-[#7C5CFF]" />
+                        <BookOpen className="w-4 h-4 text-foreground" />
                         <span className="text-[10px] font-semibold uppercase tracking-wider">{t("compare")}</span>
                       </button>
                       <button
                         onClick={() => onSelect(group, "choice")}
-                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[#0F1117] border border-[#171A22] hover:border-[#7C5CFF]/30 text-[#9CA3AF] hover:text-white transition-all"
+                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-background border border-border hover:border-white/20 text-muted hover:text-foreground transition-all"
                       >
-                        <Award className="w-4 h-4 text-[#7C5CFF]" />
+                        <Award className="w-4 h-4 text-foreground" />
                         <span className="text-[10px] font-semibold uppercase tracking-wider">{t("choice")}</span>
                       </button>
                       <button
                         onClick={() => onSelect(group, "speed")}
-                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[#0F1117] border border-[#171A22] hover:border-[#7C5CFF]/30 text-[#9CA3AF] hover:text-white transition-all"
+                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-background border border-border hover:border-white/20 text-muted hover:text-foreground transition-all"
                       >
-                        <Zap className="w-4 h-4 text-[#F59E0B]" />
+                        <Zap className="w-4 h-4 text-warning" />
                         <span className="text-[10px] font-semibold uppercase tracking-wider">{t("speed")}</span>
                       </button>
                       <button
                         onClick={() => onSelect(group, "highlight")}
-                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[#0F1117] border border-[#171A22] hover:border-[#7C5CFF]/30 text-[#9CA3AF] hover:text-white transition-all"
+                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-background border border-border hover:border-white/20 text-muted hover:text-foreground transition-all"
                       >
-                        <Eye className="w-4 h-4 text-[#22C55E]" />
+                        <Eye className="w-4 h-4 text-success" />
                         <span className="text-[10px] font-semibold uppercase tracking-wider">{t("highlight")}</span>
                       </button>
                     </div>
@@ -862,25 +862,19 @@ function HighlightMode({
       <ModeHeader title={t("difference_highlight")} subtitle={group.title} onBack={onBack} />
 
       {/* Side-by-side display */}
-      <div className="bg-[#171A22] border border-[#F59E0B]/10 rounded-3xl p-6 md:p-8 space-y-6">
-        <div className="grid grid-cols-2 gap-6">
+      <div className="bg-card border border-border rounded-3xl p-4 sm:p-8 space-y-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-6">
           {group.characters.map((char, i) => (
-            <div key={char.kana} className="flex flex-col items-center gap-3">
-              <div className={`w-full aspect-square max-w-[180px] flex items-center justify-center bg-[#0F1117] border-2 rounded-3xl transition-all ${
-                i === 0 ? "border-[#7C5CFF]/30" : "border-[#F59E0B]/30"
-              }`}>
-                <span className="text-7xl sm:text-8xl font-bold text-white">{char.kana}</span>
+            <div key={char.kana} className="flex flex-col items-center gap-2 sm:gap-3">
+              <div className="w-full aspect-square max-w-[180px] flex items-center justify-center bg-background border-2 border-border rounded-2xl sm:rounded-3xl transition-all">
+                <span className="text-5xl sm:text-8xl font-bold text-foreground">{char.kana}</span>
               </div>
               <div className="text-center">
-                <span className={`text-lg font-bold font-mono ${i === 0 ? "text-[#7C5CFF]" : "text-[#F59E0B]"}`}>
+                <span className="text-base sm:text-lg font-bold font-mono text-foreground">
                   {char.romaji}
                 </span>
               </div>
-              <div className={`text-xs text-center leading-relaxed p-3 rounded-xl border ${
-                i === 0
-                  ? "bg-[#7C5CFF]/5 border-[#7C5CFF]/10 text-[#9CA3AF]"
-                  : "bg-[#F59E0B]/5 border-[#F59E0B]/10 text-[#9CA3AF]"
-              }`}>
+              <div className="text-xs text-center leading-relaxed p-2.5 sm:p-3 rounded-xl border bg-background border-border text-muted font-medium">
                 {i === 0 ? group.highlights.left : group.highlights.right}
               </div>
             </div>
@@ -888,28 +882,28 @@ function HighlightMode({
         </div>
 
         {/* Tips section */}
-        <div className="bg-[#0F1117] border border-[#171A22] rounded-2xl p-4 flex items-start gap-3">
-          <Sparkles className="w-4 h-4 text-[#F59E0B] shrink-0 mt-0.5" />
-          <p className="text-xs text-[#9CA3AF] leading-relaxed">
+        <div className="bg-background border border-border rounded-2xl p-4 flex items-start gap-3">
+          <Sparkles className="w-4 h-4 text-warning shrink-0 mt-0.5" />
+          <p className="text-xs text-muted leading-relaxed font-medium">
             {group.tips}
           </p>
         </div>
 
         {/* VS Badge */}
         <div className="flex items-center justify-center">
-          <div className="flex items-center gap-4 bg-[#0F1117] border border-[#171A22] px-6 py-3 rounded-2xl">
-            <span className="text-4xl font-bold text-[#7C5CFF]">{group.characters[0].kana}</span>
-            <span className="text-sm font-bold text-[#9CA3AF] uppercase tracking-widest">vs</span>
-            <span className="text-4xl font-bold text-[#F59E0B]">{group.characters[1].kana}</span>
+          <div className="flex items-center gap-3 sm:gap-4 bg-background border border-border px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl">
+            <span className="text-3xl sm:text-4xl font-bold text-foreground">{group.characters[0].kana}</span>
+            <span className="text-xs sm:text-sm font-bold text-muted uppercase tracking-widest">vs</span>
+            <span className="text-3xl sm:text-4xl font-bold text-foreground">{group.characters[1].kana}</span>
           </div>
         </div>
       </div>
 
       <button
         onClick={onBack}
-        className="w-full h-14 bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 text-white font-bold rounded-2xl text-sm uppercase flex items-center justify-center gap-2 transition-all active:scale-95"
+        className="w-full h-12 sm:h-14 bg-card border border-border hover:border-white/20 text-foreground font-bold rounded-2xl text-xs sm:text-sm uppercase flex items-center justify-center gap-2 transition-all active:scale-95"
       >
-        <ArrowLeft className="w-4 h-4 text-[#9CA3AF]" /> {t("back_to_groups")}
+        <ArrowLeft className="w-4 h-4 text-muted" /> {t("back_to_groups")}
       </button>
     </motion.div>
   );

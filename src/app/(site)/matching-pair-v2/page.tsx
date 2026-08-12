@@ -181,24 +181,24 @@ function MatchingPairContent() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-10 space-y-6 sm:space-y-10">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div className="space-y-1">
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight flex items-center gap-3">
-            <Layers className="w-7 h-7 text-foreground" />
-            {t("matching_title")}
+          <h1 className="text-xl sm:text-4xl font-extrabold text-foreground tracking-tight flex items-center gap-2 sm:gap-3">
+            <Layers className="w-5 h-5 sm:w-7 sm:h-7 text-foreground shrink-0" />
+            <span>{t("matching_title")}</span>
           </h1>
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-bold text-muted uppercase tracking-widest">
+            <span className="text-[10px] sm:text-xs font-bold text-muted uppercase tracking-widest">
               {t("matching_page")} {currentPage + 1} {t("matching_page_of")} {totalPages}
             </span>
             <div className="flex space-x-1">
               {Array.from({ length: totalPages }).map((_, i) => (
                 <div 
                   key={i} 
-                  className={`h-1 w-4 rounded-full transition-all ${
-                    i === currentPage ? "bg-white w-8" : i < currentPage ? "bg-success" : "bg-border"
+                  className={`h-1 w-3 sm:w-4 rounded-full transition-all ${
+                    i === currentPage ? "bg-white w-6 sm:w-8" : i < currentPage ? "bg-success" : "bg-border"
                   }`} 
                 />
               ))}
@@ -206,17 +206,17 @@ function MatchingPairContent() {
           </div>
         </div>
 
-        <div className="bg-card border border-border px-4 py-2 rounded-xl">
-          <span className="text-xs font-bold text-muted mr-2">{t("matching_score")}:</span>
-          <span className="text-lg font-extrabold text-foreground">{score}</span>
+        <div className="bg-card border border-border px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shrink-0">
+          <span className="text-xs font-bold text-muted mr-1.5 sm:mr-2">{t("matching_score")}:</span>
+          <span className="text-base sm:text-lg font-extrabold text-foreground">{score}</span>
         </div>
       </div>
 
       {/* Game Board */}
-      <div className="grid grid-cols-2 gap-4 sm:gap-8 md:gap-16">
+      <div className="grid grid-cols-2 gap-3 sm:gap-8 md:gap-16">
         {/* Left: Kana */}
-        <div className="space-y-4">
-          <h3 className="text-[10px] uppercase tracking-widest text-muted font-bold ml-2">{t("kana").toUpperCase()}</h3>
+        <div className="space-y-3 sm:space-y-4">
+          <h3 className="text-[10px] uppercase tracking-widest text-muted font-bold ml-1 sm:ml-2">{t("kana").toUpperCase()}</h3>
           {shuffledKana.map((item) => {
             const isMatched = matchedPairs.includes(item.character);
             const isSelected = selectedKana === item.character;
@@ -227,9 +227,9 @@ function MatchingPairContent() {
                 key={item.character}
                 disabled={isMatched}
                 onClick={() => handleSelectKana(item.character)}
-                whileHover={!isMatched ? { scale: 1.02, x: 5 } : {}}
+                whileHover={!isMatched ? { scale: 1.02, x: 3 } : {}}
                 whileTap={!isMatched ? { scale: 0.98 } : {}}
-                className={`w-full p-4 sm:p-6 rounded-2xl sm:rounded-3xl text-2xl sm:text-3xl font-bold border-2 transition-all flex items-center justify-between ${
+                className={`w-full p-3 sm:p-6 rounded-xl sm:rounded-3xl text-xl sm:text-3xl font-bold border-2 transition-all flex items-center justify-between ${
                   isMatched 
                     ? "bg-success/10 border-success/30 text-success opacity-50 cursor-default" 
                     : isWrong
@@ -240,16 +240,16 @@ function MatchingPairContent() {
                 }`}
               >
                 <span>{item.character}</span>
-                {isMatched && <CheckCircle2 className="w-5 h-5" />}
-                {isWrong && <XCircle className="w-5 h-5" />}
+                {isMatched && <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />}
+                {isWrong && <XCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />}
               </motion.button>
             );
           })}
         </div>
 
         {/* Right: Romaji */}
-        <div className="space-y-4">
-          <h3 className="text-[10px] uppercase tracking-widest text-muted font-bold ml-2 text-right">{t("romaji")}</h3>
+        <div className="space-y-3 sm:space-y-4">
+          <h3 className="text-[10px] uppercase tracking-widest text-muted font-bold ml-1 sm:ml-2 text-right">{t("romaji")}</h3>
           {shuffledRomaji.map((item) => {
             const isMatched = matchedPairs.some(k => pageKana.find(pk => pk.character === k)?.romaji === item.romaji);
             const isSelected = selectedRomaji === item.romaji;
@@ -260,9 +260,9 @@ function MatchingPairContent() {
                 key={item.romaji}
                 disabled={isMatched}
                 onClick={() => handleSelectRomaji(item.romaji)}
-                whileHover={!isMatched ? { scale: 1.02, x: -5 } : {}}
+                whileHover={!isMatched ? { scale: 1.02, x: -3 } : {}}
                 whileTap={!isMatched ? { scale: 0.98 } : {}}
-                className={`w-full p-4 sm:p-6 rounded-2xl sm:rounded-3xl text-lg sm:text-xl font-bold border-2 transition-all flex items-center justify-between ${
+                className={`w-full p-3 sm:p-6 rounded-xl sm:rounded-3xl text-base sm:text-xl font-bold border-2 transition-all flex items-center justify-between ${
                   isMatched 
                     ? "bg-success/10 border-success/30 text-success opacity-50 cursor-default" 
                     : isWrong
@@ -272,8 +272,8 @@ function MatchingPairContent() {
                     : "bg-card border-border text-foreground hover:border-white/30"
                 }`}
               >
-                {isMatched && <CheckCircle2 className="w-5 h-5" />}
-                {isWrong && <XCircle className="w-5 h-5" />}
+                {isMatched && <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />}
+                {isWrong && <XCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />}
                 <span className="font-mono">{item.romaji}</span>
               </motion.button>
             );

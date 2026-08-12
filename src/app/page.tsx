@@ -281,7 +281,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-12">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-12 pb-28 lg:pb-10 overflow-x-hidden">
       
       {/* Welcome Card */}
       <section className="bg-card border border-border rounded-2xl sm:rounded-3xl p-8 md:p-12 relative overflow-hidden">
@@ -536,7 +536,7 @@ export default function HomePage() {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-8 left-0 right-0 z-50 px-6 lg:hidden"
+            className="fixed bottom-6 left-0 right-0 z-50 px-4 lg:hidden"
           >
             <motion.button
               whileTap={{ scale: 0.95 }}
