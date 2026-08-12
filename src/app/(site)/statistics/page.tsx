@@ -75,15 +75,15 @@ export default function StatisticsPage() {
   const weakest = getWeakestCharacters();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-12">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-12">
       {/* Header */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
-            <BarChart2 className="w-8 h-8 text-primary" />
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight flex items-center gap-3">
+            <BarChart2 className="w-8 h-8 text-foreground" />
             {t("statistics")}
           </h1>
-          <p className="text-muted font-medium">{t("statistics_desc")}</p>
+          <p className="text-muted font-medium text-sm sm:text-base">{t("statistics_desc")}</p>
         </div>
       </section>
 
@@ -97,37 +97,37 @@ export default function StatisticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* Writing System Progress */}
-        <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-5 sm:p-8 space-y-8">
-          <h2 className="text-xl font-bold text-white flex items-center gap-3">
-            <Target className="w-5 h-5 text-primary" />
+        <section className="bg-card border border-border rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-8">
+          <h2 className="text-xl font-bold text-foreground flex items-center gap-3">
+            <Target className="w-5 h-5 text-foreground" />
             {t("statistics_writing_systems")}
           </h2>
           
           <div className="space-y-8">
             <div className="space-y-3">
               <div className="flex justify-between items-end">
-                <span className="text-sm font-bold text-white">{t("hiragana")}</span>
-                <span className="text-sm font-mono font-bold text-primary">{hProgress}%</span>
+                <span className="text-sm font-bold text-foreground">{t("hiragana")}</span>
+                <span className="text-sm font-mono font-bold text-foreground">{hProgress}%</span>
               </div>
               <div className="w-full bg-background h-3 rounded-full overflow-hidden border border-border">
                 <motion.div 
                   initial={{ width: 0 }}
                   animate={{ width: `${hProgress}%` }}
-                  className="h-full bg-primary"
+                  className="h-full bg-foreground"
                 />
               </div>
             </div>
 
             <div className="space-y-3">
               <div className="flex justify-between items-end">
-                <span className="text-sm font-bold text-white">{t("katakana")}</span>
-                <span className="text-sm font-mono font-bold text-primary">{kProgress}%</span>
+                <span className="text-sm font-bold text-foreground">{t("katakana")}</span>
+                <span className="text-sm font-mono font-bold text-foreground">{kProgress}%</span>
               </div>
               <div className="w-full bg-background h-3 rounded-full overflow-hidden border border-border">
                 <motion.div 
                   initial={{ width: 0 }}
                   animate={{ width: `${kProgress}%` }}
-                  className="h-full bg-primary shadow-[0_0_15px_rgba(124,92,255,0.3)]"
+                  className="h-full bg-foreground"
                 />
               </div>
             </div>
@@ -135,8 +135,8 @@ export default function StatisticsPage() {
         </section>
 
         {/* Weakest Characters */}
-        <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-5 sm:p-8 space-y-6">
-          <h2 className="text-xl font-bold text-white flex items-center gap-3">
+        <section className="bg-card border border-border rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6">
+          <h2 className="text-xl font-bold text-foreground flex items-center gap-3">
             <TrendingDown className="w-5 h-5 text-danger" />
             {t("statistics_weakest")}
           </h2>
@@ -146,11 +146,11 @@ export default function StatisticsPage() {
               weakest.map((item) => (
                 <div key={item.character} className="flex items-center justify-between p-4 bg-background border border-border rounded-2xl group hover:border-danger/30 transition-all">
                   <div className="flex items-center space-x-4">
-                    <span className="text-2xl font-bold text-white w-8 text-center">{item.character}</span>
+                    <span className="text-2xl font-bold text-foreground w-8 text-center">{item.character}</span>
                     <div className="h-8 w-px bg-border" />
                     <div>
                       <p className="text-[10px] uppercase tracking-widest text-muted font-bold">{t("statistics_mistakes")}</p>
-                      <p className="text-sm font-bold text-white">{item.mistakes}</p>
+                      <p className="text-sm font-bold text-foreground">{item.mistakes}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -163,8 +163,8 @@ export default function StatisticsPage() {
               ))
             ) : (
               <div className="py-12 text-center space-y-2">
-                <p className="text-muted text-sm">{t("statistics_no_mistakes")}</p>
-                <p className="text-primary text-xs font-bold uppercase tracking-widest">{t("statistics_keep_up")}</p>
+                <p className="text-muted text-sm font-medium">{t("statistics_no_mistakes")}</p>
+                <p className="text-foreground text-xs font-bold uppercase tracking-widest">{t("statistics_keep_up")}</p>
               </div>
             )}
           </div>

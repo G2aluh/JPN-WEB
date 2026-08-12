@@ -71,9 +71,9 @@ function saveProgress(progress: Record<string, PairProgress>) {
 
 // Difficulty badge colors
 function difficultyColor(d: string) {
-  if (d === "Hard") return "bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/20";
-  if (d === "Medium") return "bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/20";
-  return "bg-[#22C55E]/15 text-[#22C55E] border-[#22C55E]/20";
+  if (d === "Hard") return "bg-danger/15 text-danger border-danger/20";
+  if (d === "Medium") return "bg-warning/15 text-warning border-warning/20";
+  return "bg-success/15 text-success border-success/20";
 }
 
 export default function LookalikePage() {
@@ -125,7 +125,7 @@ export default function LookalikePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-8 md:py-12">
+      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-6 sm:py-10">
         <AnimatePresence mode="wait">
           {mode === "select" && (
             <GroupSelectView
@@ -199,12 +199,12 @@ function GroupSelectView({
     >
       {/* Page Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center space-x-2 bg-[#171A22] border border-[#F59E0B]/10 px-3 py-1.5 rounded-full text-xs text-[#F59E0B]">
-          <AlertTriangle className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center space-x-2 bg-card border border-border px-3 py-1.5 rounded-full text-xs text-muted font-semibold">
+          <AlertTriangle className="w-3.5 h-3.5 text-warning" />
           <span>{t("lookalike_training")}</span>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight" dangerouslySetInnerHTML={{ __html: t("train_your_eye") }} />
-        <p className="text-sm text-[#9CA3AF] max-w-md mx-auto">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight" dangerouslySetInnerHTML={{ __html: t("train_your_eye") }} />
+        <p className="text-sm text-muted max-w-md mx-auto font-medium">
           {t("lookalike_select_desc")}
         </p>
       </div>
@@ -925,14 +925,14 @@ function ModeHeader({ title, subtitle, onBack }: { title: string; subtitle: stri
     <div className="flex items-center justify-between">
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-sm text-[#9CA3AF] hover:text-white transition bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 px-3.5 py-2 rounded-xl"
+        className="flex items-center gap-2 text-sm text-muted hover:text-foreground transition bg-card border border-border hover:border-white/20 px-3.5 py-2 rounded-xl font-medium"
       >
         <ArrowLeft className="w-4 h-4" />
         <span className="hidden sm:inline">{t("back_button")}</span>
       </button>
       <div className="text-right">
-        <h2 className="text-sm font-bold text-white">{title}</h2>
-        <p className="text-xs text-[#F59E0B] font-mono">{subtitle}</p>
+        <h2 className="text-sm font-bold text-foreground">{title}</h2>
+        <p className="text-xs text-muted font-mono font-medium">{subtitle}</p>
       </div>
     </div>
   );

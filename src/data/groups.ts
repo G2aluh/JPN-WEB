@@ -16,42 +16,42 @@ export const HIRAGANA_BASIC_GROUPS: ConsonantGroup[] = [
   },
   {
     id: "h_b_ka",
-    label: "ka ki ku ke ko",
+    label: "ka ki ku",
     display: "かきくけこ",
     romaji: ["ka", "ki", "ku", "ke", "ko"],
     characters: ["か", "き", "く", "け", "こ"]
   },
   {
     id: "h_b_sa",
-    label: "sa shi su se so",
+    label: "sa shi su ",
     display: "さしすせそ",
     romaji: ["sa", "shi", "su", "se", "so"],
     characters: ["さ", "し", "す", "せ", "そ"]
   },
   {
     id: "h_b_ta",
-    label: "ta chi tsu te to",
+    label: "ta chi tsu ",
     display: "たちつてと",
     romaji: ["ta", "chi", "tsu", "te", "to"],
     characters: ["たちつてと", "た", "ち", "つ", "て", "と"] // We keep "たちつてと" as fallback or just the single characters
   },
   {
     id: "h_b_na",
-    label: "na ni nu ne no",
+    label: "na ni nu ",
     display: "なにぬねの",
     romaji: ["na", "ni", "nu", "ne", "no"],
     characters: ["な", "に", "ぬ", "ね", "の"]
   },
   {
     id: "h_b_ha",
-    label: "ha hi fu he ho",
+    label: "ha hi fu",
     display: "はひふへほ",
     romaji: ["ha", "hi", "fu", "he", "ho"],
     characters: ["は", "ひ", "ふ", "へ", "ほ"]
   },
   {
     id: "h_b_ma",
-    label: "ma mi mu me mo",
+    label: "ma mi mu",
     display: "まみむめも",
     romaji: ["ma", "mi", "mu", "me", "mo"],
     characters: ["ま", "み", "む", "め", "も"]
@@ -65,7 +65,7 @@ export const HIRAGANA_BASIC_GROUPS: ConsonantGroup[] = [
   },
   {
     id: "h_b_ra",
-    label: "ra ri ru re ro",
+    label: "ra ri ru",
     display: "らりるれろ",
     romaji: ["ra", "ri", "ru", "re", "ro"],
     characters: ["ら", "り", "る", "れ", "ろ"]
@@ -85,35 +85,35 @@ HIRAGANA_BASIC_GROUPS[3].characters = ["た", "ち", "つ", "て", "と"];
 export const HIRAGANA_EXTENDED_GROUPS: ConsonantGroup[] = [
   {
     id: "h_e_ga",
-    label: "ga gi gu ge go",
+    label: "ga gi gu",
     display: "がぎぐげご",
     romaji: ["ga", "gi", "gu", "ge", "go"],
     characters: ["が", "ぎ", "ぐ", "げ", "ご"]
   },
   {
     id: "h_e_za",
-    label: "za ji zu ze zo",
+    label: "za ji zu",
     display: "ざじずぜぞ",
     romaji: ["za", "ji", "zu", "ze", "zo"],
     characters: ["ざ", "じ", "ず", "ぜ", "ぞ"]
   },
   {
     id: "h_e_da",
-    label: "da ji zu de do",
+    label: "da ji zu",
     display: "だぢづでど",
     romaji: ["da", "ji", "zu", "de", "do"],
     characters: ["だ", "ぢ", "づ", "で", "ど"]
   },
   {
     id: "h_e_ba",
-    label: "ba bi bu be bo",
+    label: "ba bi bu",
     display: "ばびぶべぼ",
     romaji: ["ba", "bi", "bu", "be", "bo"],
     characters: ["ば", "び", "ぶ", "べ", "ぼ"]
   },
   {
     id: "h_e_pa",
-    label: "pa pi pu pe po",
+    label: "pa pi pu  ",
     display: "ぱぴぷぺぽ",
     romaji: ["pa", "pi", "pu", "pe", "po"],
     characters: ["ぱ", "ぴ", "ぷ", "ぺ", "ぽ"]
@@ -207,42 +207,42 @@ export const KATAKANA_BASIC_GROUPS: ConsonantGroup[] = [
   },
   {
     id: "k_b_ka",
-    label: "ka ki ku ke ko",
+    label: "ka ki ku  ",
     display: "カキクケコ",
     romaji: ["ka", "ki", "ku", "ke", "ko"],
     characters: ["カ", "キ", "ク", "ケ", "コ"]
   },
   {
     id: "k_b_sa",
-    label: "sa shi su se so",
+    label: "sa shi su   ",
     display: "サシスセソ",
     romaji: ["sa", "shi", "su", "se", "so"],
     characters: ["サ", "シ", "ス", "セ", "ソ"]
   },
   {
     id: "k_b_ta",
-    label: "ta chi tsu te to",
+    label: "ta chi tsu  ",
     display: "タチツテト",
     romaji: ["ta", "chi", "tsu", "te", "to"],
     characters: ["タ", "チ", "ツ", "テ", "ト"]
   },
   {
     id: "k_b_na",
-    label: "na ni nu ne no",
+    label: "na ni nu  ",
     display: "ナニヌネノ",
     romaji: ["na", "ni", "nu", "ne", "no"],
     characters: ["ナ", "ニ", "ヌ", "ネ", "ノ"]
   },
   {
     id: "k_b_ha",
-    label: "ha hi fu he ho",
+    label: "ha hi fu",
     display: "ハヒフヘホ",
     romaji: ["ha", "hi", "fu", "he", "ho"],
     characters: ["ハ", "ヒ", "フ", "ヘ", "ホ"]
   },
   {
     id: "k_b_ma",
-    label: "ma mi mu me mo",
+    label: "ma mi mu  ",
     display: "マミムメモ",
     romaji: ["ma", "mi", "mu", "me", "mo"],
     characters: ["マ", "ミ", "ム", "メ", "モ"]
@@ -256,7 +256,7 @@ export const KATAKANA_BASIC_GROUPS: ConsonantGroup[] = [
   },
   {
     id: "k_b_ra",
-    label: "ra ri ru re ro",
+    label: "ra ri ru  ",
     display: "ラリルレロ",
     romaji: ["ra", "ri", "ru", "re", "ro"],
     characters: ["ラ", "リ", "ル", "レ", "ロ"]
@@ -273,7 +273,7 @@ export const KATAKANA_BASIC_GROUPS: ConsonantGroup[] = [
 export const KATAKANA_EXTENDED_GROUPS: ConsonantGroup[] = [
   {
     id: "k_e_ga",
-    label: "ga gi gu ge go",
+    label: "ga gi gu",
     display: "ガギグゲゴ",
     romaji: ["ga", "gi", "gu", "ge", "go"],
     characters: ["ガ", "ギ", "グ", "ゲ", "ゴ"]
@@ -287,21 +287,21 @@ export const KATAKANA_EXTENDED_GROUPS: ConsonantGroup[] = [
   },
   {
     id: "k_e_da",
-    label: "da ji zu de do",
+    label: "da ji zu  ",
     display: "ダヂヅデド",
     romaji: ["da", "ji", "zu", "de", "do"],
     characters: ["ダ", "ヂ", "ヅ", "デ", "ド"]
   },
   {
     id: "k_e_ba",
-    label: "ba bi bu be bo",
+    label: "ba bi bu ",
     display: "バビブベボ",
     romaji: ["ba", "bi", "bu", "be", "bo"],
     characters: ["バ", "ビ", "ブ", "ベ", "ボ"]
   },
   {
     id: "k_e_pa",
-    label: "pa pi pu pe po",
+    label: "pa pi pu  ",
     display: "パピプペポ",
     romaji: ["pa", "pi", "pu", "pe", "po"],
     characters: ["パ", "ピ", "プ", "ペ", "ポ"]

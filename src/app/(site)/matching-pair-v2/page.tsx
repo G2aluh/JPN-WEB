@@ -145,34 +145,34 @@ function MatchingPairContent() {
         </motion.div>
         
         <div className="space-y-2">
-          <h1 className="text-4xl font-extrabold text-white">{t("matching_complete")}</h1>
-          <p className="text-muted">{t("matching_complete_desc")} {allKana.length} {t("matching_pairs")}</p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">{t("matching_complete")}</h1>
+          <p className="text-muted font-medium">{t("matching_complete_desc")} {allKana.length} {t("matching_pairs")}</p>
         </div>
 
         <div className="bg-card border border-border rounded-3xl p-8 flex justify-center gap-12">
           <div className="text-center">
             <p className="text-[10px] uppercase tracking-widest text-muted font-bold mb-1">{t("matching_score")}</p>
-            <p className="text-3xl font-extrabold text-white">{score}</p>
+            <p className="text-3xl font-extrabold text-foreground">{score}</p>
           </div>
           <div className="text-center">
             <p className="text-[10px] uppercase tracking-widest text-muted font-bold mb-1">{t("kana").toUpperCase()}</p>
-            <p className="text-3xl font-extrabold text-white">{allKana.length}</p>
+            <p className="text-3xl font-extrabold text-foreground">{allKana.length}</p>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
           <button
             onClick={() => window.location.reload()}
-            className="flex-1 flex items-center justify-center space-x-2 py-4 bg-primary text-white rounded-2xl font-bold hover:brightness-110 transition-all"
+            className="flex-1 flex items-center justify-center space-x-2 py-4 bg-white text-black rounded-2xl font-bold hover:bg-white/90 transition-all shadow-sm active:scale-95"
           >
             <RotateCcw className="w-5 h-5" />
             <span>{t("matching_try_again")}</span>
           </button>
           <button
             onClick={() => router.push("/")}
-            className="flex-1 flex items-center justify-center space-x-2 py-4 bg-card border border-border text-white rounded-2xl font-bold hover:bg-background transition-all"
+            className="flex-1 flex items-center justify-center space-x-2 py-4 bg-card border border-border text-foreground rounded-2xl font-bold hover:bg-white/5 transition-all active:scale-95"
           >
-            <Home className="w-5 h-5" />
+            <Home className="w-5 h-5 text-muted" />
             <span>{t("return_home")}</span>
           </button>
         </div>
@@ -181,12 +181,12 @@ function MatchingPairContent() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-10">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-            <Layers className="w-6 h-6 text-primary" />
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight flex items-center gap-3">
+            <Layers className="w-7 h-7 text-foreground" />
             {t("matching_title")}
           </h1>
           <div className="flex items-center space-x-2">
@@ -198,7 +198,7 @@ function MatchingPairContent() {
                 <div 
                   key={i} 
                   className={`h-1 w-4 rounded-full transition-all ${
-                    i === currentPage ? "bg-primary w-8" : i < currentPage ? "bg-success" : "bg-border"
+                    i === currentPage ? "bg-white w-8" : i < currentPage ? "bg-success" : "bg-border"
                   }`} 
                 />
               ))}
@@ -208,7 +208,7 @@ function MatchingPairContent() {
 
         <div className="bg-card border border-border px-4 py-2 rounded-xl">
           <span className="text-xs font-bold text-muted mr-2">{t("matching_score")}:</span>
-          <span className="text-lg font-extrabold text-white">{score}</span>
+          <span className="text-lg font-extrabold text-foreground">{score}</span>
         </div>
       </div>
 
@@ -235,8 +235,8 @@ function MatchingPairContent() {
                     : isWrong
                     ? "bg-danger/10 border-danger/50 text-danger animate-shake"
                     : isSelected
-                    ? "bg-primary border-primary text-white shadow-lg shadow-primary/30"
-                    : "bg-card border-border text-white hover:border-primary/40"
+                    ? "bg-white border-white text-black shadow-md"
+                    : "bg-card border-border text-foreground hover:border-white/30"
                 }`}
               >
                 <span>{item.character}</span>
@@ -268,8 +268,8 @@ function MatchingPairContent() {
                     : isWrong
                     ? "bg-danger/10 border-danger/50 text-danger animate-shake"
                     : isSelected
-                    ? "bg-primary border-primary text-white shadow-lg shadow-primary/30"
-                    : "bg-card border-border text-white hover:border-primary/40"
+                    ? "bg-white border-white text-black shadow-md"
+                    : "bg-card border-border text-foreground hover:border-white/30"
                 }`}
               >
                 {isMatched && <CheckCircle2 className="w-5 h-5" />}
@@ -285,7 +285,7 @@ function MatchingPairContent() {
       <div className="flex justify-center pt-10">
         <button
           onClick={() => router.push("/")}
-          className="text-muted hover:text-white flex items-center space-x-2 text-sm font-bold transition-colors"
+          className="text-muted hover:text-foreground flex items-center space-x-2 text-sm font-bold transition-colors"
         >
           <XCircle className="w-4 h-4" />
           <span>{t("matching_cancel_session")}</span>

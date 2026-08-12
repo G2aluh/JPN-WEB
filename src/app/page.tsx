@@ -58,26 +58,41 @@ export default function HomePage() {
   const [selectedGroupIds, setSelectedGroupIds] = useState<string[]>(["h_b_a"]);
   const [isExtHiraganaOpen, setIsExtHiraganaOpen] = useState(false);
   const [isExtKatakanaOpen, setIsExtKatakanaOpen] = useState(false);
+  const [isPrefLoaded, setIsPrefLoaded] = useState(false);
 
   // Load saved preferences after mount
   useEffect(() => {
-    const savedMode = localStorage.getItem("sikana_pref_mode") as Mode | null;
-    if (savedMode) setMode(savedMode);
-    const savedLength = localStorage.getItem("sikana_pref_length") as Length | null;
-    if (savedLength) setSessionLength(savedLength);
-    const savedWs = localStorage.getItem("sikana_pref_ws") as WritingSystem | null;
-    if (savedWs) setWritingSystem(savedWs);
-    const savedGroups = localStorage.getItem("sikana_pref_groups");
-    if (savedGroups) setSelectedGroupIds(JSON.parse(savedGroups));
+    try {
+      const savedMode = localStorage.getItem("sikana_pref_mode") as Mode | null;
+      if (savedMode) setMode(savedMode);
+      const savedLength = localStorage.getItem("sikana_pref_length") as Length | null;
+      if (savedLength) setSessionLength(savedLength);
+      const savedWs = localStorage.getItem("sikana_pref_ws") as WritingSystem | null;
+      if (savedWs) setWritingSystem(savedWs);
+      const savedPairs = localStorage.getItem("sikana_pref_pairs") as "5" | "10" | null;
+      if (savedPairs) setPairsPerPage(savedPairs);
+      const savedGroups = localStorage.getItem("sikana_pref_groups");
+      if (savedGroups) setSelectedGroupIds(JSON.parse(savedGroups));
+    } catch (e) {
+      console.error("Failed to load preferences", e);
+    } finally {
+      setIsPrefLoaded(true);
+    }
   }, []);
 
-  // Save preferences
+  // Save preferences only after loading completed
   useEffect(() => {
-    localStorage.setItem("sikana_pref_mode", mode);
-    localStorage.setItem("sikana_pref_length", sessionLength);
-    localStorage.setItem("sikana_pref_groups", JSON.stringify(selectedGroupIds));
-    localStorage.setItem("sikana_pref_ws", writingSystem);
-  }, [mode, sessionLength, selectedGroupIds, writingSystem]);
+    if (!isPrefLoaded) return;
+    try {
+      localStorage.setItem("sikana_pref_mode", mode);
+      localStorage.setItem("sikana_pref_length", sessionLength);
+      localStorage.setItem("sikana_pref_groups", JSON.stringify(selectedGroupIds));
+      localStorage.setItem("sikana_pref_ws", writingSystem);
+      localStorage.setItem("sikana_pref_pairs", pairsPerPage);
+    } catch (e) {
+      console.error("Failed to save preferences", e);
+    }
+  }, [mode, sessionLength, selectedGroupIds, writingSystem, pairsPerPage, isPrefLoaded]);
 
   // Scroll listener for floating start button
   useEffect(() => {
@@ -269,7 +284,7 @@ export default function HomePage() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-12">
       
       {/* Welcome Card */}
-      <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-8 md:p-12 relative overflow-hidden">
+      <section className="bg-card border border-border rounded-2xl sm:rounded-3xl p-8 md:p-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/3 rounded-full blur-3xl -mr-32 -mt-32" />
         
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">

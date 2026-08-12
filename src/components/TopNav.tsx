@@ -95,7 +95,7 @@ export default function TopNav() {
                           : "text-muted hover:text-foreground hover:bg-white/5"
                       }`}
                     >
-                      <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-muted"}`} />
+                      <Icon className={`w-5 h-5 ${isActive ? "text-black" : "text-muted"}`} />
                       <span className="font-semibold text-base">{item.label}</span>
                     </Link>
                   );

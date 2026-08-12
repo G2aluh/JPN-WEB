@@ -33,31 +33,31 @@ export default function SupportPage() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-12">
       {/* Header */}
       <section className="text-center space-y-4">
         <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-danger/10 border border-danger/20 mb-2">
           <Heart className="w-8 h-8 text-danger fill-danger/20" />
         </div>
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight">
           {t("support_me")}
         </h1>
-        <p className="text-muted max-w-lg mx-auto leading-relaxed">
+        <p className="text-muted max-w-lg mx-auto leading-relaxed font-medium text-sm sm:text-base">
           {t("support_desc")}
         </p>
       </section>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* QRIS Section */}
-        <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-5 sm:p-8 space-y-6">
+        <section className="bg-card border border-border rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6">
           <div className="flex items-center space-x-3">
-            <div className="p-2 rounded-xl bg-primary/10 border border-primary/20">
-              <QrCode className="w-5 h-5 text-primary" />
+            <div className="p-2.5 rounded-xl bg-foreground/5 border border-border text-foreground">
+              <QrCode className="w-5 h-5" />
             </div>
-            <h2 className="text-xl font-bold text-white tracking-tight">{t("support_qris")}</h2>
+            <h2 className="text-xl font-bold text-foreground tracking-tight">{t("support_qris")}</h2>
           </div>
           
-          <div className="bg-white rounded-2xl p-4 aspect-square flex items-center justify-center overflow-hidden">
+          <div className="bg-white rounded-2xl p-4 aspect-square flex items-center justify-center overflow-hidden border border-border">
             <img 
               src="/qrs.jpg" 
               alt="QRIS Support" 
@@ -65,33 +65,33 @@ export default function SupportPage() {
             />
           </div>
           
-          <p className="text-xs text-muted text-center leading-relaxed">
+          <p className="text-xs text-muted text-center leading-relaxed font-medium">
             {t("support_qris_desc")}
           </p>
         </section>
 
         {/* Other Methods */}
         <div className="space-y-6">
-          <section className="bg-card border border-border rounded-2xl sm:rounded-[32px] p-5 sm:p-8 space-y-6">
+          <section className="bg-card border border-border rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6">
             <div className="flex items-center space-x-3">
-              <div className="p-2 rounded-xl bg-warning/10 border border-warning/20">
+              <div className="p-2.5 rounded-xl bg-warning/10 border border-warning/20">
                 <Coffee className="w-5 h-5 text-warning" />
               </div>
-              <h2 className="text-xl font-bold text-white tracking-tight">{t("support_direct")}</h2>
+              <h2 className="text-xl font-bold text-foreground tracking-tight">{t("support_direct")}</h2>
             </div>
 
             <div className="space-y-4">
               {donationMethods.map((method) => (
                 <div 
                   key={method.id}
-                  className="bg-background border border-border rounded-2xl p-4 flex items-center justify-between group hover:border-primary/30 transition-all"
+                  className="bg-background border border-border rounded-2xl p-4 flex items-center justify-between group hover:border-white/30 transition-all"
                 >
                   <div className="flex items-center space-x-4">
                     <div className={`p-2.5 rounded-xl ${method.color} text-white`}>
                       <method.icon className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-sm text-white">{method.name}</h4>
+                      <h4 className="font-bold text-sm text-foreground">{method.name}</h4>
                       <p className="text-xs text-muted font-mono">{method.value}</p>
                     </div>
                   </div>
@@ -102,14 +102,14 @@ export default function SupportPage() {
                         href={method.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2 rounded-lg bg-card border border-border text-muted hover:text-white hover:border-primary/30 transition-all"
+                        className="p-2 rounded-lg bg-card border border-border text-muted hover:text-foreground hover:border-white/30 transition-all"
                       >
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     ) : (
                       <button
                         onClick={() => copyToClipboard(method.value, method.id)}
-                        className="p-2 rounded-lg bg-card border border-border text-muted hover:text-white hover:border-primary/30 transition-all relative"
+                        className="p-2 rounded-lg bg-card border border-border text-muted hover:text-foreground hover:border-white/30 transition-all relative"
                       >
                         {copied === method.id ? <Check className="w-4 h-4 text-success" /> : <Copy className="w-4 h-4" />}
                       </button>
@@ -121,15 +121,15 @@ export default function SupportPage() {
           </section>
 
           {/* Socials */}
-          <section className="bg-primary/5 border border-primary/10 rounded-2xl sm:rounded-[32px] p-5 sm:p-8 text-center space-y-4">
-            <p className="text-sm text-primary font-medium">
+          <section className="bg-card border border-border rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-center space-y-4">
+            <p className="text-sm text-muted font-medium">
               {t("support_social")}
             </p>
             <a 
               href="https://instagram.com/2.shinnra" 
               target="_blank" 
               rel="noreferrer"
-              className="inline-flex items-center space-x-2 text-white font-bold hover:text-primary transition-colors"
+              className="inline-flex items-center space-x-2 text-foreground font-bold hover:text-muted transition-colors"
             >
               <span>@2.shinnra</span>
               <ExternalLink className="w-4 h-4" />

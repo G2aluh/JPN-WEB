@@ -149,7 +149,7 @@ function LongTypingContent() {
   if (questions.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#7C5CFF]" />
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-foreground" />
       </div>
     );
   }
@@ -163,40 +163,40 @@ function LongTypingContent() {
         transition={{ duration: 0.4 }}
         className="flex-1 flex flex-col justify-center max-w-lg w-full mx-auto px-4 py-8 gap-8"
       >
-        <div className="bg-[#171A22] border border-[#7C5CFF]/10 rounded-3xl p-6 md:p-8 text-center space-y-6 shadow-2xl relative overflow-hidden">
+        <div className="bg-card border border-border rounded-3xl p-6 md:p-8 text-center space-y-6 shadow-2xl relative overflow-hidden">
           {/* Confetti Glow Backdrop */}
-          <div className="absolute -top-16 -left-16 w-36 h-36 bg-[#7C5CFF]/15 blur-3xl rounded-full" />
-          <div className="absolute -bottom-16 -right-16 w-36 h-36 bg-[#7C5CFF]/15 blur-3xl rounded-full" />
+          <div className="absolute -top-16 -left-16 w-36 h-36 bg-foreground/5 blur-3xl rounded-full" />
+          <div className="absolute -bottom-16 -right-16 w-36 h-36 bg-foreground/5 blur-3xl rounded-full" />
 
           {/* Trophy Header */}
-          <div className="inline-flex p-4 rounded-full bg-[#7C5CFF]/20 text-[#7C5CFF] mb-2 animate-bounce">
-            <Trophy className="w-10 h-10 text-[#7C5CFF]" />
+          <div className="inline-flex p-4 rounded-full bg-foreground/10 text-foreground mb-2 animate-bounce border border-border">
+            <Trophy className="w-10 h-10 text-foreground" />
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-3xl font-extrabold text-white tracking-tight">{t("session_complete")}</h2>
-            <p className="text-xs text-[#9CA3AF] uppercase tracking-widest font-semibold">
+            <h2 className="text-3xl font-extrabold text-foreground tracking-tight">{t("session_complete")}</h2>
+            <p className="text-xs text-muted uppercase tracking-widest font-bold">
               {t("long_typing")} ({t(typeParam)}) • {lengthParam} {t("cards")}
             </p>
           </div>
 
           {/* Scoring Visual Block */}
           <div className="grid grid-cols-2 gap-4 py-4">
-            <div className="bg-[#0F1117] border border-[#171A22] p-4 rounded-2xl flex flex-col items-center justify-center">
-              <Target className="w-5 h-5 text-[#7C5CFF] mb-1.5" />
-              <span className="text-2xl font-black text-white">{score} / {questions.length}</span>
-              <span className="text-[10px] text-[#9CA3AF] uppercase font-bold tracking-wider mt-1">{t("correct_score")}</span>
+            <div className="bg-background border border-border p-4 rounded-2xl flex flex-col items-center justify-center">
+              <Target className="w-5 h-5 text-foreground mb-1.5" />
+              <span className="text-2xl font-black text-foreground">{score} / {questions.length}</span>
+              <span className="text-[10px] text-muted uppercase font-bold tracking-wider mt-1">{t("correct_score")}</span>
             </div>
 
-            <div className="bg-[#0F1117] border border-[#171A22] p-4 rounded-2xl flex flex-col items-center justify-center">
-              <Award className="w-5 h-5 text-[#7C5CFF] mb-1.5" />
-              <span className="text-2xl font-black text-white">{accuracy}%</span>
-              <span className="text-[10px] text-[#9CA3AF] uppercase font-bold tracking-wider mt-1">{t("accuracy")}</span>
+            <div className="bg-background border border-border p-4 rounded-2xl flex flex-col items-center justify-center">
+              <Award className="w-5 h-5 text-foreground mb-1.5" />
+              <span className="text-2xl font-black text-foreground">{accuracy}%</span>
+              <span className="text-[10px] text-muted uppercase font-bold tracking-wider mt-1">{t("accuracy")}</span>
             </div>
           </div>
 
           {/* Feedback Text */}
-          <p className="text-sm text-[#9CA3AF] italic px-4">
+          <p className="text-sm text-muted italic px-4">
             {accuracy === 100
               ? t("flawless_recall")
               : accuracy >= 80
@@ -206,9 +206,9 @@ function LongTypingContent() {
               : t("dont_give_up")}
           </p>
 
-          <div className="w-full bg-[#0F1117] h-2.5 rounded-full mt-4 overflow-hidden border border-[#171A22]">
+          <div className="w-full bg-background h-2.5 rounded-full mt-4 overflow-hidden border border-border">
             <div
-              className="bg-[#7C5CFF] h-full rounded-full transition-all duration-500"
+              className="bg-foreground h-full rounded-full transition-all duration-500"
               style={{ width: `${accuracy}%` }}
             />
           </div>
@@ -218,7 +218,7 @@ function LongTypingContent() {
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleRetry}
-            className="flex-1 p-3 h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl tracking-wide shadow-lg shadow-[#7C5CFF]/15 active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
+            className="flex-1 p-3 h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
             <span>{t("practice_again")}</span>
@@ -226,9 +226,9 @@ function LongTypingContent() {
 
           <button
             onClick={() => router.push("/")}
-            className="flex-1 p-3 h-14 bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 text-white font-bold rounded-2xl tracking-wide shadow transition-all hover:scale-[1.02] active:scale-95 text-sm uppercase flex items-center justify-center gap-2"
+            className="flex-1 p-3 h-14 bg-card border border-border hover:border-white/20 text-foreground font-bold rounded-2xl tracking-wide shadow transition-all active:scale-95 text-sm uppercase flex items-center justify-center gap-2"
           >
-            <Home className="w-4 h-4 text-[#9CA3AF]" />
+            <Home className="w-4 h-4 text-muted" />
             <span>{t("return_home")}</span>
           </button>
         </div>
@@ -237,12 +237,12 @@ function LongTypingContent() {
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-between max-w-xl w-full mx-auto px-4 py-8 md:py-12 gap-8">
+    <div className="flex-1 flex flex-col justify-between max-w-xl w-full mx-auto px-4 py-6 sm:py-10 gap-8">
       {/* Top Header stats */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => router.push("/")}
-          className="flex items-center gap-2 text-sm text-[#9CA3AF] hover:text-white transition bg-[#171A22] border border-[#171A22] hover:border-[#7C5CFF]/20 px-3.5 py-2 rounded-xl select-none"
+          className="flex items-center gap-2 text-sm text-muted hover:text-foreground transition bg-card border border-border hover:border-white/20 px-3.5 py-2 rounded-xl select-none font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="hidden sm:inline">{t("abandon")}</span>
@@ -250,27 +250,27 @@ function LongTypingContent() {
 
         {/* Score Counter */}
         <div className="flex items-center gap-3 select-none">
-          <div className="bg-[#171A22] px-3.5 py-2 rounded-xl border border-[#171A22] flex items-center gap-1.5 text-xs text-[#9CA3AF]">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" />
-            <span className="font-mono font-bold text-white">{score}</span>
+          <div className="bg-card px-3.5 py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
+            <CheckCircle2 className="w-3.5 h-3.5 text-success" />
+            <span className="font-mono font-bold text-foreground">{score}</span>
           </div>
 
-          <div className="bg-[#171A22] px-3.5 py-2 rounded-xl border border-[#171A22] flex items-center gap-1.5 text-xs text-[#9CA3AF]">
-            <XCircle className="w-3.5 h-3.5 text-[#EF4444]" />
-            <span className="font-mono font-bold text-white">{wrongCount}</span>
+          <div className="bg-card px-3.5 py-2 rounded-xl border border-border flex items-center gap-1.5 text-xs text-muted">
+            <XCircle className="w-3.5 h-3.5 text-danger" />
+            <span className="font-mono font-bold text-foreground">{wrongCount}</span>
           </div>
         </div>
       </div>
 
       {/* Progress Bar */}
       <div className="space-y-2 select-none">
-        <div className="flex items-center justify-between text-xs text-[#9CA3AF] px-1 font-mono">
+        <div className="flex items-center justify-between text-xs text-muted px-1 font-mono font-medium">
           <span>{t("progress")}</span>
           <span>{currentIndex + 1} / {questions.length}</span>
         </div>
-        <div className="w-full bg-[#171A22] h-1.5 rounded-full overflow-hidden">
+        <div className="w-full bg-card border border-border h-2 rounded-full overflow-hidden">
           <div
-            className="bg-[#7C5CFF] h-full rounded-full transition-all duration-300"
+            className="bg-foreground h-full rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
           />
         </div>
@@ -280,38 +280,38 @@ function LongTypingContent() {
       <motion.div
         animate={shaken ? { x: [-10, 10, -8, 8, -5, 5, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className={`bg-[#171A22] border-2 rounded-3xl p-8 text-center flex flex-col items-center justify-center gap-5 shadow-xl min-h-[220px] transition-all duration-300 relative ${
+        className={`bg-card border-2 rounded-3xl p-8 text-center flex flex-col items-center justify-center gap-5 shadow-xl min-h-[220px] transition-all duration-300 relative ${
           feedback === "correct"
-            ? "border-[#22C55E]/30 bg-[#22C55E]/5"
+            ? "border-success/40 bg-success/5"
             : feedback === "wrong"
-            ? "border-[#EF4444]/30 bg-[#EF4444]/5"
-            : "border-[#7C5CFF]/10"
+            ? "border-danger/40 bg-danger/5"
+            : "border-border"
         }`}
       >
-        <span className="text-[10px] uppercase font-bold tracking-widest text-[#EC4899] bg-[#EC4899]/10 px-3 py-1 rounded-full border border-[#EC4899]/20 select-none">
+        <span className="text-[10px] uppercase font-bold tracking-widest text-muted bg-background px-3 py-1 rounded-full border border-border select-none">
           {t("long_typing")}
         </span>
 
-        <h3 className="text-4xl sm:text-5xl font-bold text-white font-sans tracking-wide">
+        <h3 className="text-4xl sm:text-5xl font-bold text-foreground font-sans tracking-wide">
           {activeQuestion.word}
         </h3>
 
         {/* Translation under the word */}
-        <p className="text-base text-[#9CA3AF] font-medium leading-relaxed max-w-[280px]">
+        <p className="text-base text-muted font-medium leading-relaxed max-w-[280px]">
           {activeQuestion.translationId}
         </p>
 
         {/* Context Feedback alerts */}
         <div className="min-h-[20px] text-xs font-semibold select-none">
           {feedback === "correct" && (
-            <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-[#22C55E] flex items-center gap-1">
+            <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-success flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" /> {t("correct_feedback")}
             </motion.p>
           )}
           {feedback === "wrong" && (
-            <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-[#EF4444] flex items-center justify-center gap-1.5 flex-wrap">
+            <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-danger flex items-center justify-center gap-1.5 flex-wrap">
               <XCircle className="w-3.5 h-3.5" /> {t("incorrect_feedback")}{" "}
-              <span className="font-mono text-sm bg-red-500/20 px-2 py-0.5 rounded text-white">{activeQuestion.romaji}</span>
+              <span className="font-mono text-sm bg-danger/20 px-2 py-0.5 rounded text-foreground">{activeQuestion.romaji}</span>
             </motion.p>
           )}
         </div>
@@ -328,12 +328,12 @@ function LongTypingContent() {
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
               placeholder={feedback === "correct" ? t("loading_next") : t("type_romaji_word_placeholder")}
-              className={`w-full h-16 bg-[#171A22] border-2 rounded-2xl px-6 text-center text-lg font-mono tracking-wide focus:outline-none focus:ring-0 placeholder-[#9CA3AF]/40 transition ${
+              className={`w-full h-16 bg-card border-2 rounded-2xl px-6 text-center text-lg font-mono tracking-wide focus:outline-none placeholder-muted/40 transition ${
                 feedback === "correct"
-                  ? "border-[#22C55E] text-[#22C55E]"
+                  ? "border-success text-success"
                   : feedback === "wrong"
-                  ? "border-[#EF4444] text-[#EF4444]"
-                  : "border-[#171A22] focus:border-[#7C5CFF] text-white"
+                  ? "border-danger text-danger"
+                  : "border-border focus:border-white text-foreground"
               }`}
               autoComplete="off"
               autoCorrect="off"
@@ -348,7 +348,7 @@ function LongTypingContent() {
               <button
                 type="button"
                 onClick={handleAdvance}
-                className="w-full h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] text-white font-bold rounded-2xl tracking-wide shadow-lg shadow-[#7C5CFF]/10 active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
+                className="w-full h-14 bg-white hover:bg-white/90 text-black font-bold rounded-2xl tracking-wide shadow-sm active:scale-95 transition-all text-sm uppercase flex items-center justify-center gap-2"
               >
                 <span>{t("continue")}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -357,7 +357,7 @@ function LongTypingContent() {
               <button
                 type="submit"
                 disabled={!userAnswer.trim() || feedback === "correct"}
-                className="w-full h-14 bg-[#7C5CFF] hover:bg-[#6c4be0] disabled:bg-[#171A22] disabled:text-[#9CA3AF]/40 text-white font-bold rounded-2xl tracking-wide transition-all text-sm uppercase flex items-center justify-center gap-2"
+                className="w-full h-14 bg-white hover:bg-white/90 disabled:bg-card disabled:text-muted/40 text-black font-bold rounded-2xl tracking-wide transition-all text-sm uppercase flex items-center justify-center gap-2"
               >
                 <span>{t("submit_answer")}</span>
               </button>
@@ -376,7 +376,7 @@ export default function LongTypingPage() {
       <main className="flex-1 flex flex-col justify-center">
         <Suspense fallback={
           <div className="flex flex-col items-center justify-center min-h-[60vh]">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#7C5CFF]" />
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-foreground" />
           </div>
         }>
           <LongTypingContent />
