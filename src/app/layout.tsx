@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 
@@ -17,6 +17,14 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  interactiveWidget: "resizes-content",
+};
+
 export const metadata: Metadata = {
   title: "SIKANA | Kuasai Bahasa Jepang",
   description: "Kuasai Hiragana dan Katakana dengan aplikasi memorisasi yang cepat, indah, dan bebas gangguan. Berlatih menggunakan flashcard interaktif, kuis mengetik, dan banyak lagi.",
@@ -32,13 +40,13 @@ export default function RootLayout({
       lang="id"
       className={`${inter.variable} ${notoSansJP.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-background text-foreground font-sans overflow-x-hidden">
+      <body className="min-h-[100dvh] bg-background text-foreground font-sans overflow-x-hidden w-full max-w-full">
         <LanguageProvider>
-          <div className="flex flex-col lg:flex-row min-h-screen overflow-x-hidden">
+          <div className="flex flex-col lg:flex-row min-h-[100dvh] w-full max-w-full overflow-x-hidden">
             <Sidebar />
-            <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
+            <div className="flex-1 flex flex-col min-w-0 w-full overflow-x-hidden">
               <TopNav />
-              <main className="flex-1 min-w-0">
+              <main className="flex-1 min-w-0 w-full">
                 {children}
               </main>
             </div>

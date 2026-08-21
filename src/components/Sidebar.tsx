@@ -11,7 +11,8 @@ import {
   Settings, 
   Heart, 
   Globe,
-  Award
+  Award,
+  PenTool
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -23,6 +24,7 @@ export default function Sidebar() {
   const menuItems = [
     { id: "dashboard", label: t("dashboard"), icon: LayoutDashboard, href: "/" },
     { id: "kana_chart", label: t("kana_chart"), icon: Grid3X3, href: "/practice" },
+    { id: "writing", label: t("writing_guide_tab"), icon: PenTool, href: "/writing" },
     { id: "statistics", label: t("statistics"), icon: BarChart2, href: "/statistics" },
     { id: "settings", label: t("settings"), icon: Settings, href: "/settings" },
     { id: "support", label: t("support_me"), icon: Heart, href: "/support" },

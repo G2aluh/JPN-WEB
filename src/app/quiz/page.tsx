@@ -343,7 +343,7 @@ function QuizContent() {
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-center max-w-xl w-full mx-auto px-4 py-4 sm:py-10 gap-5 sm:gap-6">
+    <div className="flex-1 flex flex-col justify-start sm:justify-center max-w-xl w-full mx-auto px-4 py-3 sm:py-8 gap-4 sm:gap-6">
       {/* Top Header stats */}
       <div className="flex items-center justify-between">
         <button
@@ -520,11 +520,11 @@ function QuizContent() {
 
 export default function QuizPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-[100dvh] sm:min-h-0 w-full">
       {/* Main Study Container */}
-      <main className="flex-1 flex flex-col justify-center">
+      <main className="flex-1 flex flex-col justify-start sm:justify-center w-full">
         <Suspense fallback={
-          <div className="flex flex-col items-center justify-center min-h-[60vh]">
+          <div className="flex flex-col items-center justify-center min-h-[50vh]">
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-foreground" />
           </div>
         }>

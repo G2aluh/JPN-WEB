@@ -196,5 +196,21 @@
   "start_practice": "Mulai Latihan",
   "npetup": "Pengaturan Sesi",
   "session_setup": "Atur Sesi",
-  "romaji": "Romaji"
+  "romaji": "Romaji",
+  "writing_learn_title": "Belajar Menulis Kana",
+  "writing_learn_desc": "Pelajari langkah-langkah urutan goresan (stroke order) dan latih memori otot tangan Anda.",
+  "writing_guide_tab": "Belajar Nulis",
+  "stroke_steps": "Langkah Goresan",
+  "strokes_total": "Total Goresan",
+  "step_number": "Langkah",
+  "select_character_groups": "Pilih Grup Karakter yang Ingin Ditampilkan",
+  "play_animation": "Putar Animasi",
+  "pause_animation": "Hentikan",
+  "practice_canvas": "Kanvas Latihan Coretan",
+  "clear_canvas": "Bersihkan Kanvas",
+  "show_guide_lines": "Garis Bantu Grid",
+  "no_characters_selected": "Tidak ada grup karakter yang dipilih. Silakan pilih setidaknya satu grup karakter di atas.",
+  "prev_char": "Sebelumnya",
+  "next_char": "Selanjutnya",
+  "select_char_pill": "Pilih Karakter"
 }

@@ -14,7 +14,8 @@ import {
   Keyboard,
   Layers,
   LucideIcon,
-  ChevronDown
+  ChevronDown,
+  PenTool
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import kanaData from "@/data/kana.json";
@@ -32,7 +33,7 @@ import KanaGroupCard from "@/components/KanaGroupCard";
 import Accordion from "@/components/ui/Accordion";
 import Select, { SelectOption } from "@/components/ui/Select";
 
-type Mode = "flashcard" | "choice" | "text" | "matching" | "long-typing";
+type Mode = "flashcard" | "choice" | "text" | "matching" | "long-typing" | "writing";
 type Length = "10" | "20" | "50" | "all";
 type WritingSystem = "hiragana" | "katakana" | "mixed";
 
@@ -154,6 +155,13 @@ export default function HomePage() {
       icon: Keyboard,
       color: "bg-foreground/5 text-foreground"
     },
+    { 
+      id: "writing", 
+      label: t("writing_learn_title"), 
+      description: t("writing_learn_desc"), 
+      icon: PenTool,
+      color: "bg-foreground/5 text-foreground"
+    },
   ];
 
   // Session Length Options
@@ -210,6 +218,11 @@ export default function HomePage() {
   };
 
   const handleStart = () => {
+    if (mode === "writing") {
+      router.push("/writing");
+      return;
+    }
+
     if (mode === "long-typing") {
       router.push(`/long-typing?length=${sessionLength}&type=${writingSystem}`);
       return;

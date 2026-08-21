@@ -124,8 +124,8 @@ export default function LookalikePage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-6 sm:py-10">
+    <div className="flex flex-col min-h-[100dvh] sm:min-h-0 w-full">
+      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-4 sm:py-8">
         <AnimatePresence mode="wait">
           {mode === "select" && (
             <GroupSelectView
